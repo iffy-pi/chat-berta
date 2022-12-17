@@ -184,6 +184,25 @@ First start up the virtual environment using:
 venv\Scripts\activate.bat
 ```
 
+## Pull Latest Changes from mainline
+Switch to mainline branch if you are not on there already:
+```
+git checkout main
+```
+
+Then pull
+```
+git pull
+```
+
+## Create Developmental Branch
+Create a new development branch of the current branch (main) with a descriptive name
+```
+git checkout -b iffy-sample-dev-branch
+```
+
+**Make sure to always include your name as the first part of the branch name**
+
 ## Change The Application Source Code
 This can be any amount of changes we want, in this case we just do a simple change to the network message.
 
@@ -204,8 +223,9 @@ git commit app.py -m "Simple test change!"
 ## Merge With Main
 Merge your branch with the mainline 
 
-## Push To Heroku Remote
-When you are done with making commits, you can push to the Heroku remote, using the command:
+## Push Changes
+When you are done with making commits, you can push to the Git and Heroku remote, using the commands:
 ```
+git push
 git push heroku main
 ```
