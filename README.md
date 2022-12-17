@@ -62,11 +62,12 @@ Push all your commits by using the command:
 git push
 ```
 
-### Deploy to Heroku
+### Deploy to Heroku (Can Only Be Done By Iffy)
 Push to the Heroku remote.
 ```
 git push heroku main
 ```
+If you are not Iffy, contact iffy to push changes to the Heroku repository.
 
 
 
@@ -125,9 +126,10 @@ git-pr.bat
 Enter `Y` to open a pull request and make sure to select `main` as the branch to merge with.
 Ideally, we should review merges to the mainline, but this may not be guaranteed.
 
-### Deploy to Heroku
+### Deploy to Heroku (Can Only Be Done By Iffy)
 Go back to the main branch and pull changes from the remote and then push to the Heroku remote.
 ```
 git checkout main
 git push heroku main
 ```
+If you are not Iffy, contact iffy to push changes to the Heroku repository.
