@@ -1,9 +1,22 @@
 # Chat-Berta
 Chat-Berta Project File
 
+## Directory Information:
+This entire repository is used to package the web application for Chat-Berta. This means most of the files here are all useful for the web server.
 
-# Development Pipeline
-This is intended to cover the general steps for making changes to the app.
+deploy-web-server.md contains information on how to deploy the web server (during its initial creation) and is archived as a good source of informaiton.
+
+git-pr.bat is a simple batch script that streamlinees the opening of pull requests for the application.
+
+server-void/ contains files and folders that are not relevant to the web server. That is the web server can be deployed without the files in this folder. **All files required by the server can NEVER be put in server-void/**
+
+# Development Pipeline for Non Web App Changes
+If you are making changes to files that are not used in the web application, e.g. prototype files or files in the server-void/ folder, then you can use the simple git change pipleine.
+
+That is, git commit and git push.
+
+# Development Pipeline for Web App Changes
+This is intended to cover the general steps for making changes to the app or is its sub files.
 
 First start up the virtual environment using:
 ```
