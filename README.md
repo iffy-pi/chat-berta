@@ -1,5 +1,7 @@
 # Chat-Berta
-Chat-Berta Project File
+Chat-Berta Project File.
+
+This also serves as the repository for ELEC498 Group 12 (JISH)
 
 ## Directory Information:
 This entire repository is used to package the web application for Chat-Berta. This means most of the files here are all useful for the web server.
