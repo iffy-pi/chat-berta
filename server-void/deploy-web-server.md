@@ -33,6 +33,11 @@ This puts us in the virtual environment terminal, installations here will not af
 
 Whenever, you are running the development server or doing any package installations, make sure to always be in the virtual environment using the activation function.
 
+You can leave a virtual environment with the command
+```
+deactivate
+```
+
 ## Installing Packages and Creating Requirements
 First we need the flask framework which we can install (in the virtual environment):
 ```
