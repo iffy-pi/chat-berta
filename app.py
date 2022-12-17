@@ -21,7 +21,7 @@ def testfunc():
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
 def index():
-    return 'Hello World! I am the real Chat-Berta!'
+    return 'Hello World! I am the real Chat-Berta! Be afraid.'
 
 # running the code
 if __name__ == '__main__':
