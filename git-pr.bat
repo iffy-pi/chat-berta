@@ -23,6 +23,7 @@ goto :exit_script
 
 :make_pr
 echo OPENING PR LINK:
+echo %repo_url%/pull/new/%branch%
 start %repo_url%/pull/new/%branch%
 cd %prev_dir%
 
