@@ -45,18 +45,12 @@ Next we create a requirements.txt file which lists the project dependencies, thi
 python -m pip install pipreqs
 
 # run command in root project directory
-pipreqs .
+pip freeze > requirements.txt
 ```
 
-The motivation for using pipreqs instead of pip freeze is that it allows for better dependency management in the future, as well as works for different package managers outside of pip (such as conda, chocolatey etc), insipiration from: https://towardsdatascience.com/stop-using-pip-freeze-for-your-python-projects-9c37181730f9.
+pipreqs may be a good alternative in future, though it has issues with listing all the required packages. insipiration from: https://towardsdatascience.com/stop-using-pip-freeze-for-your-python-projects-9c37181730f9.
 
 This generates chat-berta/requirements.txt. This will need to be updated each time new packages are installed for the website.
-
-Note, when installing new packages and regenerating requirements, use the `--force` flag on pipreqs:
-```
-# in the project root directory
-pipreqs --force
-```
 
 ## Create Simple Flask Application
 This is for the purpose of the tutorial, in this step we create a simple hello world flask application.
@@ -131,16 +125,27 @@ heroku login
 
 ## Create Procfile
 First we create a procfile, that tells heroku how to run the app.
+
+Create a file names `Procfile` (case sensitive) and place the following line:
 ```
-echo "web: gunicorn app:app" > Procfile
+web: gunicorn app:app
 ```
 
-This Procfile tells Heroku to serve our web app using Gunicor, a WSGI HTTP server which is compatible with various web frameworks including Flask.
+The general format for this line is
+```
+web: gunicorn <module-name>:<app-name>
+```
+
+Where `<module-name>` is the name of the module or file that holds your main flask controller file, and `<app-name>` is the name of your flask app.
+
+In this case, the module name is app because the flask code is in the file app.py, and the app name is app, because that’s what we called it in the file (when we created our flask app object)
+
+The Procfile tells Heroku to serve our web app using Gunicor, a WSGI HTTP server which is compatible with various web frameworks including Flask.
 
 Next we install gunicorn and update our requirements file:
 ```
 pip install gunicorn==20.0.4
-pipreqs --force
+pip freeze > requirements.txt
 ```
 
 Make sure to update the requirements.txt file on the repository.
@@ -163,10 +168,12 @@ heroku git:remote -a chat-berta
 git push heroku main
 ```
 
-Note, some errors may occur where the build pack is unknown. This was resolved by reading the Heroku build pack documentation () and setting the project build pack to python:
-```
-heroku buildpacks:set heroku/python
-```
+## Troubleshooting
+The app failed to build initially, looking at logs (with `heroku logs --tail`) we saw we have the error H14.
 
+According to Stack Overflow (), we are not running any web dinos, the command below forces Heroku to spin up a web dyno when running our web app.
+```
+heroku ps:scale web=1
+```
 
 
