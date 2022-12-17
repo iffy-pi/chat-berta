@@ -159,7 +159,7 @@ heroku create chat-berta
 ## Pushing To Remote
 Now we have created our app, we can push our changes to the Heroku remote by specifying the Heroku remote in our push command.
 
-First, for our specific scenario we created this repository before using the Heroku app, so we have to let heroku know to create the proper remote for pushing:
+Link to the app you created using the below command (This will not be required if you did `heroku create` in the same repository),
 ```
 heroku git:remote -a chat-berta
 ```
@@ -168,12 +168,44 @@ heroku git:remote -a chat-berta
 git push heroku main
 ```
 
-## Troubleshooting
-The app failed to build initially, looking at logs (with `heroku logs --tail`) we saw we have the error H14.
+Where `main` is the branch we are pushing from.
 
-According to Stack Overflow (), we are not running any web dinos, the command below forces Heroku to spin up a web dyno when running our web app.
+## Application URL
+Whenever you push to Heroku remote, your application URL is at the bottom of the build log.
+
+You can also open your app website using the command `heroku open`.
+
+
+# Development Pipeline
+This is intended to cover the general steps for making changes to the app.
+
+First start up the virtual environment using:
 ```
-heroku ps:scale web=1
+venv\Scripts\activate.bat
 ```
 
+## Change The Application Source Code
+This can be any amount of changes we want, in this case we just do a simple change to the network message.
 
+Note that whenever you install new packages, be sure to reupdate the requirements file with:
+```
+pip freeze > requirements.txt
+```
+
+## Test on the development server
+Run the application with `python app.py` to test your changes on a developmental server.
+
+## Commit Changes
+Commit whatever changes you made to the branch you are working on.
+```
+git commit app.py -m "Simple test change!"
+```
+
+## Merge With Main
+Merge your branch with the mainline 
+
+## Push To Heroku Remote
+When you are done with making commits, you can push to the Heroku remote, using the command:
+```
+git push heroku main
+```
