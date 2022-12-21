@@ -18,11 +18,14 @@ def testfunc():
 # we can have several routes for the different pages on our website
 # just by adding more app routes and the subsequent functions that handle them
 
+
 @app.route('/submitForm', methods=['POST', 'GET'])
-def form_submit():
+def route_submit_form():
     if request.method == 'POST':
         # handle chat transcript form
-        return render_template('console.html', content=str(request))
+        # using the name attribute of the text input tag in index.html
+        transcript_text = request.form['dialog_text_box']
+        return render_template('console.html', content='The text: {}'.format(transcript_text))
     else:
         return 'Get Request Called!'
 
