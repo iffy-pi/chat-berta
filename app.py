@@ -18,17 +18,21 @@ def testfunc():
 # we can have several routes for the different pages on our website
 # just by adding more app routes and the subsequent functions that handle them
 
-
-@app.route('/submitTranscriptForm', methods=['POST', 'GET'])
-def route_submit_transcript_form():
+# page when the chat dialog (transcript or file) is submitted
+@app.route('/dialogSubmitted', methods=['POST', 'GET'])
+def route_dialog_submitted():
     if request.method == 'POST':
-        # handle chat transcript form
-        # using the name attribute of the text input tag in index.html
-        transcript_text = request.form['dialog_text_box']
-        return render_template('console.html', content='The text: {}'.format(transcript_text.replace('\n', '<newl>')))
+        if request.args['source'] == 'transcript':
+            # handle chat transcript form
+            # using the name attribute of the text input tag in index.html
+            transcript_text = request.form['dialog_text_box']
+            return render_template('console.html', content='The text: {}'.format(transcript_text))
+        else:
+            return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
     else:
         return 'Get Request Called!'
 
+# submit chat transcript text
 @app.route('/ChatTranscript', methods=['POST', 'GET'])
 def route_chat_transcript():
     return render_template('chat_transcript.html')
