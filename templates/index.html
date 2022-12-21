@@ -6,5 +6,14 @@
 
 {% block body %}
 <h1> Index Page!</h1>
-<p>{{ message }}</p>
+<div>
+    <!-- form action frame -->
+    <form action="/" method="POST" id="chat_transcript_form">
+        <!-- Text box information -->
+        <label for="dialog_text_box">Dialog Transcript</label><br>
+        <input type="text" id="dialog_text_box" name="dialog_text_box"><br>
+        <!-- Submit button -->
+        <input type="submit" value="Submit Transcript">
+    </form>
+</div>
 {% endblock %}
