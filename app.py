@@ -18,15 +18,20 @@ def testfunc():
 # we can have several routes for the different pages on our website
 # just by adding more app routes and the subsequent functions that handle them
 
-# for the root of the website, we would just pass in "/" for the url
-@app.route('/', methods=['POST', 'GET'])
-def index():
+@app.route('/submitForm', methods=['POST', 'GET'])
+def form_submit():
     if request.method == 'POST':
         # handle chat transcript form
-        return render_template('console.html', content='Test')
+        return render_template('console.html', content=str(request))
     else:
+        return 'Get Request Called!'
 
-        return render_template('index.html', message='Hello World! I am Chat-Berta! Be afraid.')
+# for the root of the website, we would just pass in "/" for the url
+@app.route('/')
+def index():
+    # render index html which contains the form
+    # form submission will route to /submitForm
+    return render_template('index.html', message='Hello World! I am Chat-Berta! Be afraid.')
 
 # running the code
 if __name__ == '__main__':
