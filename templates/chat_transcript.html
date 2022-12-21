@@ -8,7 +8,8 @@
 <h1>Dialog Transcript Text Page</h1>
 <div>
     <!-- form action frame -->
-    <form action="/submitTranscriptForm" method="POST" id="chat_transcript_form">
+    <!-- Using source=transcript args to indicate that the submission was a transcript text -->
+    <form action="/dialogSubmitted?source=transcript" method="POST" id="chat_transcript_form">
         <!-- Text box information -->
         <p><label for="dialog_text_box">Dialog Transcript</label></p>
         <textarea id="dialog_text_box" name="dialog_text_box" rows="10" cols="75"></textarea>
