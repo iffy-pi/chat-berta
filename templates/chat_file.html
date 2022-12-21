@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Dialog File Page</title>
+{% endblock %}
+
+{% block body %}
+<h1>Dialog File Page</h1>
+<div>
+    <!-- form action frame -->
+    <!-- Using source=transcript args to indicate that the submission was a file -->
+    <form action="/dialogSubmitted?source=file" method="POST" id="chat_file_form" enctype=multipart/form-data>
+        <label for="chatfile">Select transcript text file:</label>
+        <input type="file" id="chatfile" name="file">
+        <!-- Page break to put submit form on new line -->
+        <br>
+        <!-- Submit button -->
+        <input type="submit" value="Submit File">
+    </form>
+</div>
+{% endblock %}
