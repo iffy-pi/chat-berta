@@ -1,22 +1,37 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory
+from werkzeug.utils import secure_filename
+from appfuncs import *
+import os
 
 # initialize app flask object
 # intializing to the name of the file
 app = Flask(__name__)
 
-# now we use app routing to map a function to a given page of our website
-# in app routing, it starts from the root of our website
-# so if our website is mysite.com, and we wanted to route to mysite.com/hello
-# we would pass /hello to the app route call
+# App routing information
+    # now we use app routing to map a function to a given page of our website
+    # in app routing, it starts from the root of our website
+    # so if our website is mysite.com, and we wanted to route to mysite.com/hello
+    # we would pass /hello to the app route call
+    # app routing uses special @ and then the flask app oobject
+    # then we immediately define the associated function for the URL
+    # @app.route("/test")
+    # def testfunc():
+    #     return "Testing web page!"
+    # we can have several routes for the different pages on our website
+    # just by adding more app routes and the subsequent functions that handle them
 
-# app routing uses special @ and then the flask app oobject
-# then we immediately define the associated function for the URL
-@app.route("/test")
-def testfunc():
-    return "Testing web page!"
 
-# we can have several routes for the different pages on our website
-# just by adding more app routes and the subsequent functions that handle them
+# Uploading file, sourced from steps https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
+# add upload folder to app config
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# to download a file submitted to the server
+# you can use url_for('route_download_file', filename=<filename>) to get url for specific file
+@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def route_download_file(filename):
+    # Appending app path to upload folder path within app root folder
+    # Returning file from appended path
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 # page when the chat dialog (transcript or file) is submitted
 @app.route('/dialogSubmitted', methods=['POST', 'GET'])
@@ -27,10 +42,39 @@ def route_dialog_submitted():
             # using the name attribute of the text input tag in index.html
             transcript_text = request.form['dialog_text_box']
             return render_template('console.html', content='The text: {}'.format(transcript_text))
+
+        elif request.args['source'] == 'file':
+            # check if the request has the file part
+            if 'file' not in request.files:
+                return render_template('console.html', content='No file provided!')
+            
+            # get the file
+            file = request.files['file']
+
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == '':
+                return render_template('console.html', content='File name is blank!')
+
+            # save the file and render the file contents
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save( os.path.join(app.config['UPLOAD_FOLDER'], filename) )
+                with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'r' ) as file:
+                    cont = str(file.read())
+                return render_template('console.html', content='File: {}'.format(cont))
+
+            return render_template('console.html', content='Invalid, should not get here!')
         else:
             return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
     else:
-        return 'Get Request Called!'
+        return render_template('console.html', content='Invalid, should not get here!')
+
+
+# submit chat transcript text
+@app.route('/ChatFile', methods=['POST', 'GET'])
+def route_chat_file():
+    return render_template('chat_file.html')
 
 # submit chat transcript text
 @app.route('/ChatTranscript', methods=['POST', 'GET'])
