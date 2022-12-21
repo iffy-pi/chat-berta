@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 # initialize app flask object
 # intializing to the name of the file
@@ -21,7 +21,7 @@ def testfunc():
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
 def index():
-    return 'Hello World! I am Chat-Berta! Be afraid.'
+    return render_template('index.html', message='Hello World! I am Chat-Berta! Be afraid.')
 
 # running the code
 if __name__ == '__main__':
