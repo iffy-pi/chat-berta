@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 
 # initialize app flask object
 # intializing to the name of the file
@@ -19,9 +19,14 @@ def testfunc():
 # just by adding more app routes and the subsequent functions that handle them
 
 # for the root of the website, we would just pass in "/" for the url
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('index.html', message='Hello World! I am Chat-Berta! Be afraid.')
+    if request.method == 'POST':
+        # handle chat transcript form
+        return render_template('console.html', content='Test')
+    else:
+
+        return render_template('index.html', message='Hello World! I am Chat-Berta! Be afraid.')
 
 # running the code
 if __name__ == '__main__':
