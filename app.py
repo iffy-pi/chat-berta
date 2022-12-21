@@ -19,22 +19,26 @@ def testfunc():
 # just by adding more app routes and the subsequent functions that handle them
 
 
-@app.route('/submitForm', methods=['POST', 'GET'])
-def route_submit_form():
+@app.route('/submitTranscriptForm', methods=['POST', 'GET'])
+def route_submit_transcript_form():
     if request.method == 'POST':
         # handle chat transcript form
         # using the name attribute of the text input tag in index.html
         transcript_text = request.form['dialog_text_box']
-        return render_template('console.html', content='The text: {}'.format(transcript_text))
+        return render_template('console.html', content='The text: {}'.format(transcript_text.replace('\n', '<newl>')))
     else:
         return 'Get Request Called!'
+
+@app.route('/ChatTranscript', methods=['POST', 'GET'])
+def route_chat_transcript():
+    return render_template('chat_transcript.html')
 
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
 def index():
     # render index html which contains the form
     # form submission will route to /submitForm
-    return render_template('index.html', message='Hello World! I am Chat-Berta! Be afraid.')
+    return render_template('index.html')
 
 # running the code
 if __name__ == '__main__':
