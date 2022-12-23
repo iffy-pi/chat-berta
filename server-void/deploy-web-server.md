@@ -145,69 +145,7 @@ Next, you will need to create vercel.json, which is a JSON that tells the system
 ## Pushing to Remote
 Vercel automatically builds and re-deploys the application for every commit to our production branch: `vercel-production`
 
-# Deploying With Heroku
-Heroku is chosen because it handles all the nitty gritty stuff like infrastructure, DNS and all that for small simple projects such as this one.
-
-## Create a Heroku Account
-Create a free heroku account using https://signup.heroku.com/
-
-## Install the Heroku CLI
-Install the Heroku CLI using the steps contained in: https://devcenter.heroku.com/articles/heroku-cli
-
-## Log into your Heroku Account
-You will need to log into your heroku account using the CLI, with the command below:
-```
-heroku login
-```
-
-## Create Procfile
-First we create a procfile, that tells heroku how to run the app.
-
-Create a file names `Procfile` (case sensitive) and place the following line:
-```
-web: gunicorn app:app
-```
-
-The general format for this line is
-```
-web: gunicorn <module-name>:<app-name>
-```
-
-Where `<module-name>` is the name of the module or file that holds your main flask controller file, and `<app-name>` is the name of your flask app.
-
-In this case, the module name is app because the flask code is in the file app.py, and the app name is app, because that’s what we called it in the file (when we created our flask app object)
-
-The Procfile tells Heroku to serve our web app using Gunicor, a WSGI HTTP server which is compatible with various web frameworks including Flask.
-
-Next we install gunicorn and update our requirements file:
-```
-pip install gunicorn==20.0.4
-pip freeze > requirements.txt
-```
-
-Make sure to update the requirements.txt file on the repository.
-
-## Create Heroku Application
-We want to create the production version of our app on the Heroku end, so we do this using heroku create, in this case we specify the app name as last argument:
-```
-heroku create chat-berta
-```
-
-## Pushing To Remote
-Now we have created our app, we can push our changes to the Heroku remote by specifying the Heroku remote in our push command.
-
-Link to the app you created using the below command (This will not be required if you did `heroku create` in the same repository),
-```
-heroku git:remote -a chat-berta
-```
-
-```
-git push heroku main
-```
-
-Where `main` is the branch we are pushing from.
+Normally, it automatically builds on deployment to the `main` branch of the GitHub project, but this can be changed by Project Settings > Git > Production Branch.
 
 ## Application URL
-Whenever you push to Heroku remote, your application URL is at the bottom of the build log.
-
-You can also open your app website using the command `heroku open`.
+Application URL can be found from the Vercel Projects: https://chat-berta.vercel.app/
