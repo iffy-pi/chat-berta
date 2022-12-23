@@ -113,6 +113,38 @@ Of course, we already have git installed and are already in a repository, so the
 ## Exclude Folders
 We want to make sure we dont include the virtual environment folder and the pycache folder in the git repo, so we add those to our .gitignore in the project root directory.
 
+
+# Deploying with Vercel
+Vercel is a free hosting service which we can use for deploying our application.
+
+## Create Vercel Account
+Link your GitHub Account to your Vercel account by following the steps at: https://vercel.com/signup
+
+## Link Your Git Repository
+After creating your account and giving Vercel access to your git repos, select the repository you wish to deploy from the projects list (https://vercel.com/new)
+
+## Create Vercel Build File
+Next, you will need to create vercel.json, which is a JSON that tells the system how to build your project. it includes the following:
+```json
+{
+    // 'app.py' is the root application, the starter file for the flask project
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": ".*",
+      "dest": "app.py"
+    }
+  ]
+```
+
+## Pushing to Remote
+Vercel automatically builds and re-deploys the application for every commit to our production branch: `vercel-production`
+
 # Deploying With Heroku
 Heroku is chosen because it handles all the nitty gritty stuff like infrastructure, DNS and all that for small simple projects such as this one.
 
@@ -179,119 +211,3 @@ Where `main` is the branch we are pushing from.
 Whenever you push to Heroku remote, your application URL is at the bottom of the build log.
 
 You can also open your app website using the command `heroku open`.
-
-
-# Development Pipeline
-This is intended to cover the general steps for making changes to the app.
-
-First start up the virtual environment using:
-```
-venv\Scripts\activate.bat
-```
-
-## Simple Changes
-This is for simple changes that we are **100% sure do not need extensive verification**. This would be something as simple as a character change. For more extensive changes, refer to the Big Changes section.
-
-### Pull Latest Changes from mainline
-Switch to mainline branch if you are not on there already:
-```
-git checkout main
-```
-
-Then pull:
-```
-git pull
-```
-### Change The Application Source Code
-This can be any amount of changes we want, in this case we just do a simple change to the network message.
-
-Note that whenever you install new packages, be sure to reupdate the requirements file with:
-```
-pip freeze > requirements.txt
-```
-
-### Test on the development server
-Run the application with `python app.py` to test your changes on a developmental server.
-
-### Commit Changes
-Commit whatever changes you made to the branch you are working on.
-```
-git commit app.py -m "Simple test change!"
-```
-Make as many commits as you need.
-
-### Push Commits To Main Branch
-Push all your commits by using the command:
-```
-git push
-```
-
-### Deploy to Heroku
-Push to the Heroku remote.
-```
-git push heroku main
-```
-
-
-
-## Big Changes
-### Pull Latest Changes from mainline
-Switch to mainline branch if you are not on there already:
-```
-git checkout main
-```
-
-Then pull
-```
-git pull
-```
-
-### Create Developmental Branch
-Create a new development branch of the current branch (main) with a descriptive name
-```
-git checkout -b iffy-sample-dev-branch
-```
-
-**Make sure to always include your name as the first part of the branch name**
-
-Branches allow you to continue experimental work without interfering with the working code in mainline.
-
-### Change The Application Source Code
-This can be any amount of changes we want, in this case we just do a simple change to the network message.
-
-Note that whenever you install new packages, be sure to reupdate the requirements file with:
-```
-pip freeze > requirements.txt
-```
-
-### Test on the development server
-Run the application with `python app.py` to test your changes on a developmental server.
-
-### Commit Changes
-Commit whatever changes you made to the branch you are working on.
-```
-git commit app.py -m "Simple test change!"
-```
-Make as many commits as you need.
-
-### Push Branch
-Push all your commits by using the command:
-```
-git push
-```
-Note: You can make more commits and push as usual until you are ready to merge with the main branch.
-
-### Merge With Main
-Merge your branch with the mainline by initiating a pull request, this can be done using the added utility git-pr.bat:
-```
-git-pr.bat
-```
-Enter `Y` to open a pull request and make sure to select `main` as the branch to merge with.
-Ideally, we should review merges to the mainline, but this may not be guaranteed.
-
-### Deploy to Heroku
-Go back to the main branch and pull changes from the remote and then push to the Heroku remote.
-```
-git checkout main
-git push heroku main
-```
