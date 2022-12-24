@@ -13,12 +13,11 @@ set "repo_url=%repo_url:git@=https://%"
 
 
 rem Confirm the branch
-echo Branch: %branch%
-set /p answer=Open Pull Request? [y/n]: 
+set /p answer=Pull Request for "%branch%" branch?  [y/n]: 
 set "answer=%answer: =%"
 if "%answer%" == "y" goto :make_pr
 if "%answer%" == "Y" goto :make_pr
-echo "Exiting..."
+echo Exiting...
 goto :exit_script
 
 :make_pr
@@ -29,4 +28,3 @@ cd %prev_dir%
 
 :exit_script
 goto :eof
-rem sample comment
