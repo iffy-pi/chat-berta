@@ -47,7 +47,7 @@ def route_dialog_submitted():
             if 'file' not in request.files:
                 return render_template('console.html', content='No file provided!')
             
-            res, filename = save_file_from_request(app, request.files['file'])
+            res, filename = save_file_from_request(app.config['UPLOAD_FOLDER'], request.files['file'])
             
             if res != 0:
                 return render_template('console.html', content='Something went wrong saving the file!')
