@@ -4,7 +4,13 @@ import os
 
 # initialize app flask object
 # intializing to the name of the file
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
+
+# Load app configuration from config.py, must be at root of repository
+# Source: https://exploreflask.com/en/latest/configuration.html
+# By setting instance_relative_config, the below command will use the instance config folder if available
+app.config.from_object('config')
+app.config.from_pyfile('config.py')
 
 # App routing information
     # now we use app routing to map a function to a given page of our website
@@ -19,10 +25,6 @@ app = Flask(__name__)
     # we can have several routes for the different pages on our website
     # just by adding more app routes and the subsequent functions that handle them
 
-
-# Load app configuration from config.py, must be at root of repository
-# Source: https://exploreflask.com/en/latest/configuration.html
-app.config.from_object('config')
 
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
