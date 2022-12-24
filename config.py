@@ -3,7 +3,6 @@
 # Source: https://exploreflask.com/en/latest/configuration.html
 import os
 def get_secret_key():
-    # generated secret key with python -c "import secrets; print(secrets.token_hex())"
     return os.environ.get('CHATBERTA_SECRET_KEY')
 
 # Source: https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
