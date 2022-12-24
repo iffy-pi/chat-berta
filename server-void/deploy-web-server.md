@@ -149,3 +149,9 @@ Normally, it automatically builds on deployment to the `main` branch of the GitH
 
 ## Application URL
 Application URL can be found from the Vercel Projects: https://chat-berta.vercel.app/
+
+# Other Notes
+## Secret Keys and Environment Variables
+The application gets it secret key from the environment variables, specifically the key assigned to `CHATBERTA_SECRET_KEY` in the environment variables (see config.py)
+
+This is achieved on the deployment server by going to Project > Settings > Environment Variables and adding the environment variable
