@@ -8,9 +8,7 @@ app = Flask(__name__, instance_relative_config=True)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
-# By setting instance_relative_config, the below command will use the instance config folder if available
 app.config.from_object('config')
-app.config.from_pyfile('config.py')
 
 # App routing information
     # now we use app routing to map a function to a given page of our website
