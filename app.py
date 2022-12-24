@@ -27,7 +27,7 @@ app.config.from_object('config')
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
     #tc = session['tc']
-    return render_template('console.html', content=app.config['ALLOWED_EXTENSIONSS'])
+    return render_template('console.html', content=app.config['SECRET_KEY'])
 
 
 @app.route('/myConsole2', methods=['GET', 'POST'])
