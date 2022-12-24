@@ -1,5 +1,6 @@
 # Application configuration file
 # Imported to app config in app.py
+# Source: https://exploreflask.com/en/latest/configuration.html
 import os
 def get_secret_key():
     return os.environ.get('CHATBERTA_SECRET_KEY')
