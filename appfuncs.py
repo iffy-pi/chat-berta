@@ -12,6 +12,9 @@ class TestClass:
     def string(self):
         return '(a = {}, b={})'.format( self.a, self.b)
 
+def get_secret_key():
+    return 'ababa'
+
 # checks if a file is allowed to be uploaded
 def allowed_file(filename):
     # allowed if not executable and is one of the allowed file extensions
