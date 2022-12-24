@@ -17,7 +17,7 @@ set /p answer=Pull Request for "%branch%" branch?  [y/n]:
 set "answer=%answer: =%"
 if "%answer%" == "y" goto :make_pr
 if "%answer%" == "Y" goto :make_pr
-echo "Exiting..."
+echo Exiting...
 goto :exit_script
 
 :make_pr
