@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory, session
 from appfuncs import *
 import os
 
@@ -20,9 +20,22 @@ app = Flask(__name__)
     # just by adding more app routes and the subsequent functions that handle them
 
 
-# Uploading file, sourced from steps https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
-# add upload folder to app config
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# Load app configuration from config.py, must be at root of repository
+# Source: https://exploreflask.com/en/latest/configuration.html
+app.config.from_object('config')
+
+@app.route('/myConsole', methods=['GET', 'POST'])
+def route_console():
+    #tc = session['tc']
+    return render_template('console.html', content=app.config['ALLOWED_EXTENSIONSS'])
+
+
+@app.route('/myConsole2', methods=['GET', 'POST'])
+def route_console_2():
+    #tc = TestClass('Juniper', 2)
+    #session['tc'] = tc
+    return redirect(url_for('route_console'))
+
 
 # to download a file submitted to the server
 # you can use url_for('route_download_file', filename=<filename>) to get url for specific file
