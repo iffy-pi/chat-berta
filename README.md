@@ -31,9 +31,9 @@ git pull
 ```
 
 ## Create Developmental Branch (if applicable)
-Use a development branch if you are doing extensive changes. Create a new development branch of the current branch (main) with a name in the format: `<dev>-<user>-<description>` e.g.
+Use a development branch if you are doing extensive changes. Create a new development branch of the current branch (main) with a name in the format: `<dev>/<username>/<description>` e.g.
 ```
-git checkout -b dev-iffy-sample-dev-branch
+git checkout -b dev/iffy-pi/sample-dev-branch
 ```
 
 Branches allow you to continue experimental work without interfering with the working code in mainline.
