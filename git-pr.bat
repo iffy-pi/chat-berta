@@ -29,3 +29,4 @@ cd %prev_dir%
 
 :exit_script
 goto :eof
+rem sample comment
