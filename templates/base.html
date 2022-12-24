@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--
+        Note the special formatting used for the href below
+        We dont want to assign the raw url, so flask provied url_for to find the url for a given local file
+        Takes the fparent folder in the project directory as primary argument
+        For filename, any subfolders have to be put along with the filename hence the css/main.css
+        " essentially says run the command specified and get output as string
+    -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}"> -->
+    <!--
+       Using special block syntax
+       Block is replaced by content specified in inheriting HTML pages
+       'head' is the block identifier
+    -->
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <!-- 
+        Another block for body
+    -->
+    {% block body %}{% endblock %}
+    <div id="debug_div">
+        <h1>Debugging Commands</h1>
+        <form action="/"  id="go_home_form">
+            <input type="submit" value="Home Page">
+        </form>
+        <br>
+        <form action="/myConsole"  id="console_form">
+          <input type="submit" value="My Console">
+      </form>
+    </div>
+  </body>
+</html>

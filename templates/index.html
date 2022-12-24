@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Index Page!</title>
+{% endblock %}
+
+{% block body %}
+<h1> Index Page!</h1>
+<div>
+    <form action="/"  id="go_home_form">
+        <input type="submit" value="Home Page">
+    </form>
+    <br>
+    <form action="/ChatTranscript"  id="chat_transcript_page_form">
+        <input type="submit" value="Submit Chat Transcript">
+    </form>
+    <br>
+    <form action="/ChatFile"  id="chat_transcript_page_form">
+        <input type="submit" value="Submit Chat File">
+    </form>
+</div>
+{% endblock %}
