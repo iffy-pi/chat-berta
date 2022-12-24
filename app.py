@@ -1,5 +1,4 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory
-from werkzeug.utils import secure_filename
 from appfuncs import *
 import os
 
@@ -48,23 +47,14 @@ def route_dialog_submitted():
             if 'file' not in request.files:
                 return render_template('console.html', content='No file provided!')
             
-            # get the file
-            file = request.files['file']
+            res, filename = save_file_from_request(app, request.files['file'])
+            
+            if res != 0:
+                return render_template('console.html', content='Something went wrong saving the file!')
 
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename.
-            if file.filename == '':
-                return render_template('console.html', content='File name is blank!')
-
-            # save the file and render the file contents
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save( os.path.join(app.config['UPLOAD_FOLDER'], filename) )
-                with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'r' ) as file:
-                    cont = str(file.read())
-                return render_template('console.html', content='File: {}'.format(cont))
-
-            return render_template('console.html', content='Invalid, should not get here!')
+            with open( get_file_path(app, filename), 'r' ) as file:
+                cont = str(file.read())
+            return render_template('console.html', content='File: {}'.format(cont))
         else:
             return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
     else:
