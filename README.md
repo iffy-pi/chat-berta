@@ -38,15 +38,18 @@ git checkout -b dev/iffy-pi/sample-dev-branch
 
 Branches allow you to continue experimental work without interfering with the working code in mainline.
 
-## Make your changes adn commits
+## Make your changes and commits
 Note that whenever you install new packages, be sure to reupdate the requirements file with:
 ```
 pip freeze > requirements.txt
 ```
-You can test changes by using the developmental server:
+
+You can test changes by using the developmental server (within virtual environment):
 ```
 python app.py
 ```
+
+**Make sure you have the secret key stored in the environment variable `CHATBERTA_SECRET_KEY` on your computer, if not ask Iffy for the key**.
 
 Commit changes to your branch if you created one, or the main branch as follows.
 
