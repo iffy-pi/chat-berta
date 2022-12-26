@@ -48,19 +48,12 @@ def route_console_2():
 @app.route('/uploads/<path:filepath>', methods=['GET', 'POST'])
 def route_download_file(filepath):
     # Appending app path to upload folder path within app root folder
-    # Returning file from appended path
-    #return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
-    
-    #return mimetypes.MimeTypes().guess_type(filepath.split('/')[-1])
-
-    # get the file from the directory
+    # Returning file from the pushbullet file server
     pbfs_file_path = '/{}'.format(filepath)
     file_content = pbfs.get_file(pbfs_file_path)
 
     if file_content is None:
         return '{}\n{}'.format(pbfs_file_path, pbfs.get_file_index())
-
-    #return render_template('console.html', content=file_content.decode('utf-8'))
 
     return send_file(
         io.BytesIO(file_content),
