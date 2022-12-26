@@ -19,15 +19,28 @@ class PushBulletFileServer():
     UPLOAD_REQUEST_URL = '{}/upload-request'.format(PUSHBULLET_API)
     __INDEX_PUSH_TITLE = 'pbfs_file_index'
     
-    def __init__ (self, access_token, index: dict=None, load_index_from_server: bool =False):
+    def __init__ (self, access_token, index: dict=None, load_index_from_server: bool=False, persistent_storage:bool=False):
+        '''
+        `access_token` is the access token for the PushBullet account
+        
+        `index`is an input file index to initialize with
+
+        `load_index_from_server` is used to load the file index from the server, will only work if file index was uploaded before using `upload_file_index()` or setting `persistent_storage`
+
+        `persistent_storage`, set to true if push bullet server storage should be persistent (i.e. file index is saved to server and loaded from server)
+        '''
         # double underscore prepend means private members and methods
         self.__access_token = access_token
         self.error_msg = '' # used to track errors
 
+        # if the storage is persistent, we want to upload the file index every time we do a file action
+        # that way, the file index will always be the last thing uploaded to the server
+        self.__persistent_storage = persistent_storage
+
         self.__index = {}
 
         if index is not None: self.__index = index
-        elif load_index_from_server:
+        elif load_index_from_server or persistent_storage:
             retrieved_index = self.__get_index_from_server()
             if retrieved_index is not None: self.__index = retrieved_index
 
@@ -293,6 +306,17 @@ class PushBulletFileServer():
         
         return True
 
+    def create_directory(self, dirpath:str):
+        # creates the given directory path
+        parent_dir = self.__get_parent_dir(dirpath, make_dirs_ok=True)
+        leaf_dir = parent_dir.split('/')[-1]
+        parent_dir[leaf_dir] = {}
+
+        if self.__persistent_storage:
+            self.upload_file_index()
+        
+        return 0
+
 
     def delete_file(self, file_path: str) -> int:
         '''
@@ -316,6 +340,9 @@ class PushBulletFileServer():
 
         # remove the file from the index
         parent_dir.pop(filename)
+
+        if self.__persistent_storage:
+            self.upload_file_index()
 
         return 0
 
@@ -354,6 +381,9 @@ class PushBulletFileServer():
 
         # save the new file by updating the file index
         parent_dir[filename] = new_file_iden
+
+        if self.__persistent_storage:
+            self.upload_file_index()
 
         return 0
 
