@@ -27,7 +27,6 @@ app.config.from_object('config')
     # just by adding more app routes and the subsequent functions that handle them
 
 acc_token = os.environ.get('CHATBERTA_PBFS_ACCESS_TOKEN')
-acc_token = 'o.9lcWQATwRDniOivYT8RTeKavfpe5nAfc'
 pbfs = PushBulletFileServer(acc_token)
 
 
