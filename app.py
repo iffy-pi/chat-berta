@@ -1,5 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory, session
 from appfuncs import *
+from PushBulletFileServer import *
 import os
 
 # initialize app flask object
@@ -23,17 +24,20 @@ app.config.from_object('config')
     # we can have several routes for the different pages on our website
     # just by adding more app routes and the subsequent functions that handle them
 
+acc_token = os.environ.get('CHATBERTA_PBFS_ACCESS_TOKEN')
+pbfs = PushBulletFileServer(acc_token)
+
 
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
-    #tc = session['tc']
-    return render_template('console.html', content='How can you see me?')
+    tc = session['tc']
+    return render_template('console.html', content=acc_token)
 
 
 @app.route('/myConsole2', methods=['GET', 'POST'])
 def route_console_2():
-    #tc = TestClass('Juniper', 2)
-    #session['tc'] = tc
+    tc = TestClass('Juniper', 2)
+    session['tc'] = tc
     return redirect(url_for('route_console'))
 
 

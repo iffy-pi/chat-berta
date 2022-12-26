@@ -15,6 +15,12 @@ class TestClass:
 def get_secret_key():
     return 'ababa'
 
+def get_pushbullet_token():
+    token = os.environ.get('PUSHBULLET_ACCESS_TOKEN_OMNIXP')
+    if token is None:
+        raise Exception('No token found!')
+    return token
+
 # checks if a file is allowed to be uploaded
 def allowed_file(filename):
     # allowed if not executable and is one of the allowed file extensions
