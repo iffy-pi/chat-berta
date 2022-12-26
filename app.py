@@ -1,7 +1,9 @@
-from flask import Flask, flash, render_template, request, redirect, url_for, send_from_directory, session
+from flask import Flask, flash, render_template, request, redirect, url_for, send_file, session
 from appfuncs import *
 from PushBulletFileServer import *
+import mimetypes
 import os
+import io
 
 # initialize app flask object
 # intializing to the name of the file
@@ -25,6 +27,7 @@ app.config.from_object('config')
     # just by adding more app routes and the subsequent functions that handle them
 
 acc_token = os.environ.get('CHATBERTA_PBFS_ACCESS_TOKEN')
+acc_token = 'o.9lcWQATwRDniOivYT8RTeKavfpe5nAfc'
 pbfs = PushBulletFileServer(acc_token)
 
 
@@ -43,11 +46,29 @@ def route_console_2():
 
 # to download a file submitted to the server
 # you can use url_for('route_download_file', filename=<filename>) to get url for specific file
-@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
-def route_download_file(filename):
+@app.route('/uploads/<path:filepath>', methods=['GET', 'POST'])
+def route_download_file(filepath):
     # Appending app path to upload folder path within app root folder
     # Returning file from appended path
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+    #return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+    
+    #return mimetypes.MimeTypes().guess_type(filepath.split('/')[-1])
+
+    # get the file from the directory
+    pbfs_file_path = '/{}'.format(filepath)
+    file_content = pbfs.get_file(pbfs_file_path)
+
+    if file_content is None:
+        return '{}\n{}'.format(pbfs_file_path, pbfs.get_file_index())
+
+    #return render_template('console.html', content=file_content.decode('utf-8'))
+
+    return send_file(
+        io.BytesIO(file_content),
+        download_name=filepath.split('/')[-1],
+        mimetype = mimetypes.MimeTypes().guess_type(filepath.split('/')[-1])[0],
+        as_attachment=True
+    )
 
 # page when the chat dialog (transcript or file) is submitted
 @app.route('/dialogSubmitted', methods=['POST', 'GET'])
@@ -64,14 +85,14 @@ def route_dialog_submitted():
             if 'file' not in request.files:
                 return render_template('console.html', content='No file provided!')
             
-            res, filename = save_file_from_request(app.config['UPLOAD_FOLDER'], request.files['file'])
+            res, filename = save_file_from_request(pbfs, request.files['file'], pbfs_file_path='/sample-chat.txt')
             
             if res != 0:
                 return render_template('console.html', content='Something went wrong saving the file!')
 
-            with open( get_file_path(app, filename), 'r' ) as file:
-                cont = str(file.read())
-            return render_template('console.html', content='File: {}'.format(cont))
+            # with open( get_file_path(app, filename), 'r' ) as file:
+            #     cont = str(file.read())
+            return render_template('console.html', content=filename)
         else:
             return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
     else:

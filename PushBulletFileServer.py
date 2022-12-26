@@ -301,5 +301,5 @@ class PushBulletFileServer():
 #     print(mime_cont.decode('utf-8'))
     
 
-if __name__ == "__main__":
-    sys.exit(main())
+# if __name__ == "__main__":
+#     sys.exit(main())

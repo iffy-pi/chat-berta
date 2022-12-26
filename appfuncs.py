@@ -1,6 +1,7 @@
 # python file to contain function definitions in order to not clutter app.py
 from werkzeug.utils import secure_filename
 from config import ALLOWED_EXTENSIONS
+from PushBulletFileServer import *
 import time
 import os
 
@@ -41,19 +42,21 @@ def save_dialog_transcript(app, transcript_text):
     os.makedirs(os.path.split(full_path)[0], exist_ok=True)
     # save the file
 
-def save_file_from_request(upload_folder, request_file):
+def save_file_from_request(pbfs:PushBulletFileServer, request_file, pbfs_file_path: str =None):
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     file = request_file
-    if file.filename == '':
+    
+    filename = file.filename
+
+    if filename == '':
         return ( -1, None )
 
-    if not file or not allowed_file(file.filename):
+    if not file or not allowed_file(filename):
         # file is not present or file is not allowed
         return (-2, None)
 
-    # save the file and render the file contents
-    filename = secure_filename(file.filename)
-    file.save( os.path.join( upload_folder, filename))
+    # save the file into the pushbullet file server
+    res  = pbfs.save_file(pbfs_file_path, file.read())
     
-    return ( 0, filename )
+    return ( res, pbfs_file_path )
