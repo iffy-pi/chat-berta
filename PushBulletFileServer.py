@@ -17,19 +17,67 @@ class PushBulletFileServer():
     PUSHBULLET_API = 'https://api.pushbullet.com/v2'
     PUSH_URL = '{}/pushes'.format(PUSHBULLET_API)
     UPLOAD_REQUEST_URL = '{}/upload-request'.format(PUSHBULLET_API)
+    __INDEX_PUSH_TITLE = 'pbfs_file_index'
     
-    def __init__ (self, access_token, index: dict={}):
+    def __init__ (self, access_token, index: dict=None, load_index_from_server: bool =False):
         # double underscore prepend means private members and methods
         self.__access_token = access_token
-        self.__index = index
         self.error_msg = '' # used to track errors
+
+        self.__index = {}
+
+        if index is not None: self.__index = index
+        elif load_index_from_server:
+            retrieved_index = self.__get_index_from_server()
+            if retrieved_index is not None: self.__index = retrieved_index
+
+    def __get_index_from_server(self):
+        '''
+        Returns the index uploaded to the file server if any,
+        Returns None if nothing was found
+        '''
+
+        # index should be last push to the server, of type note and title 'pbfs_index'
+        headers = {
+            'Access-Token': self.__access_token
+        }
+
+        body = {
+            'active': 'true',
+            'limit': '1'
+        }
+
+        # make the request
+        response = requests.get(PushBulletFileServer.PUSH_URL, headers = headers, params = body)
+
+        if not PushBulletFileServer.http_success(response.status_code):
+            return None
+
+        pushes = response.json()['pushes']
+
+        if len(pushes) == 0:
+            return None
+
+        # get the contents
+
+        index_push = pushes[0]
+
+        if index_push['type'] != 'note':
+            # it is not a note
+            return None
+
+        if index_push['title'] != PushBulletFileServer.__INDEX_PUSH_TITLE:
+            # it is not the correct title
+            return None
+
+        return eval(index_push['body'])
 
     def http_success(http_code):
         # returns true if it was a successful request
         # based on https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
         return ( http_code >= 200 and http_code <= 299)
 
-    def __push(self, text=None, link: str = None, filepath: str =None, file=None, limit_file_size: bool = True) -> dict:
+    def __push(self, text=None, link: str = None, title: str=None, filepath: str =None, file=None, limit_file_size: bool = True) -> dict:
         '''
         Pushes text, URLS (links) and files to the pushbullet server
 
@@ -60,6 +108,9 @@ class PushBulletFileServer():
         }
 
         push_body = push_request['body']
+
+        if title is not None:
+            push_body['title'] = title
 
         if text is not None:
             push_body['type'] = 'note'
@@ -190,26 +241,18 @@ class PushBulletFileServer():
 
         return ret
 
+    def __delete(self, identifier):
+        '''
+        Deletes push with the given identifier
+        '''
+        res = requests.delete( '{}/{}'.format(PushBulletFileServer.PUSH_URL, identifier), headers = { 'Access-Token': self.__access_token } )
+        
+        if not PushBulletFileServer.http_success(res.status_code):
+            raise PBFSException('Deletion failed!')
+
     def __check_path( path:str):
         if not path.startswith('/'):
             raise PBFSException('Invalid file path, must be absolute!')
-
-    def path_exists(self, path:str):
-        ''' Checks if the given path exists in the index'''
-        PushBulletFileServer.__check_path(path)
-        paths = path.split('/')
-
-        cur_addr = self.__index
-        upper_addr = None
-        for dir in paths[1:]:
-            upper_addr = cur_addr
-            cur_addr = upper_addr.get(dir)
-
-            if cur_addr is None:
-                # the directory does not exist
-                return False
-        
-        return True
 
     def __get_parent_dir(self, path:str, make_dirs_ok=False):
         ''' Returns the dict object in file `index` corresponding to the parent directory the given path'''
@@ -232,7 +275,50 @@ class PushBulletFileServer():
                     return None
 
         return cur_addr
-    
+
+    def path_exists(self, path:str):
+        ''' Checks if the given path exists in the index'''
+        PushBulletFileServer.__check_path(path)
+        paths = path.split('/')
+
+        cur_addr = self.__index
+        upper_addr = None
+        for dir in paths[1:]:
+            upper_addr = cur_addr
+            cur_addr = upper_addr.get(dir)
+
+            if cur_addr is None:
+                # the directory does not exist
+                return False
+        
+        return True
+
+
+    def delete_file(self, file_path: str) -> int:
+        '''
+        Deletes file at given location
+        '''
+        # get the file identifier and parent directory
+        if not self.path_exists( file_path ):
+            self.error_msg = 'File does not exist!'
+            return 1
+        
+        filename = file_path.split('/')[-1]
+        parent_dir = self.__get_parent_dir(file_path)
+        file_identifier = parent_dir[filename]
+
+        # delete the file from the server
+        try:
+            self.__delete(file_identifier)
+        except PBFSException:
+            self.error_msg = 'Failed to delete file'
+            return 1
+
+        # remove the file from the index
+        parent_dir.pop(filename)
+
+        return 0
+
     def save_file(self, file_path: str, binary_contents) -> int:
         ''' 
         Takes absolute file path using Linux addressing, e.g /path/to/file where / is the top most directory.
@@ -250,9 +336,24 @@ class PushBulletFileServer():
             self.error_msg = str(e)
             return 1
 
+        new_file_iden = svr_response['iden']
+
         # add the file path to the index, with the server file identifier
         parent_dir = self.__get_parent_dir(file_path, make_dirs_ok=True)
-        parent_dir[filename] = svr_response['iden']
+
+        # checks if there is a current file in the memory
+        old_file_iden = parent_dir.get(filename)
+
+        # if there is then delete the old file since we are overwriting it
+        if old_file_iden is not None:
+             # delete the file from the server
+            try:
+                self.__delete(old_file_iden)
+            except PBFSException:
+                self.error_msg = 'Failed to delete file'
+
+        # save the new file by updating the file index
+        parent_dir[filename] = new_file_iden
 
         return 0
 
@@ -276,6 +377,13 @@ class PushBulletFileServer():
             return None
 
         return ret['content']
+
+    def upload_file_index(self):
+        '''
+        Uploads the latest version of the index to the server, allows for persisitent file storage
+        (Makes the server now act like actual storage instead of RAM)
+        '''
+        self.__push(text=str(self.__index), title=PushBulletFileServer.__INDEX_PUSH_TITLE)
 
     def get_file_index(self):
         return dict(self.__index)
