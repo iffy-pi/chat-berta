@@ -10,15 +10,7 @@ set "repo_url=%repo_url: =%"
 set "repo_url=%repo_url:.git=%"
 set "repo_url=%repo_url::=/%"
 set "repo_url=%repo_url:git@=https://%"
-
-
-rem Confirm the branch
-set /p answer=Pull Request for "%branch%" branch?  [y/n]: 
-set "answer=%answer: =%"
-if "%answer%" == "y" goto :make_pr
-if "%answer%" == "Y" goto :make_pr
-echo Exiting...
-goto :exit_script
+set "branch=%branch: =%"
 
 :make_pr
 echo OPENING PR LINK:
