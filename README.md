@@ -12,7 +12,17 @@ git-pr.bat is a simple batch script that streamlinees the opening of pull reques
 
 server-void/ contains files and folders that are not relevant to the web server. That is the web server can be deployed without the files in this folder. **All files required by the server can NEVER be put in server-void/**
 
+# Development Workbench Requirements
+You will need the following to work on the repository and use the development server.
+
+## Environment Variables
+1. The environment variable `CHATBERTA_PBFS_ACCESS_TOKEN`, used for accessing the pushbullet file server (contact Iffy for environment variable value)
+2. The environment variable `CHATBERTA_SECRET_KEY`, used for setting the server session key, (contact Iffy for environment variable value)
+3. The environment variable set `CHATBERTA_PBFS_DEV_SVR` to `ChatBerta-PBFS-Dev-Server`
+
 # Standard Commits (No Web App Deployments)
+**Make sure you have fulfilled all the requirements for a development workbench**
+
 This is the case where there are no deployments to the Vercel web app, i.e. standard changes to the repository. This can be handled by making pushes to the main branch of the repo (i.e. `main`), however as there are multiple people working on things, extensive changes should be handled in separate branches and then merged with the main branch.
 
 Remember to work in the virtual environment using:
@@ -48,8 +58,6 @@ You can test changes by using the developmental server (within virtual environme
 ```
 python app.py
 ```
-
-**Make sure you have the secret key stored in the environment variable `CHATBERTA_SECRET_KEY` on your computer, if not ask Iffy for the key**.
 
 Commit changes to your branch if you created one, or the main branch as follows.
 

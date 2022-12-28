@@ -27,7 +27,9 @@ app.config.from_object('config')
     # just by adding more app routes and the subsequent functions that handle them
 
 acc_token = os.environ.get('CHATBERTA_PBFS_ACCESS_TOKEN')
-pbfs = PushBulletFileServer(acc_token)
+dev_svr = os.environ.get('CHATBERTA_PBFS_DEV_SVR')
+
+pbfs = PushBulletFileServer(acc_token, server_name=(dev_svr if dev_svr is not None else 'CHATBERTA_PUSHBULLET_FILE_SERVER'), create_server=True)
 
 
 @app.route('/myConsole', methods=['GET', 'POST'])
@@ -50,7 +52,7 @@ def route_download_file(filepath):
     # Appending app path to upload folder path within app root folder
     # Returning file from the pushbullet file server
     pbfs_file_path = '/{}'.format(filepath)
-    file_content = pbfs.get_file(pbfs_file_path)
+    file_content = pbfs.download_binary_from_path(pbfs_file_path)
 
     if file_content is None:
         return '{}\n{}'.format(pbfs_file_path, pbfs.get_file_index())

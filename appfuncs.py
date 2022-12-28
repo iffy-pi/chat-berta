@@ -13,15 +13,6 @@ class TestClass:
     def string(self):
         return '(a = {}, b={})'.format( self.a, self.b)
 
-def get_secret_key():
-    return 'ababa'
-
-def get_pushbullet_token():
-    token = os.environ.get('PUSHBULLET_ACCESS_TOKEN_OMNIXP')
-    if token is None:
-        raise Exception('No token found!')
-    return token
-
 # checks if a file is allowed to be uploaded
 def allowed_file(filename):
     # allowed if not executable and is one of the allowed file extensions
@@ -57,6 +48,6 @@ def save_file_from_request(pbfs:PushBulletFileServer, request_file, pbfs_file_pa
         return (-2, None)
 
     # save the file into the pushbullet file server
-    res  = pbfs.save_file(pbfs_file_path, file.read())
-    
+    pbfs_file_path  = pbfs.upload_binary_to_path(pbfs_file_path, file.read())
+    res = 1 if pbfs_file_path is None else 0
     return ( res, pbfs_file_path )
