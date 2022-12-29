@@ -13,6 +13,11 @@ class TestClass:
     def string(self):
         return '(a = {}, b={})'.format( self.a, self.b)
 
+SUMMARIZER_OPTIONS = [
+    ('UseStrict', 'Strict summary'),
+    ('TreatAsMonologue', 'Treat transcript as monologue')
+]
+
 # checks if a file is allowed to be uploaded
 def allowed_file(filename):
     # allowed if not executable and is one of the allowed file extensions

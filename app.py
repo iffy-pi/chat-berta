@@ -38,11 +38,13 @@ def route_console():
     return render_template('console.html', content=acc_token)
 
 
-@app.route('/myConsole2', methods=['GET', 'POST'])
+@app.route('/testPage', methods=['GET', 'POST'])
 def route_console_2():
-    tc = TestClass('Juniper', 2)
-    session['tc'] = tc
-    return redirect(url_for('route_console'))
+    if request.method == 'POST':
+        # st = ''
+        # for key in request.form:
+        #     st = '{},{}'.format(st, request.form[key])
+        return render_template('console.html', content=str(request.form))
 
 
 # to download a file submitted to the server
@@ -101,7 +103,8 @@ def route_chat_file():
 # submit chat transcript text
 @app.route('/ChatTranscript', methods=['POST', 'GET'])
 def route_chat_transcript():
-    return render_template('chat_transcript.html')
+    options = SUMMARIZER_OPTIONS
+    return render_template('chat_transcript.html', opts=options)
 
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
