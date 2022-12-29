@@ -3,6 +3,10 @@ import requests
 import os
 import mimetypes
 import json
+from datetime import datetime, date
+import pytz
+from tzlocal import get_localzone
+import time
 
 def prettify(d: dict) -> str:
     return json.dumps(d, indent=4)
@@ -105,7 +109,7 @@ class PushBulletFileServer():
         '''
 
         # index should be last push to the server, of type note and title 'pbfs_index'
-        pushes = self.get_latest_pushes(1)
+        pushes = self.get_latest_pushes(limit=1)
 
         if len(pushes) == 0:
             return None
@@ -362,15 +366,48 @@ class PushBulletFileServer():
 
     # PUBLIC MEMBERS ---------------------------------------------------------------
 
-    def get_latest_pushes(self, push_count):
+    def datetime_to_unix_timestamp(date:datetime=None):
+        if not date:
+            # if no date is specified, use now
+            return int(time.time())
+
+        # get the UTC and current timezones
+        utc_timezone = pytz.timezone("UTC")
+        local_timezone = get_localzone()
+
+        # initialize epoch date and put in UTC timezone
+        epoch = datetime.strptime('Jan 01 1970 00:00:00 UTC', '%b %d %Y %H:%M:%S %Z')
+        epoch = utc_timezone.localize(epoch)
+
+        # Make date timezone aware if not already and localize to the current timezone
+        if not date.tzinfo:	date.replace(tzinfo=local_timezone)
+
+        # localize the date to the utc timezone
+        date = date.astimezone(utc_timezone)
+
+        # calculate the unix time stamp by subtracting current date and epoch
+        difference = date - epoch
+        unix_timestamp = difference.total_seconds()
+
+        return unix_timestamp
+
+
+    def get_latest_pushes(self, limit:int=None, modified_after:int=None):
         '''
-        Gets `push_count` latest pushes from the server
+        Gets latest pushes from the server
+        - `limit` is the maximum number of pushes to retrieve
+        - `modified_after` is to retrieve pushes only modified after this time
         '''
         # index should be last push to the server, of type note and title 'pbfs_index'
         body = {
-            'active': 'true',
-            'limit': '{}'.format(push_count)
+            'active': 'true'
         }
+
+        if limit is not None:
+            body['limit'] = str(limit)
+
+        if modified_after is not None:
+            body['modified_after'] = str(modified_after)
 
         # make the request
         response = requests.get('{}/pushes'.format(PushBulletFileServer.PUSHBULLET_API), headers = self.__make_request_header(), params = body)
@@ -378,6 +415,43 @@ class PushBulletFileServer():
         PushBulletFileServer.check_for_success(response)
 
         return response.json()['pushes']
+
+    def clear_server_from_time(self, dt:datetime=None, dtstr:str=None) -> int:
+        '''
+        Clears any pushes to the server from this device made after the specified time. This does not update the file index and is only intended for easy server debugging and maintenance.
+        Pushes will be deleted only if there is a device assigned to the PBFS object
+        - `date_time` is a datetime object containing the specified time
+        - `date_time_str` is a string of the specified time following the format: `%b %d %Y %H:%M` e.g. `Dec 29 2022 07:50`, `Oct 03 2011 21:43` etc
+        - Returns the number of pushes deleted
+        '''
+
+        if dt is None:
+            if dtstr is None:
+                return 0
+
+            # parse the time from the datetime str
+            dt = datetime.strptime(dtstr, '%b %d %Y %H:%M')
+        
+        if self.__server_iden is None:
+            return 0
+
+        # retrieve any pushes modified aft6er specified time
+        pushes = self.get_latest_pushes(modified_after=PushBulletFileServer.datetime_to_unix_timestamp(dt))
+
+        # filter pushes where the device identity is the server
+        pushes = list( filter(
+            lambda push: push['source_device_iden'] == self.__server_iden,
+            pushes
+        ))
+
+        if len(pushes) == 0:
+            return 0
+
+        # delete the pushes
+        for p in pushes:
+            self.__delete(p['iden'])
+
+        return len(pushes)
 
     def make_pbfs_device(self, name:str) -> dict:
         '''
@@ -598,25 +672,13 @@ class PushBulletFileServer():
 
 
 
-# def main():
-    
-#     pbfs = PushBulletFileServer(ACCESS_TOKEN)
-#     mime_cont = open('mime.txt', 'rb').read()
-
-#     if pbfs.save_file('/mime.txt', mime_cont) == 0:
-#         print('Save successful')
-#     else:
-#         print('Save Failed')
-#         print('Error: {}'.format(pbfs.error_msg))
-
-#     mime_cont = pbfs.get_file('/mime.txt')
-
-#     if mime_cont is None:
-#         print('Error: {}'.format(pbfs.error_msg))
-#         return 0
-
-#     print(mime_cont.decode('utf-8'))
+def main():
+    acc_token = os.environ.get('CHATBERTA_PBFS_ACCESS_TOKEN')
+    dev_svr = os.environ.get('CHATBERTA_PBFS_DEV_SVR')
+    pbfs = PushBulletFileServer(acc_token, server_name=dev_svr)
+    print(prettify(pbfs.clear_server_from_time(dtstr='Dec 29 2022 07:50')))
+    return 0
     
 
-# if __name__ == "__main__":
-#     sys.exit(main())
+if __name__ == "__main__":
+    sys.exit(main())
