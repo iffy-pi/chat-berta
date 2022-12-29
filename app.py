@@ -97,28 +97,36 @@ def route_dialog_submitted():
 @app.route('/chatSubmitted', methods=['POST', 'GET'])
 def route_chat_submitted():
     # handles the multiple submission sources as well as the submission options
+    summarizer_options = []
     if request.method == 'POST':
-        if request.args['source'] == 'transcript':
-            # handle chat transcript form
-            # using the name attribute of the text input tag in index.html
-            transcript_text = request.form['dialog_text_box']
+        # parse the summarizer options
+        # get all the summarizer opt keys
+        summarizer_options = list( filter( 
+            lambda key: key.startswith('summarizer_opt_'),
+            request.form
+        ))
+        # remove the summarizer opt tag
+        summarizer_options = [ o.replace('summarizer_opt_', '') for o in summarizer_options ]
+
+
+        # check for the transcript file
+        transcript_text = request.form.get('transcript_text')
+        if transcript_text:
+            # handle the transcript text
             return render_template('console.html', content='The text: {}'.format(transcript_text))
 
-        elif request.args['source'] == 'file':
-            # check if the request has the file part
-            if 'file' not in request.files:
-                return render_template('console.html', content='No file provided!')
-            
-            res, filename = save_file_from_request(pbfs, request.files['file'], pbfs_file_path='/sample-chat.txt')
-            
+        
+        # check for the file in the request
+        if 'chatfile' in request.files:
+            res, filename = save_file_from_request(pbfs, request.files['chatfile'], pbfs_file_path='/submitted_chat.txt')
+
             if res != 0:
                 return render_template('console.html', content='Something went wrong saving the file!')
 
-            # with open( get_file_path(app, filename), 'r' ) as file:
-            #     cont = str(file.read())
-            return render_template('console.html', content=filename)
-        else:
-            return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
+            return render_template('console.html', content=f'Successfully uploaded file to {filename}')
+
+        # nothing was found
+        return render_template('console.html', content='No content was submitted!')
     else:
         return render_template('console.html', content='Invalid, should not get here!')
 

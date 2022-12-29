@@ -7,39 +7,36 @@
 {% block body %}
 <h1>Submit A Chat</h1>
 <div>
-    <h2>Chat Transcript</h2>
-    <!-- form action frame -->
-    <!-- Using source=transcript args to indicate that the submission was a transcript text -->
-    <form action="/dialogSubmitted?source=transcript" method="POST" id="chat_transcript_form">
+    <form action="/chatSubmitted" method="POST" id="chat_source_form" enctype=multipart/form-data>
         <!-- Text box information -->
-        <p><label for="dialog_text_box">Paste Dialog Transcript Below</label></p>
-        <textarea id="dialog_text_box" name="dialog_text_box" rows="10" cols="75"></textarea>
-        <!-- Page break to put submit form on new line -->
-        <br>
+        <div>
+            <!-- Submit transcript in text box -->
+            <h2>Chat Transcript</h2>
+            <p><label for="transcript_text_box">Paste Dialog Transcript Below</label></p>
+            <textarea id="transcript_text_box" name="transcript_text" rows="10" cols="75"></textarea>
+            <!-- Page break to put submit form on new line -->
+            <br>
+        </div>
+        <div>
+            <!-- Upload file to chat -->
+            <h2>Upload Chat File</h2>
+            <label for="chatfile">Select transcript text file:</label>
+            <input type="file" id="chatfile" name="chatfile">
+            <!-- Page break to put submit form on new line -->
+            <br>
+        </div>
+        <div>
+            <!-- Upload file to chat -->
+            <h2>Summary Options</h2>
+            {% for opt in opts %}
+            <input type="checkbox" id="summarizer_opt_{{loop.index}}" name="summarizer_opt_{{opt[0]}}" value="{{opt[0]}}">
+            <label for="summarizer_opt_{{loop.index}}">{{ opt[1] }}</label><br>
+            {% endfor %}
+            <!-- Page break to put submit form on new line -->
+            <br>
+        </div>
         <!-- Submit button -->
-        <input type="submit" value="Submit Transcript">
+        <input type="submit" value="Summarize!">
     </form>
-
-    <h2>Upload Chat File</h2>
-    <form action="/dialogSubmitted?source=file" method="POST" id="chat_file_form" enctype=multipart/form-data>
-        <label for="chatfile">Select transcript text file:</label>
-        <input type="file" id="chatfile" name="file">
-        <!-- Page break to put submit form on new line -->
-        <br>
-        <!-- Submit button -->
-        <input type="submit" value="Submit File">
-    </form>
-    
-    <h2> Summarizer Options </h2>
-    <p>Select any of the following options</p>
-    <form action="/testPage" method="POST" id="summarizer_options_form">
-        {% for opt in opts %}
-        <input type="checkbox" id="options{{loop.index}}" name="{{opt[0]}}" value="{{opt[0]}}">
-        <label for="options{{loop.index}}">{{ opt[1] }}</label><br>
-        {% endfor %}
-        <input type="submit" value="Submit Summarizer Options">
-    </form>
-
-
 </div>
 {% endblock %}
