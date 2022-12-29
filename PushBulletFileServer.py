@@ -501,7 +501,7 @@ class PushBulletFileServer():
 
         return 0
 
-    def upload_binary_to_path(self, server_file_path: str, binary_contents) -> int:
+    def upload_binary_to_path(self, server_file_path: str, binary_contents) -> str:
         ''' 
         Takes absolute file path using Linux addressing, e.g /path/to/file where / is the top most directory.
         `binary_contents` is the binary contents of the file to be uploaded
