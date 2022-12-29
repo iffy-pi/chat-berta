@@ -94,6 +94,34 @@ def route_dialog_submitted():
     else:
         return render_template('console.html', content='Invalid, should not get here!')
 
+@app.route('/chatSubmitted', methods=['POST', 'GET'])
+def route_chat_submitted():
+    # handles the multiple submission sources as well as the submission options
+    if request.method == 'POST':
+        if request.args['source'] == 'transcript':
+            # handle chat transcript form
+            # using the name attribute of the text input tag in index.html
+            transcript_text = request.form['dialog_text_box']
+            return render_template('console.html', content='The text: {}'.format(transcript_text))
+
+        elif request.args['source'] == 'file':
+            # check if the request has the file part
+            if 'file' not in request.files:
+                return render_template('console.html', content='No file provided!')
+            
+            res, filename = save_file_from_request(pbfs, request.files['file'], pbfs_file_path='/sample-chat.txt')
+            
+            if res != 0:
+                return render_template('console.html', content='Something went wrong saving the file!')
+
+            # with open( get_file_path(app, filename), 'r' ) as file:
+            #     cont = str(file.read())
+            return render_template('console.html', content=filename)
+        else:
+            return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
+    else:
+        return render_template('console.html', content='Invalid, should not get here!')
+
 
 # submit chat transcript text
 @app.route('/ChatFile', methods=['POST', 'GET'])
@@ -105,6 +133,13 @@ def route_chat_file():
 def route_chat_transcript():
     options = SUMMARIZER_OPTIONS
     return render_template('chat_transcript.html', opts=options)
+
+
+# submit a chat
+@app.route('/submitChat', methods=['POST', 'GET'])
+def route_submit_chat():
+    options = SUMMARIZER_OPTIONS
+    return render_template('submit_chat.html', opts=options)
 
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
