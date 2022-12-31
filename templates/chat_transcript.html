@@ -18,5 +18,16 @@
         <!-- Submit button -->
         <input type="submit" value="Submit Transcript">
     </form>
+    <h2> Summarizer Options </h2>
+    <p>Select any of the following options</p>
+    <form action="/testPage" method="POST" id="summarizer_options_form">
+        {% for opt in opts %}
+        <input type="checkbox" id="options{{loop.index}}" name="{{opt[0]}}" value="{{opt[0]}}">
+        <label for="options{{loop.index}}">{{ opt[1] }}</label><br>
+        {% endfor %}
+        <input type="submit" value="Submit Summarizer Options">
+    </form>
+
+
 </div>
 {% endblock %}

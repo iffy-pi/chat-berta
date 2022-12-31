@@ -34,35 +34,16 @@ pbfs = PushBulletFileServer(acc_token, server_name=(dev_svr if dev_svr is not No
 
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
-    tc = session['tc']
-    return render_template('console.html', content=acc_token)
+    return render_template('console.html', content=gen_unique_tag())
 
 
-@app.route('/myConsole2', methods=['GET', 'POST'])
+@app.route('/testPage', methods=['GET', 'POST'])
 def route_console_2():
-    tc = TestClass('Juniper', 2)
-    session['tc'] = tc
-    return redirect(url_for('route_console'))
-
-
-# to download a file submitted to the server
-# you can use url_for('route_download_file', filename=<filename>) to get url for specific file
-@app.route('/uploads/<path:filepath>', methods=['GET', 'POST'])
-def route_download_file(filepath):
-    # Appending app path to upload folder path within app root folder
-    # Returning file from the pushbullet file server
-    pbfs_file_path = '/{}'.format(filepath)
-    file_content = pbfs.download_binary_from_path(pbfs_file_path)
-
-    if file_content is None:
-        return '{}\n{}'.format(pbfs_file_path, pbfs.get_file_index())
-
-    return send_file(
-        io.BytesIO(file_content),
-        download_name=filepath.split('/')[-1],
-        mimetype = mimetypes.MimeTypes().guess_type(filepath.split('/')[-1])[0],
-        as_attachment=True
-    )
+    if request.method == 'POST':
+        # st = ''
+        # for key in request.form:
+        #     st = '{},{}'.format(st, request.form[key])
+        return render_template('console.html', content=str(request.form))
 
 # page when the chat dialog (transcript or file) is submitted
 @app.route('/dialogSubmitted', methods=['POST', 'GET'])
@@ -92,7 +73,6 @@ def route_dialog_submitted():
     else:
         return render_template('console.html', content='Invalid, should not get here!')
 
-
 # submit chat transcript text
 @app.route('/ChatFile', methods=['POST', 'GET'])
 def route_chat_file():
@@ -101,7 +81,89 @@ def route_chat_file():
 # submit chat transcript text
 @app.route('/ChatTranscript', methods=['POST', 'GET'])
 def route_chat_transcript():
-    return render_template('chat_transcript.html')
+    options = SUMMARIZER_OPTIONS
+    return render_template('chat_transcript.html', opts=options)
+
+# to download a file submitted to the server
+# you can use url_for('route_download_file', filename=<filename>) to get url for specific file
+@app.route('/uploads/<path:filepath>', methods=['GET', 'POST'])
+def route_download_file(filepath):
+    # Appending app path to upload folder path within app root folder
+    # Returning file from the pushbullet file server
+    pbfs_file_path = '/{}'.format(filepath)
+    file_content = pbfs.download_binary_from_path(pbfs_file_path)
+
+    if file_content is None:
+        return '{}\n{}'.format(pbfs_file_path, pbfs.get_file_index())
+
+    return send_file(
+        io.BytesIO(file_content),
+        download_name=filepath.split('/')[-1],
+        mimetype = mimetypes.MimeTypes().guess_type(filepath.split('/')[-1])[0],
+        as_attachment=True
+    )
+
+# receives parameters from the chat submitted page and calls the summarizer on it
+@app.route('/summarize/<source>/<tag>/<options>')
+def route_summarize(source, tag, options):
+    # get the text
+    text = get_source_text(pbfs, source, tag)
+    
+    if text is None:
+        return render_template('console.html', content='No valid source found!, {}'.format(pbfs.get_file_index()))
+    
+    return render_template('summarizer_results.html', source=source, text=text, options=options)
+
+@app.route('/chatSubmitted', methods=['POST', 'GET'])
+def route_chat_submitted():
+    # handles the multiple submission sources as well as the submission options
+    summarizer_options = []
+    if request.method == 'POST':
+        # parse the summarizer options
+        # get all the summarizer opt keys
+        summarizer_options = list( filter( 
+            lambda key: key.startswith('summarizer_opt_'),
+            request.form
+        ))
+        # remove the summarizer opt tag
+        summarizer_options = [ o.replace('summarizer_opt_', '') for o in summarizer_options ]
+
+        source = None
+        tag = None
+        # check for the transcript file
+        transcript_text = request.form.get('transcript_text')
+        if transcript_text:
+            # handle the transcript text
+            # save the file
+            source = 'text'
+            res, tag = save_transcript_text(pbfs, transcript_text)
+
+            if res != 0:
+                return render_template('console.html', content='Error saving transcript!')
+
+        # check for the file in the request
+        elif 'chatfile' in request.files:
+            # save the chat file
+            source = 'file'
+            res, tag = save_uploaded_chat_file(pbfs, request.files['chatfile'])
+            if res != 0:
+                return render_template('console.html', content='Something went wrong saving the file! {}')
+
+        
+        if source is not None:
+            # we found something saved, so redirect to the summarizer page
+            return redirect( url_for('route_summarize', source=source, tag=tag, options=make_summarizer_opt_str(summarizer_options)))
+
+        # nothing was found
+        return render_template('console.html', content='No content was submitted!')
+    else:
+        return render_template('console.html', content='Invalid, should not get here!')
+
+# submit a chat
+@app.route('/submitChat', methods=['POST', 'GET'])
+def route_submit_chat():
+    options = SUMMARIZER_OPTIONS
+    return render_template('submit_chat.html', opts=options)
 
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
