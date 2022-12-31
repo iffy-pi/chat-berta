@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Summarizer Results Page</title>
+{% endblock %}
+
+{% block body %}
+<h1>Summarizer Results</h1>
+<div>
+    <table>
+        <tr>
+            <th>Source</th>
+            <td>{{ source }}</td>
+        </tr>
+
+        <tr>
+            <th>Text</th>
+            <td>{{ text }}</td>
+        </tr>
+
+        <tr>
+            <th>Options</th>
+            <td>{{ options }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
