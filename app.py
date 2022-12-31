@@ -1,6 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, send_file, session
-from web_server.appfuncs import *
-from web_server.PushBulletFileServer import *
+from frontend.appfuncs import *
+from frontend.PushBulletFileServer import *
 import mimetypes
 import os
 import io
