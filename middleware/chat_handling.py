@@ -1,21 +1,23 @@
 import os
 import sys
 import xml.etree.ElementTree as ET
-
+from xml.dom import minidom
+import re
 
 def parse_chatlog_xml(xml_str:str):
     xmlroot = ET.fromstring(xml_str)
 
     # parse the conversation parties from the config
-    config_root = xmlroot.findall('config')
-    
-    if len(config_root) < 1:
+    config_root = xmlroot.find('config')
+    if config_root is None:
         raise Exception('No chatlog config found!')
 
-    config_root = config_root[0]
+    parties_root = config_root.find('parties')
+    if parties_root is None:
+        raise Exception('No chat parties found!')
 
     parties = {}
-    for party in config_root.findall('party'):
+    for party in parties_root.findall('party'):
         party_id = party.attrib.get('id')
         if party_id is None:
             raise Exception('No party id included!')
@@ -24,9 +26,8 @@ def parse_chatlog_xml(xml_str:str):
         parties[party_id] = party.text
     
     # print the messages
-    msgs_root = xmlroot.findall('messages')
-    if len(msgs_root) < 1: raise Exception('No messages found!')
-    msgs_root = msgs_root[0]
+    msgs_root = xmlroot.find('messages')
+    if msgs_root is None: raise Exception('No messages found!')
 
     for message in msgs_root.findall('message'):
         pid = message.attrib['pid']
@@ -36,26 +37,68 @@ def parse_chatlog_xml(xml_str:str):
 def create_chatlog_xml(raw_chatstr:str):
     # creates the chatlog xml
     root = ET.Element("chatlog")
+    config_root = ET.SubElement(root, "config")
+    msgs_root = ET.SubElement(root, "messages")
+
+    lines = raw_chatstr.split('\n')
+
+    parties = []
+    current_party_id = None
+    message_id = 0
+    for line in lines:
+        # is a party indicator line
+        if re.match('^[a-zA-z][a-zA-z]*:', line):
+            # get the party
+            party = line.replace(':', '')
+            if party not in parties:
+                parties.append(party)
+                current_party_id = len(parties)-1
+            else:
+                current_party_id = parties.index(party)
+            continue
+
+        # is a regular line, so add to the messages
+        msg = ET.SubElement(msgs_root, "message")
+        msg.set('pid', str(current_party_id))
+        msg.set('id', str(message_id))
+        msg.text = line.strip()
+        
+        message_id += 1
+
+    # handle the parties in the config section
+    parties_tag = ET.SubElement(config_root, "parties")
+    for i,p in enumerate(parties):
+        ptag = ET.SubElement(parties_tag, "party")
+        ptag.set('id', str(i))
+        ptag.text = p
+
+    print(prettify(root))
+
+def prettify(elem):
+    """Return a pretty-printed XML string for the Element.
+    """
+    rough_string = ET.tostring(elem, 'utf-8')
+    reparsed = minidom.parseString(rough_string)
+    return reparsed.toprettyxml(indent="\t")
+
 
 def main():
-    sample_chat = os.path.join( os.path.split(__name__)[0], 'sample_chatlog.xml' )
-    
-    # with open(sample_chat, 'r') as file:
-    #     content = file.read()
-    
-    
-    # parse_chatlog_xml(content)
+    sample_xml_chat = os.path.join( os.path.split(__name__)[0], 'sample_chatlog.xml' )
+    sample_raw_chat = os.path.join( os.path.split(__name__)[0], 'sample_raw_chat.txt' )
 
-    raw_str = '''Jane:
-Apples are my favourite fruit, what are yours?
-John:
-I like oranges better, apples be gross sometimes
-Jane:
-Oh really, I think apples are superior
-John:
-Interesting'''
+    opt = 1
 
-    print(raw_str)
+    if opt == 0:
+        with open(sample_xml_chat, 'r') as file:
+            content = file.read()
+        parse_chatlog_xml(content)
+
+    else:
+        with open(sample_raw_chat, 'r') as f: content = f.read()
+
+        create_chatlog_xml(content)
+
+    
 
     return 0
 

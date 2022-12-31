@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chatlog>
     <config>
-        <party id="1">Jane</party>
-        <party id="2">John</party>
+        <parties>
+            <party id="1">Jane</party>
+            <party id="2">John</party>
+        </parties>
     </config>
     <messages>
         <!-- id is the id of the message tag, pid is the id of the party that sent the message -->
