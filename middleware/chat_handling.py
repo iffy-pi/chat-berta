@@ -57,6 +57,9 @@ def create_chatlog_xml(raw_chatstr:str):
                 current_party_id = parties.index(party)
             continue
 
+        if current_party_id is None:
+            raise Exception('No chat party found!')
+
         # is a regular line, so add to the messages
         msg = ET.SubElement(msgs_root, "message")
         msg.set('pid', str(current_party_id))
@@ -72,9 +75,9 @@ def create_chatlog_xml(raw_chatstr:str):
         ptag.set('id', str(i))
         ptag.text = p
 
-    print(prettify(root))
+    return prettify_xml(root)
 
-def prettify(elem):
+def prettify_xml(elem):
     """Return a pretty-printed XML string for the Element.
     """
     rough_string = ET.tostring(elem, 'utf-8')

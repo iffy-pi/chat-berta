@@ -1,6 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, send_file, session
 from frontend.appfuncs import *
 from frontend.PushBulletFileServer import *
+from middleware.chat_handling import create_chatlog_xml
 import mimetypes
 import os
 import io
@@ -107,7 +108,7 @@ def route_download_file(filepath):
 @app.route('/summarize/<source>/<tag>/<options>')
 def route_summarize(source, tag, options):
     # get the text
-    text = get_source_text(pbfs, source, tag)
+    text = get_chatlog_xml(pbfs, tag)
     
     if text is None:
         return render_template('console.html', content='No valid source found!, {}'.format(pbfs.get_file_index()))
@@ -130,27 +131,43 @@ def route_chat_submitted():
 
         source = None
         tag = None
+        chatlog_xml = None
         # check for the transcript file
         transcript_text = request.form.get('transcript_text')
         if transcript_text:
             # handle the transcript text
             # save the file
             source = 'text'
-            res, tag = save_transcript_text(pbfs, transcript_text)
-
-            if res != 0:
-                return render_template('console.html', content='Error saving transcript!')
+            try:
+                chatlog_xml = create_chatlog_xml(transcript_text)
+            
+            except Exception as e:
+                return render_template('console.html', content="Transcript Parsing Error: {}".format(e))
 
         # check for the file in the request
         elif 'chatfile' in request.files:
             # save the chat file
             source = 'file'
-            res, tag = save_uploaded_chat_file(pbfs, request.files['chatfile'])
-            if res != 0:
-                return render_template('console.html', content='Something went wrong saving the file! {}')
+            chatfile = request.files['chatfile']
 
-        
+            # check the chatfile
+            if not safe_request_file(chatfile):
+                return render_template('console.html', content='Invalid chatfile')
+
+            # get the content
+            chatfile_str = chatfile.read().decode('utf-8')
+
+            try:
+                chatlog_xml = create_chatlog_xml(chatfile_str)
+            except Exception as e:
+                return render_template('console.html', content="Parsing Error: {}".format(e))
+
         if source is not None:
+            # save the xml file in the right location
+            res, tag = save_chatlog_xml(pbfs, chatlog_xml)
+            if res != 0:
+                 return render_template('console.html', content='Something went wrong saving the file!')
+
             # we found something saved, so redirect to the summarizer page
             return redirect( url_for('route_summarize', source=source, tag=tag, options=make_summarizer_opt_str(summarizer_options)))
 
