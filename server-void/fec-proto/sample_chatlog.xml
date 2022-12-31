@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parsedchat>
+    <config>
+        <party id="1">Jane</party>
+        <party id="2">John</party>
+    </config>
+    <messages>
+        <!-- id is the id of the message tag, pid is the id of the party that sent the message -->
+        <message id="1" pid="1">Apples are my favourite fruit, what are yours?</message>
+        <message id="2" pid="2">I like oranges better, apples be gross sometimes</message>
+        <message id="3" pid="1">Oh really, I think apples are superior</message>
+        <message id="4" pid="2">Interesting</message>
+    </messages>
+</parsedchat>
