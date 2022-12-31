@@ -33,14 +33,29 @@ def parse_chatlog_xml(xml_str:str):
         print('{}:'.format(parties[pid]))
         print(message.text)
 
+def create_chatlog_xml(raw_chatstr:str):
+    # creates the chatlog xml
+    root = ET.Element("chatlog")
+
 def main():
-    sample_chat = os.path.join( os.path.split(__name__)[0], '..', 'server-void', 'fec-proto', 'sample_chatlog.xml' )
+    sample_chat = os.path.join( os.path.split(__name__)[0], 'sample_chatlog.xml' )
     
-    with open(sample_chat, 'r') as file:
-        content = file.read()
+    # with open(sample_chat, 'r') as file:
+    #     content = file.read()
     
     
-    parse_chatlog_xml(content)
+    # parse_chatlog_xml(content)
+
+    raw_str = '''Jane:
+Apples are my favourite fruit, what are yours?
+John:
+I like oranges better, apples be gross sometimes
+Jane:
+Oh really, I think apples are superior
+John:
+Interesting'''
+
+    print(raw_str)
 
     return 0
 

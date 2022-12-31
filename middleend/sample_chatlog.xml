@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<parsedchat>
+<chatlog>
     <config>
         <party id="1">Jane</party>
         <party id="2">John</party>
@@ -11,4 +11,4 @@
         <message id="3" pid="1">Oh really, I think apples are superior</message>
         <message id="4" pid="2">Interesting</message>
     </messages>
-</parsedchat>
+</chatlog>
