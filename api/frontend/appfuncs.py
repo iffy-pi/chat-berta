@@ -1,10 +1,12 @@
 # python file to contain function definitions in order to not clutter app.py
-from werkzeug.utils import secure_filename
-from api.config import ALLOWED_EXTENSIONS
-from frontend.PushBulletFileServer import *
-import time
-import os
 import hashlib
+import os
+import time
+
+from config import ALLOWED_EXTENSIONS
+from frontend.PushBulletFileServer import *
+from werkzeug.utils import secure_filename
+
 
 class TestClass:
     def __init__(self, a, b):

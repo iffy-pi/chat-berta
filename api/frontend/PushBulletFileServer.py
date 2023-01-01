@@ -1,12 +1,14 @@
-import sys
-import requests
-import os
-import mimetypes
 import json
-from datetime import datetime, date
-import pytz
-from tzlocal import get_localzone
+import mimetypes
+import os
+import sys
 import time
+from datetime import date, datetime
+
+import pytz
+import requests
+from tzlocal import get_localzone
+
 
 def prettify(d: dict) -> str:
     return json.dumps(d, indent=4)
