@@ -4,9 +4,9 @@ import os
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for)
-#from frontend.appfuncs import *
+from utils.frontend.appfuncs import *
 from utils.frontend.PushBulletFileServer import *
-#from middleware.chat_handling import create_chatlog_xml
+from utils.middleware.chat_handling import create_chatlog_xml
 
 # initialize app flask object
 # intializing to the name of the file
@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
-app.config.from_object('config')
+app.config.from_pyfile('config.py')
 
 # App routing information
     # now we use app routing to map a function to a given page of our website

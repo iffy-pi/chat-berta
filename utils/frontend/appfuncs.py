@@ -3,7 +3,7 @@ import hashlib
 import os
 import time
 
-from config import ALLOWED_EXTENSIONS
+from api.config import ALLOWED_EXTENSIONS
 from frontend.PushBulletFileServer import *
 from werkzeug.utils import secure_filename
 
