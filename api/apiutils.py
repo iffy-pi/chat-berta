@@ -8,15 +8,6 @@ from utils.PushBulletFileServer import *
 from werkzeug.utils import secure_filename
 from utils.configs.serverstorage import *
 
-
-class TestClass:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
-
-    def string(self):
-        return '(a = {}, b={})'.format( self.a, self.b)
-
 def make_summarizer_opt_str(opt:list) -> str:
     if len(opt) < 1: return 'NoOpts'
     optstr = opt.pop(0)
