@@ -1,27 +1,12 @@
 # python file to contain function definitions in order to not clutter app.py
-from werkzeug.utils import secure_filename
-from config import ALLOWED_EXTENSIONS
-from frontend.PushBulletFileServer import *
-import time
-import os
 import hashlib
+import os
+import time
 
-class TestClass:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
-
-    def string(self):
-        return '(a = {}, b={})'.format( self.a, self.b)
-
-SUMMARIZER_OPTIONS = [
-    ('UseStrict', 'Strict summary'),
-    ('TreatAsMonologue', 'Treat transcript as monologue')
-]
-
-UPLOADED_CHATS_DIR = '/submitted_chats'
-UPLOADED_TRANSCRIPTS_DIR = '/transcripts'
-XML_CHATLOGS_DIR = '/xmlchatlogs'
+from api.config import ALLOWED_EXTENSIONS
+from utils.PushBulletFileServer import *
+from werkzeug.utils import secure_filename
+from utils.configs.serverstorage import *
 
 def make_summarizer_opt_str(opt:list) -> str:
     if len(opt) < 1: return 'NoOpts'
