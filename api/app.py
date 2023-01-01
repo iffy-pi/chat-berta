@@ -4,9 +4,9 @@ import os
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for)
-from frontend.appfuncs import *
-from frontend.PushBulletFileServer import *
-from middleware.chat_handling import create_chatlog_xml
+from api.frontend.appfuncs import *
+#from api.frontend.PushBulletFileServer import *
+#from middleware.chat_handling import create_chatlog_xml
 
 # initialize app flask object
 # intializing to the name of the file
