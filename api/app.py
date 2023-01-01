@@ -5,7 +5,7 @@ import os
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for)
 from utils.frontend.appfuncs import *
-from utils.frontend.PushBulletFileServer import *
+from utils.middleware.PushBulletFileServer import *
 from utils.middleware.chat_handling import create_chatlog_xml
 
 # initialize app flask object

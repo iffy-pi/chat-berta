@@ -4,7 +4,7 @@ import os
 import time
 
 from api.config import ALLOWED_EXTENSIONS
-from utils.frontend.PushBulletFileServer import *
+from utils.middleware.PushBulletFileServer import *
 from werkzeug.utils import secure_filename
 
 

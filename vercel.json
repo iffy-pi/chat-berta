@@ -3,7 +3,6 @@
 
   "functions": {
     "api/app.py": {
-      "includeFiles": "utils/**/*"
     }
     },
 
