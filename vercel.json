@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "flaskserver/app.py",
+      "src": "flask-api/app.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "flaskserver/app.py"
+      "dest": "flask-api/app.py"
     }
   ]
 }
