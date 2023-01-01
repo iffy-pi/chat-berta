@@ -2,8 +2,8 @@
  
 
   "functions": {
-    "api/*.py": {
-      "includeFiles": "/utils/**"
+    "api/app.py": {
+      "includeFiles": "/utils/frontend/**"
     }
     },
 
