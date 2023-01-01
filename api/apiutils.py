@@ -1,26 +1,12 @@
 # python file to contain function definitions in order to not clutter app.py
-from werkzeug.utils import secure_filename
-from config import ALLOWED_EXTENSIONS
-from PushBulletFileServer import *
-import time
-import os
 import hashlib
+import os
+import time
 
-class TestClass:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
-
-    def string(self):
-        return '(a = {}, b={})'.format( self.a, self.b)
-
-SUMMARIZER_OPTIONS = [
-    ('UseStrict', 'Strict summary'),
-    ('TreatAsMonologue', 'Treat transcript as monologue')
-]
-
-UPLOADED_CHATS_DIR = '/submitted_chats'
-UPLOADED_TRANSCRIPTS_DIR = '/transcripts'
+from api.config import ALLOWED_EXTENSIONS
+from utils.PushBulletFileServer import *
+from werkzeug.utils import secure_filename
+from utils.configs.serverstorage import *
 
 def make_summarizer_opt_str(opt:list) -> str:
     if len(opt) < 1: return 'NoOpts'
@@ -46,19 +32,23 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def safe_request_file(request_file):
+    # checks a request file, returns 0 if it is safe
+    if request_file.filename == '':
+        return False
+
+    if not request_file or not allowed_file(request_file.filename):
+        return False
+        
+    return True
+
 def save_file_from_request(pbfs:PushBulletFileServer, request_file, pbfs_file_path: str =None):
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     file = request_file
     
-    filename = file.filename
-
-    if filename == '':
-        return ( -1, None )
-
-    if not file or not allowed_file(filename):
-        # file is not present or file is not allowed
-        return (-2, None)
+    if not safe_request_file(file):
+        return ( -1, None)
 
     # save the file into the pushbullet file server
     pbfs_file_path  = pbfs.upload_binary_to_path(pbfs_file_path, file.read())
@@ -106,3 +96,16 @@ def get_source_text(pbfs:PushBulletFileServer, source:str, tag:str) -> str:
         raise Exception('Unknown source: {}'.format(source))
 
     return get_text_for_file(pbfs, '{}/{}.txt'.format(possible_source_dirs[source], tag))
+
+def save_chatlog_xml(pbfs:PushBulletFileServer, chatlog_xml:str ):
+    file_tag = gen_unique_tag()
+    pbfs_file_path = '{}/{}.xml'.format(XML_CHATLOGS_DIR ,file_tag)
+
+    # save the text to file
+    fpath = pbfs.upload_binary_to_path(pbfs_file_path, chatlog_xml.encode())
+    res = 1 if fpath is None else 0
+
+    return ( res, file_tag )
+
+def get_chatlog_xml(pbfs:PushBulletFileServer, tag:str) -> str:
+    return get_text_for_file(pbfs, '{}/{}.xml'.format(XML_CHATLOGS_DIR, tag))

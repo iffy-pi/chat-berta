@@ -10,18 +10,27 @@
     <form action="/chatSubmitted" method="POST" id="chat_source_form" enctype=multipart/form-data>
         <!-- Text box information -->
         <div>
-            <!-- Submit transcript in text box -->
-            <h2>Chat Transcript</h2>
-            <p><label for="transcript_text_box">Paste Dialog Transcript Below</label></p>
-            <textarea id="transcript_text_box" name="transcript_text" rows="10" cols="75"></textarea>
-            <!-- Page break to put submit form on new line -->
-            <br>
+            <h2>Expected Chat Format</h2>
+            <p>Chats include the party names indicated with a colon, and the messages sent by each party. Party messages are indented (either by spaces or tabs) from the beginning of the line to differentiate them from the party sender lines. An example is included below:</p>
+            <pre><code>John:
+    I like apples
+    What is your favourite fruit?
+Jane:
+    I like oranges better, apples be gross sometimes
+John:
+    Oh really, I think apples are superior
+Janet:
+    Interesting</code></pre>
         </div>
         <div>
-            <!-- Upload file to chat -->
-            <h2>Upload Chat File</h2>
-            <label for="chatfile">Select transcript text file:</label>
+            <!-- Submit transcript in text box -->
+            <h2>Upload Chat Log</h2>
+            <label for="chatfile">Upload chat log file:</label>
             <input type="file" id="chatfile" name="chatfile">
+            <!-- Page break to put submit form on new line -->
+            <br>
+            <p><label for="transcript_text_box">Or paste Dialog Transcript below:</label></p>
+            <textarea id="transcript_text_box" name="transcript_text" rows="10" cols="75"></textarea>
             <!-- Page break to put submit form on new line -->
             <br>
         </div>

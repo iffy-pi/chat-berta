@@ -20,15 +20,29 @@ You will need the following to work on the repository and use the development se
 2. The environment variable `CHATBERTA_SECRET_KEY`, used for setting the server session key, (contact Iffy for environment variable value)
 3. The environment variable set `CHATBERTA_PBFS_DEV_SVR` to `ChatBerta-PBFS-Dev-Server`
 
+# Running The Web Serevr
+To run the developmental web server, first you must start up your virtual environment:
+```
+venv\Scripts\activate
+```
+Note: You should always be working in the virtual environment for the most part.
+
+Next, run the command `flask run` in the api/ directory:
+```
+cd api
+flask run
+```
+
+Note: You can set the environment variable `FLASK_DEBUG=1` to have the web server automatically reload when changes are made to the file:
+```
+set FLASK_DEBUG=1
+```
+
 # Standard Commits (No Web App Deployments)
 **Make sure you have fulfilled all the requirements for a development workbench**
 
 This is the case where there are no deployments to the Vercel web app, i.e. standard changes to the repository. This can be handled by making pushes to the main branch of the repo (i.e. `main`), however as there are multiple people working on things, extensive changes should be handled in separate branches and then merged with the main branch.
 
-Remember to work in the virtual environment using:
-```
-venv\Scripts\activate.bat
-```
 
 ## Pull Latest Changes from mainline
 Switch to mainline branch if you are not on there already:
