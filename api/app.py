@@ -1,7 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, send_file, session
-from frontend.appfuncs import *
-from frontend.PushBulletFileServer import *
-from middleware.chat_handling import create_chatlog_xml
+from api.frontend.appfuncs import *
+from api.frontend.PushBulletFileServer import *
+from api.middleware.chat_handling import create_chatlog_xml
 import mimetypes
 import os
 import io
