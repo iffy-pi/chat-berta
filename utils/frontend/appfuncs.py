@@ -1,6 +1,6 @@
 # python file to contain function definitions in order to not clutter app.py
 from werkzeug.utils import secure_filename
-from config import ALLOWED_EXTENSIONS
+from api.config import ALLOWED_EXTENSIONS
 from frontend.PushBulletFileServer import *
 import time
 import os
