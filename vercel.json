@@ -3,7 +3,7 @@
 
   "functions": {
     "api/app.py": {
-      "includeFiles": "api/**/*"
+      "includeFiles": "api/frontend/appfuncs.py"
     }
     },
 
