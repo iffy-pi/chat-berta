@@ -60,6 +60,9 @@ def create_chatlog_xml(raw_chatstr:str):
         if current_party_id is None:
             raise Exception('No chat party found!')
 
+        if line.strip() == '':
+            continue
+
         # is a regular line, so add to the messages
         msg = ET.SubElement(msgs_root, "message")
         msg.set('pid', str(current_party_id))
