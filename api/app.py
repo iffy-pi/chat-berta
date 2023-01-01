@@ -10,7 +10,7 @@ from utils.frontend.PushBulletFileServer import *
 
 # initialize app flask object
 # intializing to the name of the file
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
