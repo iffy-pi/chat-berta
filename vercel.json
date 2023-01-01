@@ -1,11 +1,4 @@
 {
- 
-
-  "functions": {
-    "api/app.py": {
-    }
-    },
-
   "routes": [
     {
       "src": "/(.*)",
