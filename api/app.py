@@ -5,9 +5,10 @@ import os
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for)
 from api.apiutils import *
-from utils.PushBulletFileServer import *
+from utils.PushBulletFileServer import PushBulletFileServer
 from utils.ChatlogXML import create_chatlog_xml
 from utils.configs.summarizer import SUMMARIZER_OPTIONS
+from utils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 
 # initialize app flask object
 # intializing to the name of the file
@@ -30,10 +31,10 @@ app.config.from_pyfile('config.py')
     # we can have several routes for the different pages on our website
     # just by adding more app routes and the subsequent functions that handle them
 
-acc_token = os.environ.get('CHATBERTA_PBFS_ACCESS_TOKEN')
-dev_svr = os.environ.get('CHATBERTA_PBFS_DEV_SVR')
+if PBFS_ACCESS_TOKEN is None:
+    raise Exception('PushBullet File Server Access Token')
 
-pbfs = PushBulletFileServer(acc_token, server_name=(dev_svr if dev_svr is not None else 'CHATBERTA_PUSHBULLET_FILE_SERVER'), create_server=True)
+pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, create_server=True)
 
 
 @app.route('/myConsole', methods=['GET', 'POST'])
