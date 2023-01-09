@@ -1,0 +1,13 @@
+// this will be the package sent to the network component
+{
+    "chatlog": "<string of XML chatlog, see sample_input_chatlog.xml>",
+    "options": {
+        // Options for the system if there are any
+    }
+}
+
+// The json package returned
+{
+    "summary": "<string of summary XML, see sample_generated_summary.xml>"
+    // Could also have other items
+}
