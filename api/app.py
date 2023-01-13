@@ -1,9 +1,11 @@
 import io
 import mimetypes
 import os
+import json
+
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
-                   session, url_for)
+                   session, url_for, Response)
 from api.apiutils import *
 from utils.PushBulletFileServer import PushBulletFileServer
 from utils.ChatlogXML import create_chatlog_xml
@@ -192,6 +194,19 @@ def index():
     # render index html which contains the form
     # form submission will route to /submitForm
     return render_template('index.html')
+
+@app.route('/api/react-testing')
+def route_react_testing():
+    sample = {
+        'message': 'Hello From Flask Back End!!'
+    }
+
+    resp = Response(
+        response=json.dumps(sample), status=200, mimetype="text/plain"
+    )
+    resp.headers['Content-type'] = 'application/json'
+    # return resp
+    return resp
 
 # running the code
 if __name__ == '__main__':
