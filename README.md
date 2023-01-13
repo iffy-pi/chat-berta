@@ -12,6 +12,47 @@ git-pr.bat is a simple batch script that streamlinees the opening of pull reques
 
 server-void/ contains files and folders that are not relevant to the web server. That is the web server can be deployed without the files in this folder. **All files required by the server can NEVER be put in server-void/**
 
+# The Deployment Configuration
+The entire web server is split into the React FrontEnd and the Flask Backend. These are deployed **separately** into different vercel productions.
+
+http://chat-berta.vercel.app/ is the deployment for the APP (React Frontend)
+http://chat-berta-api.vercel.app/ is the deployment for API (Flask backend)
+
+Following this, each deployment has their own assigned branch in the repository:
+- `app-vercel-production` is the production branch for the APP deployment
+- `api-vercel-production` is the production branch for the API deployment
+
+The development workflow is to merge commits into `main` and then merge from `main` to any of the production branches.
+
+**NEVER MERGE THE PRODUCTION BRANCHES INTO MAIN, THEY HAVE COMMITS SPECIFICALLY CONFIGURED FOR PRODUCTION AND SHOULD ONLY BE MERGED INTO**
+
+**NEVER MERGE DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES**
+
+**NEVER COMMIT DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES**
+
+## Vercel Project Management
+The vercel projects are under Iffy's Vercel account:
+- https://vercel.com/iffy-pi/chat-berta-api
+- https://vercel.com/iffy-pi/chat-berta
+
+Sign in is with Git.
+
+## Deployment To Production
+As said before, we only deploy from `main`. We do deployments by merging main to `app-vercel-production` and `api-vercel-production`. This will mean 2 pull requests: one for the app, and one for the api.
+
+You can use the below links to quickly initiate a pull request:
+| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/app-vercel-production...main |
+|------------------------|------------------------------------------------------------------------|
+| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/api-vercel-production...main |
+
+
+## About vercel.json
+vercel.json is used in the API deployment to override the default React build process vercel uses and instead build the Flask backend.
+
+This file is not present on the app-vercel-production branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [afa86ea21db05f4f819323b642f6dfc0ea3a5c56](https://github.com/iffy-pi/chat-berta/commit/afa86ea21db05f4f819323b642f6dfc0ea3a5c56).
+
+**Note that commit afa86ea21db05f4f819323b642f6dfc0ea3a5c56 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+
 # Development Workbench Requirements
 You will need the following to work on the repository and use the development server.
 
@@ -90,9 +131,3 @@ git-pr.bat
 Enter `Y` to open a pull request and make sure to select `main` as the branch to merge with.
 Ideally, we should review merges to the mainline, but this may not be guaranteed.
 
-## Web App Deployments
-In this case, we deploy contents from the `main` branch to the Vercel app, this can be done by merging the contents of the `main` branch, to `vercel-production`.
-
-1. Go to https://github.com/iffy-pi/Chat-Berta/compare/vercel-production...main to initiate a pull request that merges `main` commits into `vercel-production`
-2. Give PR a useful title
-3. Merge the pull request
