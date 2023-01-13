@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chatlog>
     <config>
+        <!-- Contains information about the messages including the message parties etc -->
         <parties>
             <party id="1">Jane</party>
             <party id="2">John</party>
         </parties>
     </config>
+
+    <!-- The actual messages -->
     <messages>
         <!-- id is the id of the message tag, pid is the id of the party that sent the message -->
         <message id="1" pid="1">Apples are my favourite fruit, what are yours?</message>

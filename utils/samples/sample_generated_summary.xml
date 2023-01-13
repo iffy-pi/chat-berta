@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<summary>
+    <!-- Contains the original source chatlog xml, may not be relevant for the final version -->
+    <chatlog>
+        <config>
+            <!-- Contains information about the messages including the message parties etc -->
+            <parties>
+                <party id="1">Jane</party>
+                <party id="2">John</party>
+            </parties>
+        </config>
+
+        <!-- The actual messages -->
+        <messages>
+            <!-- id is the id of the message tag, pid is the id of the party that sent the message -->
+            <message id="1" pid="1">Apples are my favourite fruit, what are yours?</message>
+            <message id="2" pid="2">I like oranges better, apples be gross sometimes</message>
+            <message id="3" pid="1">Oh really, I think apples are superior</message>
+            <message id="4" pid="2">Interesting</message>
+        </messages>
+    </chatlog>
+
+    <!-- The raw summary is the entir summary paragraph, this may not be necessary in later iterations -->
+    <rawsummary>Apples are my favourite fruit. I like oranges better</rawsummary>
+
+    <!-- Have messages specifically included in the summary -->
+    <summarymessages>
+        <!-- Messages (or parts of messages) contained in the summary, tagged with the same id and pid as their source message from the messages xml section -->
+        <message id="1" pid="1">Apples are my favourite fruit</message>
+        <message id="2" pid="2">I like oranges better</message>
+    </summarymessages>
+</summary>
