@@ -202,7 +202,7 @@ def route_react_testing():
     }
 
     resp = Response(
-        response=json.dumps(sample), status=200, mimetype="text/plain"
+        response=json.dumps(sample), status=201, mimetype="text/plain"
     )
     resp.headers['Content-type'] = 'application/json'
     # return resp
