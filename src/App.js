@@ -1,11 +1,7 @@
 import Header from './components/Header'
 import { useState, useEffect } from 'react'
 import Button from './components/Button';
-import { SERVER_BACKEND } from './configs/apiconfig'
-
-// Note that server back end uses the root directory just like flask
-// So now we handle api requests by adding the api route
-// const SERVER_BACKEND = 'http://127.0.0.1:5000/api'
+import { CHAT_BERTA_API } from './configs/apiconfig'
 
 function App() {
 
@@ -20,7 +16,7 @@ function App() {
   const getBEMsg = async () => {
     setHeaderMsg('Querying...')
     const res = await fetch (
-      `${SERVER_BACKEND}/react-testing`,
+      `${CHAT_BERTA_API}/react-testing`,
     )
     
     console.log('Response:===>')
