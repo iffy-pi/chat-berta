@@ -202,11 +202,15 @@ def route_react_testing():
     }
 
     resp = Response(
-        response=json.dumps(sample), status=200, mimetype="text/plain"
+        response=json.dumps(sample), status=201, mimetype="text/plain"
     )
+
+    # stupid change to deploy
+    resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Content-type'] = 'application/json'
-    # return resp
     return resp
+    
+    #return render_template('console.html', content='Serving')
 
 # running the code
 if __name__ == '__main__':
