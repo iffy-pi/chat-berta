@@ -27,3 +27,4 @@ venv
 __pycache__
 instance/
 test.py
+test.js
