@@ -62,6 +62,35 @@ You will need the following to work on the repository and use the development se
 3. The environment variable set `CHATBERTA_PBFS_DEV_SVR` to `ChatBerta-PBFS-Dev-Server`
 
 # Running The Web Serevr
+## Starting up the developmental backend
+1. Start your virtual environment
+```
+venv\Scripts\activate
+```
+
+2. Set the development state to debug by setting the `FLASK_DEBUG` environment variable. This will allow flask to automatically reload when changes are made to the source code.
+```
+set FLASK_DEBUG=1
+```
+
+2. Go into the api/ directory and run `flask run`
+```
+cd api
+flask run
+```
+Note: You may need to install python packages required before you can run flask, if you get a missing package error run the following command:
+```
+pip install -r requirements.txt
+```
+
+Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
+
+## Starting up the developmental frontend
+1. Open the root directory of the repo and run `npm start`:
+```
+npm start
+```
+
 To run the developmental web server, first you must start up your virtual environment:
 ```
 venv\Scripts\activate
@@ -74,10 +103,6 @@ cd api
 flask run
 ```
 
-Note: You can set the environment variable `FLASK_DEBUG=1` to have the web server automatically reload when changes are made to the file:
-```
-set FLASK_DEBUG=1
-```
 
 # Standard Commits (No Web App Deployments)
 **Make sure you have fulfilled all the requirements for a development workbench**
