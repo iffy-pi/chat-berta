@@ -3,8 +3,8 @@ import hashlib
 import os
 import time
 
-from api.config import ALLOWED_EXTENSIONS
-from utils.PushBulletFileServer import PushBulletFileServer
+from utils.configs.apiconfig import ALLOWED_EXTENSIONS
+from utils.functions.PushBulletFileServer import PushBulletFileServer
 from werkzeug.utils import secure_filename
 from utils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR
 

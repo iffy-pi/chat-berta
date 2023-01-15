@@ -6,9 +6,9 @@ import json
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for, Response)
-from api.apiutils import *
-from utils.PushBulletFileServer import PushBulletFileServer
-from utils.ChatlogXML import create_chatlog_xml
+from utils.functions.apifuncs import *
+from utils.functions.PushBulletFileServer import PushBulletFileServer
+from utils.functions.ChatlogXML import create_chatlog_xml
 from utils.configs.summarizer import SUMMARIZER_OPTIONS
 from utils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 
