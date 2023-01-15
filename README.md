@@ -93,6 +93,10 @@ This file is not present on the app-vercel-production branch since we want Verce
 # Development Workbench Requirements
 You will need the following to work on the repository and use the development server.
 
+## Programs and Applications
+1. Python (https://www.python.org/downloads/)
+2. Node.js (https://nodejs.org/en/download/)
+
 ## Environment Variables
 1. The environment variable `CHATBERTA_PBFS_ACCESS_TOKEN`, used for accessing the pushbullet file server (contact Iffy for environment variable value)
 2. The environment variable `CHATBERTA_SECRET_KEY`, used for setting the server session key, (contact Iffy for environment variable value)
@@ -123,7 +127,7 @@ pip install -r requirements.txt
 Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
 
 ## Running the frontend (React)
-1. Open the root directory of the repo and run `npm start`:
+1. Open the root directory of the repo and run `npm start`. (`npm` is from Node.js)
 ```
 npm start
 ```
