@@ -49,11 +49,11 @@ Following this, each deployment has their own assigned branch in the repository:
 
 The development workflow is to merge commits into `main` and then merge from `main` to any of the production branches.
 
-**NEVER MERGE THE PRODUCTION BRANCHES INTO MAIN, THEY HAVE COMMITS SPECIFICALLY CONFIGURED FOR PRODUCTION**
+**⚠️NEVER MERGE THE PRODUCTION BRANCHES INTO MAIN, THEY HAVE COMMITS SPECIFICALLY CONFIGURED FOR PRODUCTION⚠️**
 
-**NEVER MERGE DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES**
+**⚠️NEVER MERGE DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES⚠️**
 
-**NEVER COMMIT DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES**
+**⚠️NEVER COMMIT DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES⚠️**
 
 ## Vercel Project Management
 The vercel projects are under Iffy's Vercel account:
@@ -178,4 +178,3 @@ git-pr.bat
 ```
 Enter `Y` to open a pull request and make sure to select `main` as the branch to merge with.
 Ideally, we should review merges to the mainline, but this may not be guaranteed.
-
