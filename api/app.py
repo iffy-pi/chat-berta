@@ -7,10 +7,10 @@ import json
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for, Response)
 from api.apiutils import *
-from utils.PushBulletFileServer import PushBulletFileServer
-from utils.ChatlogXML import create_chatlog_xml
-from utils.configs.summarizer import SUMMARIZER_OPTIONS
-from utils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
+from api.utils.PushBulletFileServer import PushBulletFileServer
+from api.utils.ChatlogXML import create_chatlog_xml
+from api.utils.configs.summarizer import SUMMARIZER_OPTIONS
+from api.utils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 
 # initialize app flask object
 # intializing to the name of the file
@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
-app.config.from_pyfile('config.py')
+app.config.from_pyfile(os.path.join('utils', 'configs', 'appconfig.py'))
 
 # App routing information
     # now we use app routing to map a function to a given page of our website
