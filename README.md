@@ -22,6 +22,7 @@ The files and directories used for the Flask backend are:
 ```
 root
 |  api/
+|  utils/
 |  requirements.txt
 |  vercel.json
 ```
