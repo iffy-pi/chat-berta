@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
-app.config.from_pyfile('config.py')
+app.config.from_pyfile(os.path.join('utils', 'configs', 'appconfig.py'))
 
 # App routing information
     # now we use app routing to map a function to a given page of our website

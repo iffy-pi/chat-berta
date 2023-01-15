@@ -3,7 +3,7 @@ import hashlib
 import os
 import time
 
-from api.config import ALLOWED_EXTENSIONS
+from api.utils.configs.appconfig import ALLOWED_EXTENSIONS
 from api.utils.PushBulletFileServer import PushBulletFileServer
 from werkzeug.utils import secure_filename
 from api.utils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR
