@@ -68,9 +68,9 @@ As said before, we only deploy from `main`. We do deployments by merging main to
 You can use the below links to quickly initiate a pull request:
 
 | Deployment Type |Pull Request URL |
-|------------------------|------------------------------------------------------------------------|
-| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/vercel-production...main |
-| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/vercel-production...main |
+|------------------------|----------------------------------------------------------------------------|
+| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/app-vercel-production...main |
+| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/api-vercel-production...main |
 
 Alternatively, you can also use promote.bat to quickly launch either of these pages from the command line.
 
