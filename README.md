@@ -22,7 +22,6 @@ The files and directories used for the Flask backend are:
 ```
 root
 |  api/
-|  utils/
 |  requirements.txt
 |  vercel.json
 ```
@@ -127,7 +126,7 @@ pip install -r requirements.txt
 Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
 
 ## Running the frontend (React)
-1. Open the root directory of the repo and run `npm start`. (`npm` is from Node.js)
+1. Open the root directory of the repo and run `npm start`. (`npm` is from Node.js).
 ```
 npm start
 ```

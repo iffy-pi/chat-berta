@@ -4,9 +4,9 @@ import os
 import time
 
 from api.config import ALLOWED_EXTENSIONS
-from utils.PushBulletFileServer import PushBulletFileServer
+from api.utils.PushBulletFileServer import PushBulletFileServer
 from werkzeug.utils import secure_filename
-from utils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR
+from api.utils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR
 
 def make_summarizer_opt_str(opt:list) -> str:
     if len(opt) < 1: return 'NoOpts'
