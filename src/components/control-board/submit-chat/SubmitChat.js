@@ -1,9 +1,9 @@
 import UploadChatFile from "./UploadChatFile";
 import UploadChatText from "./UploadChatText";
 import { useState } from "react"
-import Button from "./Button";
+import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
-import data from "../shared/config.json"
+import data from "../../../shared/config.json"
 
 const inputOptions = {
     def: 0,
