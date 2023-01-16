@@ -2,6 +2,8 @@ import Header from './components/Header'
 import { useState, useEffect } from 'react'
 import Button from './components/Button';
 import { CHAT_BERTA_API } from './configs/apiconfig'
+import ControlBoard from './components/ControlBoard';
+import SummaryView from './components/SummaryView';
 
 function App() {
 
@@ -65,6 +67,8 @@ function App() {
       <Header message={headerMsg}/>
       <Button buttonText="Click?" onClick={toggleButton}/>
       <Button buttonText="Query Backend" onClick={getBEMsg}/>
+      <ControlBoard />
+      <SummaryView />
     </div>
   );
 }
