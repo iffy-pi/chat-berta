@@ -23,12 +23,12 @@ The files and directories used for the Flask backend are:
 root
 |  api/
 |  apiutils/
-|  src/common/
+|  src/shared/
 |  requirements.txt
 |  vercel.json
 ```
 
-Note that src/common/ contains JSON data files that are used by both React and Flask, it is located within src to support React imports!
+Note that src/shared/ contains JSON data files that are used by both React and Flask, it is located within src to support React imports!
 
 The remaining files would be:
 ```

@@ -4,7 +4,7 @@ import os
 def load_options():
     try:
         # read the json file
-        read_options = open(os.path.join('..', 'src', 'common', 'config.json')).read()
+        read_options = open(os.path.join('..', 'src', 'shared', 'config.json')).read()
 
         # convert to actual python dict
         read_options = json.loads(read_options)
