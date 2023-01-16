@@ -3,6 +3,7 @@ import UploadChatText from "./UploadChatText";
 import { useState } from "react"
 import Button from "./Button";
 import SummarizerOptions from "./SummarizerOptions";
+import data from "../common/config.json"
 
 const inputOptions = {
     def: 0,
@@ -38,6 +39,7 @@ const SubmitChat = () => {
 
     return (
         <div className="basic-container">
+            <h1>{data.test}</h1>
             <Button buttonText="Transcript" onClick={() => setSelectedInput(inputOptions.transcript)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(inputOptions.file)}/>
             { (selectedInput === inputOptions.file) && <UploadChatFile />}
