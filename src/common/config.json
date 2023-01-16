@@ -1,0 +1,12 @@
+{
+    "summarizerOptions": [
+        {
+            "tag": "useStrict",
+            "desc": "Strict Sumamrizatiosn"
+        },
+        {
+            "tag": "treatAsMonologue",
+            "desc": "Treat transcript as monologue"
+        }
+    ]
+}
