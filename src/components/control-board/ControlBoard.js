@@ -1,4 +1,4 @@
-import SubmitChat from "./SubmitChat"
+import SubmitChat from "./submit-chat/SubmitChat"
 
 const ControlBoard = () => {
     return (

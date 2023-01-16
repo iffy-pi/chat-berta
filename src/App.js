@@ -1,9 +1,9 @@
-import Header from './components/Header'
+import Header from './components/common/Header'
 import { useState, useEffect } from 'react'
-import Button from './components/Button';
+import Button from './components/common/Button';
 import { CHAT_BERTA_API } from './configs/apiconfig'
-import ControlBoard from './components/ControlBoard';
-import SummaryView from './components/SummaryView';
+import ControlBoard from './components/control-board/ControlBoard';
+import SummaryView from './components/summary-view/SummaryView';
 
 function App() {
 
