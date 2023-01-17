@@ -1,5 +1,6 @@
 import UploadChatFile from "./UploadChatFile";
 import UploadChatText from "./UploadChatText";
+import FileUploader from '../../common/FileUploader'
 import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
@@ -52,6 +53,7 @@ const SubmitChat = () => {
             { (selectedInput === inputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions} toggleOption={toggleOption}/>
             <Button buttonText="Summarize!" onClick={() => alert('Submitted!: '+transcriptText.current)}/>
+            <FileUploader />
 
         </div>
     )

@@ -41,7 +41,7 @@ pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, cre
 
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
-    return render_template('console.html', content=gen_unique_tag())
+    return render_template('console.html', content=app.config['ALLOWED_EXTENSIONS'])
 
 
 @app.route('/testPage', methods=['GET', 'POST'])
