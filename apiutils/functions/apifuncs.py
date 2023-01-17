@@ -16,6 +16,7 @@ def make_summarizer_opt_str(opt:list) -> str:
 
     return optstr
 
+
 def parse_summarizer_opt_str(optstr:str) -> list:
     if optstr == 'NoOpts':
         return []
