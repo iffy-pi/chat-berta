@@ -1,6 +1,6 @@
 import UploadChatFile from "./UploadChatFile";
 import UploadChatText from "./UploadChatText";
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
@@ -27,8 +27,13 @@ const defaultSummarizerOptions = [
 const SubmitChat = () => {
 
     const [ selectedInput, setSelectedInput ] = useState(inputOptions.def)
-    const [ transcriptText, setTranscriptText ] = useState('')
     const [ summaryOptions, setSummaryOptions ] = useState(defaultSummarizerOptions)
+
+    const transcriptText = useRef('')
+
+    const saveTranscriptText = (textboxText) => {
+       transcriptText.current = textboxText 
+    }
 
     const toggleOption = (tag) => {
         // use map to set the selected tag to the opposite of whatever it is currently on change
@@ -43,10 +48,10 @@ const SubmitChat = () => {
             <Button buttonText="Transcript" onClick={() => setSelectedInput(inputOptions.transcript)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(inputOptions.file)}/>
             { (selectedInput === inputOptions.file) && <UploadChatFile />}
-            { (selectedInput === inputOptions.transcript) && <UploadChatText transcriptText={transcriptText} setTranscriptText={setTranscriptText}/>}
+            { (selectedInput === inputOptions.transcript) && <UploadChatText returnText={saveTranscriptText}/>}
             { (selectedInput === inputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions} toggleOption={toggleOption}/>
-            <Button buttonText="Summarize!" onClick={() => alert('Submitted!')}/>
+            <Button buttonText="Summarize!" onClick={() => alert('Submitted!: '+transcriptText.current)}/>
 
         </div>
     )
