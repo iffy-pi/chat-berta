@@ -11,6 +11,7 @@ from apiutils.functions.PushBulletFileServer import PushBulletFileServer
 from apiutils.functions.ChatlogXML import create_chatlog_xml
 from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
 from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
+from apiutils.functions.HTTPResponses import *
 
 # initialize app flask object
 # intializing to the name of the file
@@ -211,6 +212,14 @@ def route_react_testing():
     return resp
     
     #return render_template('console.html', content='Serving')
+
+@app.route('/api/submit-chat', methods=['POST'])
+def route_api_submit_chat():
+    if request.method != 'POST':
+        return error_response(400, message='Invalid HTTP method!')
+
+    # Expecting the summary options, the 
+
 
 # running the code
 if __name__ == '__main__':
