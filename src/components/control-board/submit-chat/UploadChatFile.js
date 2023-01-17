@@ -1,8 +1,10 @@
-const UploadChatFile = () => {
+import FileUploader from "../../common/FileUploader"
+
+const UploadChatFile = ({ goodFileUpload, failedFileUpload}) => {
     return (
         <div className="basic-container">
-            <label htmlFor="chatfile">Upload chat log file:</label>
-            <input type="file" id="chatfile" name="chatfile" />
+            <label htmlFor="chatfile">Upload chat log file: </label>
+            <FileUploader onFileSelectSuccess={goodFileUpload} onFileSelectError={failedFileUpload}/>
         </div>
     )
 }
