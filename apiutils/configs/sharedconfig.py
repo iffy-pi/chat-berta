@@ -1,0 +1,15 @@
+# Contains the shared config in a python file
+# Done so that the file is read once and cached for other scripts to use
+import os
+import json
+
+def load_shared_config():
+    try:
+        # read the json file and convert to dictionary
+        shared_config = json.loads( open( os.path.join('..', 'src', 'shared', 'config.json') ).read() )
+        return shared_config
+
+    except Exception as e:
+        return None
+
+SHARED_CONFIG = load_shared_config()

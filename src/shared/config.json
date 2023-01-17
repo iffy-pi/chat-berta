@@ -1,5 +1,5 @@
 {
-    "summarizerOptions": [
+    "SUMMARIZER_OPTIONS": [
         {
             "tag": "useStrict",
             "desc": "Strict Sumamrizatiosn"
@@ -8,5 +8,7 @@
             "tag": "treatAsMonologue",
             "desc": "Treat transcript as monologue"
         }
-    ]
+    ],
+
+    "ALLOWED_EXTENSIONS": [ "txt", "pdf", "png", "jpg", "jpeg", "gif" ]
 }
