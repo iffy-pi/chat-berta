@@ -14,11 +14,13 @@ const inputOptions = {
 
 const defaultSummarizerOptions = [
     {
+        id: 0,
         tag: 'useStrict',
         desc: 'Strict Sumamrization',
         selected: false
     },
     {
+        id: 1,
         tag: 'treatAsMonologue',
         desc: 'Treat transcript as monologue',
         selected: false
@@ -28,19 +30,16 @@ const defaultSummarizerOptions = [
 const SubmitChat = () => {
 
     const [ selectedInput, setSelectedInput ] = useState(inputOptions.def)
-    const [ summaryOptions, setSummaryOptions ] = useState(defaultSummarizerOptions)
 
     const transcriptText = useRef('')
+    const summaryOptions = useRef(defaultSummarizerOptions)
 
     const saveTranscriptText = (textboxText) => {
        transcriptText.current = textboxText 
     }
 
-    const toggleOption = (tag) => {
-        // use map to set the selected tag to the opposite of whatever it is currently on change
-        setSummaryOptions( summaryOptions.map( (opt) => (
-            ( opt.tag === tag ) ? { ...opt, selected: !opt.selected } : opt
-        )))
+    const updateSelectedOptions = ( options ) => {
+        summaryOptions.current = options
     }
 
     return (
@@ -51,9 +50,9 @@ const SubmitChat = () => {
             { (selectedInput === inputOptions.file) && <UploadChatFile />}
             { (selectedInput === inputOptions.transcript) && <UploadChatText returnText={saveTranscriptText}/>}
             { (selectedInput === inputOptions.def) && <br />}
-            <SummarizerOptions options={summaryOptions} toggleOption={toggleOption}/>
-            <Button buttonText="Summarize!" onClick={() => alert('Submitted!: '+transcriptText.current)}/>
-            <FileUploader />
+            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
+            <Button buttonText="Summarize!" onClick={() => alert('Submitted!: '+ summaryOptions.current[0] +' '+summaryOptions.current[0].selected)}/>
+            {/* <FileUploader /> */}
 
         </div>
     )
