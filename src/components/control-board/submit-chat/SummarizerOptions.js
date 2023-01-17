@@ -1,4 +1,22 @@
-const SummarizerOptions = ({ options, toggleOption }) => {
+import { useState } from 'react'
+
+const SummarizerOptions = ({ options, returnOptions }) => {
+    
+    // initializing the component state to default options to the state
+    const [ _options, _setOptions ] = useState(options)
+
+    const _toggleOption = (id) => {
+        // use map to set the selected tag to the opposite of whatever it is currently on change
+        const newopts = _options.map( (opt) => (
+            ( opt.id === id ) ? { ...opt, selected: !opt.selected } : opt
+        ))
+        
+        returnOptions(newopts)
+
+        _setOptions( newopts )
+        console.log('returned options')
+    }
+
     return (
         <div className="basic-container">
             {
@@ -7,11 +25,10 @@ const SummarizerOptions = ({ options, toggleOption }) => {
             // callback is arrow function shorthand !
             // so returns task headers
             // JSX knows to expand scripts outwards
-            options.map( (opt, index) => (
-                // Generating list of task components using our Task React component instead
+            _options.map( (opt) => (
                 <div>
-                    <input type="checkbox" id={`summarizer_opt_id_${index}`} name={`summarizer_opt_${opt.tag}`} value={opt.tag} checked={opt.selected} onChange={() => toggleOption(opt.tag)}/>
-                    <label htmlFor={`summarizer_opt_id_${index}`}>{opt.desc}</label><br/>
+                    <input type="checkbox" id={`summarizer_opt_id_${opt.id}`} name={`summarizer_opt_${opt.tag}`} value={opt.tag} checked={opt.selected} onChange={() => _toggleOption(opt.id)}/>
+                    <label htmlFor={`summarizer_opt_id_${opt.id}`}>{opt.desc}</label><br/>
                 </div>
             ))
         }
