@@ -9,23 +9,12 @@ import { goodChatFileUpload, readFileToText } from "../../../functions/basefunct
 const inputOptions = {
     def: 0,
     file: 1,
-    transcript: 2
+    text: 2
 }
 
-const defaultSummarizerOptions = [
-    {
-        id: 0,
-        tag: 'useStrict',
-        desc: 'Strict Sumamrization',
-        selected: false
-    },
-    {
-        id: 1,
-        tag: 'treatAsMonologue',
-        desc: 'Treat transcript as monologue',
-        selected: false
-    }
-]
+const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
+    { ...opt, id:index, selected:false}
+))
 
 const SubmitChat = () => {
 
@@ -65,7 +54,7 @@ const SubmitChat = () => {
                 if ( !fileUploaded.current ) throw new Error('No file or invalid file uploaded!')
                 if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
 
-                // read the contents from the file
+                // read the contents from th e file
                 uploadContent = await readFileToText(selectedFile.current)
             }
 
@@ -80,6 +69,7 @@ const SubmitChat = () => {
         }
 
         console.log('Valid submission')
+        console.log(`Type: ${ (selectedInput === inputOptions.file) ? 'file' : 'text'}`)
         console.log(summaryOptions.current)
         console.log(uploadContent)
 
@@ -91,7 +81,7 @@ const SubmitChat = () => {
             <Button buttonText="Transcript" onClick={() => setSelectedInput(inputOptions.transcript)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(inputOptions.file)}/>
             { (selectedInput === inputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
-            { (selectedInput === inputOptions.transcript) && <UploadChatText returnText={saveTranscriptText}/>}
+            { (selectedInput === inputOptions.text) && <UploadChatText returnText={saveTranscriptText}/>}
             { (selectedInput === inputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
             <Button buttonText="Summarize!" onClick={onSubmit}/>
