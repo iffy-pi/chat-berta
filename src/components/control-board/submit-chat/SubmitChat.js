@@ -42,6 +42,24 @@ const SubmitChat = () => {
         fileUploaded.current = true
     }
 
+    const submitSummaryRequest = async (summary_options, chat_text) => {
+        const req = {
+            summary_options: summary_options,
+            chat_text: chat_text
+        }
+
+        try {
+            const [ status, res ] = await apiJSONFetch('submit-chat', 'POST', {}, req)
+        
+            if ( status !== 200 ) throw new Error('Invalid response: '+res)
+
+            // alert('Success!\n'+String(res))
+            console.log('Success;', res)
+        } catch ( error ){
+            console.error(error)
+        }
+    }
+
     const onSubmit = async () => {
 
         let uploadContent = ""
@@ -58,9 +76,9 @@ const SubmitChat = () => {
                 uploadContent = await readFileToText(selectedFile.current)
             }
 
-            else if ( selectedInput === inputOptions.transcript ) {
+            else if ( selectedInput === inputOptions.text ) {
                 if ( transcriptText.current === "" ) throw new Error('No transcript text!')
-                uploadContent = transcriptText
+                uploadContent = transcriptText.current
             }
 
         } catch(error){
@@ -73,34 +91,25 @@ const SubmitChat = () => {
         console.log(summaryOptions.current)
         console.log(uploadContent)
 
+        submitSummaryRequest(
+            summaryOptions.current.map( (opt) => ( opt.tag )),
+            uploadContent
+        )
+
     }
 
-    const TestFetch = async () => {
-        console.log('Fetching....')
-
-        const inp = {
-            'summary_opdtions': 'Test summary',
-            chat_text: 'Test chat text'
-        }
-
-        try {
-            const [ status, data ] = await apiJSONFetch('submit-chat', 'POST', {}, inp)
-        } catch ( error ){
-            console.error(error)
-        }
-    }
+    
 
     return (
         <div className="basic-container">
             <h1>{data.test}</h1>
-            <Button buttonText="Transcript" onClick={() => setSelectedInput(inputOptions.transcript)}/>
+            <Button buttonText="Transcript" onClick={() => setSelectedInput(inputOptions.text)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(inputOptions.file)}/>
             { (selectedInput === inputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === inputOptions.text) && <UploadChatText returnText={saveTranscriptText}/>}
             { (selectedInput === inputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
             <Button buttonText="Summarize!" onClick={onSubmit}/>
-            <Button buttonText="Test Fetch" onClick={TestFetch}/>
         </div>
     )
 }
