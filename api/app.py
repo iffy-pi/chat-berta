@@ -6,7 +6,7 @@ import json
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for, Response)
-from flask_cors import CORS
+from flask_cors import CORS 
 from apiutils.functions.apifuncs import *
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
 from apiutils.functions.ChatParser import create_chatlog_xml
@@ -17,6 +17,7 @@ from apiutils.functions.HTTPResponses import *
 # initialize app flask object
 # intializing to the name of the file
 app = Flask(__name__)
+# https://stackoverflow.com/questions/20035101/why-does-my-javascript-code-receive-a-no-access-control-allow-origin-header-i
 CORS(app)
 
 # Load app configuration from config.py, must be at root of repository
