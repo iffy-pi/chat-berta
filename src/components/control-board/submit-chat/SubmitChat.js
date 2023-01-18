@@ -5,6 +5,7 @@ import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
 import { goodChatFileUpload, readFileToText } from "../../../functions/basefunctions";
+import { CHAT_BERTA_API } from "../../../configs/apiconfig";
 
 const inputOptions = {
     def: 0,
@@ -75,6 +76,39 @@ const SubmitChat = () => {
 
     }
 
+    const TestFetch = async () => {
+        console.log('Fetching....')
+
+        const res = await fetch(
+            `${CHAT_BERTA_API}/submit-chat`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    summary_options : 'Test Summary!',
+                    chat_text: 'Test chatting text'
+                })
+            }
+        )
+
+        console.log('Response', res)
+
+        if ( res.status !== 200 ) {
+            console.error('Failed to query!')
+            return
+        }
+
+        if ( res.headers.get('content-type') !== 'application/json' ){
+            console.error('Failed to get json')
+        }
+
+        const data = await res.json()
+
+        console.log(data)
+    }
+
     return (
         <div className="basic-container">
             <h1>{data.test}</h1>
@@ -85,7 +119,7 @@ const SubmitChat = () => {
             { (selectedInput === inputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
             <Button buttonText="Summarize!" onClick={onSubmit}/>
-
+            <Button buttonText="Test Fetch" onClick={TestFetch}/>
         </div>
     )
 }
