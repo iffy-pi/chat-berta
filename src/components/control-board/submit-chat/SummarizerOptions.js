@@ -14,7 +14,6 @@ const SummarizerOptions = ({ options, returnOptions }) => {
         returnOptions(newopts)
 
         _setOptions( newopts )
-        console.log('returned options')
     }
 
     return (
