@@ -6,6 +6,7 @@ import json
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for, Response)
+from flask_cors import CORS
 from apiutils.functions.apifuncs import *
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
 from apiutils.functions.ChatParser import create_chatlog_xml
@@ -16,6 +17,7 @@ from apiutils.functions.HTTPResponses import *
 # initialize app flask object
 # intializing to the name of the file
 app = Flask(__name__)
+CORS(app)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
@@ -213,12 +215,40 @@ def route_react_testing():
     
     #return render_template('console.html', content='Serving')
 
-@app.route('/api/submit-chat', methods=['POST'])
+@app.route('/api/submit-chat', methods=['POST', 'GET'])
 def route_api_submit_chat():
     if request.method != 'POST':
         return error_response(400, message='Invalid HTTP method!')
 
-    # Expecting the summary options, the 
+    # Expecting the following keys
+    # summary options and transcript
+    if request.json is None:
+        return error_response(400, message='No JSON content included!')
+
+    expected_keys = [ 'summary_options', 'chat_text']
+
+    missing_keys = list(filter(
+        lambda key: key not in request.json,
+        expected_keys
+    ))
+
+    if len(missing_keys) > 0:
+        return error_response(400, message="Required keys are missing: {}".format(missing_keys))
+
+    # then retrieve the items
+    summary_options = request.json['summary_options']
+    chat_text = request.json['chat_text']
+
+    # for now craft a simple relay message
+    js = {
+        'status' : 'success',
+        'summary_options': summary_options,
+        'chat_text': chat_text
+    }
+
+    resp = make_json_response(js)
+    return resp
+
 
 
 # running the code

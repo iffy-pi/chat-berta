@@ -12,7 +12,7 @@ def make_json_response( resp_dict:dict, status=200):
         response=json.dumps(resp_dict), status=status, mimetype="text/plain"
     )
 
-    add_access_control(resp)
+    # add_access_control(resp)
     resp.headers['Content-type'] = 'application/json'
     return resp
 
@@ -32,6 +32,6 @@ def error_response(status:int, message:str=None, error_json=None):
         response=json.dumps(content), status=status, mimetype="text/plain"
     )
 
-    add_access_control(resp)
+    # resp.headers['Access-Control-Allow-Origin'] = '*'
     if error_json is not None: resp.headers['Content-type'] = 'application/json'
     return resp
