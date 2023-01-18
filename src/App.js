@@ -30,6 +30,7 @@ function App() {
     console.log('End State:====>')
     console.log('Headers:===>')
     res.headers.forEach(function(val, key) { console.log(`'${key}': '${val}'`); })
+    console.log(res.headers.get('content-type'))
     console.log('End Headers:===>')
     
     // 201 is testing if we actually connected to the server
