@@ -4,8 +4,7 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, readFileToText } from "../../../functions/basefunctions";
-import { CHAT_BERTA_API } from "../../../configs/apiconfig";
+import { goodChatFileUpload, readFileToText, apiJSONFetch } from "../../../functions/basefunctions";
 
 const inputOptions = {
     def: 0,
@@ -79,34 +78,16 @@ const SubmitChat = () => {
     const TestFetch = async () => {
         console.log('Fetching....')
 
-        const res = await fetch(
-            `${CHAT_BERTA_API}/submit-chat`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                    summary_options : 'Test Summary!',
-                    chat_text: 'Test chatting text'
-                })
-            }
-        )
-
-        console.log('Response', res)
-
-        if ( res.status !== 200 ) {
-            console.error('Failed to query!')
-            return
+        const inp = {
+            'summary_opdtions': 'Test summary',
+            chat_text: 'Test chat text'
         }
 
-        if ( res.headers.get('content-type') !== 'application/json' ){
-            console.error('Failed to get json')
+        try {
+            const [ status, data ] = await apiJSONFetch('submit-chat', 'POST', {}, inp)
+        } catch ( error ){
+            console.error(error)
         }
-
-        const data = await res.json()
-
-        console.log(data)
     }
 
     return (
