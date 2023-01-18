@@ -5,10 +5,23 @@ import { CHAT_BERTA_API } from './configs/apiconfig'
 import ControlBoard from './components/control-board/ControlBoard';
 import SummaryView from './components/summary-view/SummaryView';
 
+const summaryStates = {
+  undef: 0,
+  paramsSent: 1
+}
+
 function App() {
 
   const [ headerMsg, setHeaderMsg ] = useState('Hello World!')
   const [ btnToggle, setButtonToggle ] = useState(true)
+
+  
+  const [ summaryRequest, setSummaryRequest ] = useState(null)
+
+  /*
+    summaryRequest is object of properties to make a summary with
+    request is populated from SubmitChat and used in the summary view
+  */
 
   const toggleButton = () => {
     setButtonToggle(!btnToggle)
@@ -58,18 +71,14 @@ function App() {
     setHeaderMsg(data.message)
   }
 
-  useEffect( () => {
-    //getBEMsg()
-  }, [])
-
 
   return (
     <div>
       <Header message={headerMsg}/>
       <Button buttonText="Click?" onClick={toggleButton}/>
       <Button buttonText="Query Backend" onClick={getBEMsg}/>
-      <ControlBoard />
-      <SummaryView />
+      <ControlBoard summaryRequest={summaryRequest} setSummaryRequest={setSummaryRequest}/>
+      <SummaryView summaryRequest={summaryRequest} setSummaryRequest={setSummaryRequest}/>
     </div>
   );
 }

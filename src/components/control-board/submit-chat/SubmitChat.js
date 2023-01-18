@@ -6,7 +6,7 @@ import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
 import { goodChatFileUpload, readFileToText, apiJSONFetch } from "../../../functions/basefunctions";
 
-const inputOptions = {
+const InputOptions = {
     def: 0,
     file: 1,
     text: 2
@@ -16,9 +16,9 @@ const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
     { ...opt, id:index, selected:false}
 ))
 
-const SubmitChat = () => {
+const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
 
-    const [ selectedInput, setSelectedInput ] = useState(inputOptions.def)
+    const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
     const transcriptText = useRef('')
     const summaryOptions = useRef(defaultSummarizerOptions)
@@ -42,7 +42,7 @@ const SubmitChat = () => {
         fileUploaded.current = true
     }
 
-    const submitSummaryRequest = async (summary_options, chat_text) => {
+    const submitAPISummaryRequest = async (summary_options, chat_text) => {
         const req = {
             summary_options: summary_options,
             chat_text: chat_text
@@ -63,22 +63,34 @@ const SubmitChat = () => {
     const onSubmit = async () => {
 
         let uploadContent = ""
+        const request = {}
+
 
         try {
-            if ( selectedInput === inputOptions.def ) throw new Error('No chat input selected!')
-
-            if ( selectedInput === inputOptions.file ) {
+            if ( selectedInput === InputOptions.file ) {
                 
                 if ( !fileUploaded.current ) throw new Error('No file or invalid file uploaded!')
                 if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
 
+                
+
                 // read the contents from th e file
-                uploadContent = await readFileToText(selectedFile.current)
+                // uploadContent = await readFileToText(selectedFile.current)
+
+
+                request.type = 'file'
+                request.file = selectedFile.current
             }
 
-            else if ( selectedInput === inputOptions.text ) {
+            else if ( selectedInput === InputOptions.text ) {
                 if ( transcriptText.current === "" ) throw new Error('No transcript text!')
-                uploadContent = transcriptText.current
+                
+                
+                request.type = 'text'
+                request.content = transcriptText.current
+
+            } else {
+                throw new Error('No chat input selected!')
             }
 
         } catch(error){
@@ -86,16 +98,9 @@ const SubmitChat = () => {
             return
         }
 
-        console.log('Valid submission')
-        console.log(`Type: ${ (selectedInput === inputOptions.file) ? 'file' : 'text'}`)
-        console.log(summaryOptions.current)
-        console.log(uploadContent)
+        request.options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
 
-        submitSummaryRequest(
-            summaryOptions.current.map( (opt) => ( opt.tag )),
-            uploadContent
-        )
-
+        setSummaryRequest(request)
     }
 
     
@@ -103,11 +108,11 @@ const SubmitChat = () => {
     return (
         <div className="basic-container">
             <h1>{data.test}</h1>
-            <Button buttonText="Transcript" onClick={() => setSelectedInput(inputOptions.text)}/>
-            <Button buttonText="Upload File" onClick={() => setSelectedInput(inputOptions.file)}/>
-            { (selectedInput === inputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
-            { (selectedInput === inputOptions.text) && <UploadChatText returnText={saveTranscriptText}/>}
-            { (selectedInput === inputOptions.def) && <br />}
+            <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
+            <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
+            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText}/>}
+            { (selectedInput === InputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
             <Button buttonText="Summarize!" onClick={onSubmit}/>
         </div>
