@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
-import { readFileToText } from '../../functions/basefunctions'
+import { readFileToText, apiJSONFetch } from '../../functions/basefunctions'
 
 const ContentStates = {
     unset: 0,
     loading: 1,
     set: 2
+}
+
+const Status = {
+    undef: 0,
+    success: 1,
+    failure: 2
 }
 
 const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
@@ -24,11 +30,32 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
 
         // API call can be placed here!!!
 
+        const req = {
+            summary_options: request.options,
+            chat_text: request.content
+        }
+
+        try {
+            const [ status, res ] = await apiJSONFetch('submit-chat', 'POST', {}, req)
+        
+            if ( status !== 200 ) throw new Error('Invalid response: '+res)
+
+            // Success so store the data into the local Summary Request
+            setlocalSummaryRequest( {
+                status: Status.success,
+                options: res.summary_options,
+                type: res.status,
+                content: res.chat_text
+            })
+        } catch ( error ){
+            console.error(error)
+            setlocalSummaryRequest({ status: Status.failure})
+        }
+
         setContentState(ContentStates.set)
-        setlocalSummaryRequest(request)
     }
 
-    useEffect( () => {
+    useEffect(  () => {
         // on change of summaryRequest, we want to populate our local summary request
         // with the information
         if ( summaryRequest !== null ) {
@@ -54,8 +81,16 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             <p>This will contain the information about the rendered summary</p>
             {  ( contentState !== ContentStates.set) && <p>{renderContentState(contentState)}</p>}
 
-            { (localSummaryRequest !== null ) && 
-            <div>
+            {/* Errorneous request */}
+            { (contentState === ContentStates.set && localSummaryRequest.status !== Status.success) && 
+            <div className='basic-container'>
+                <p>Request failed!</p>
+            </div>
+            }
+
+            {/* For loading the actual data */}
+            { (contentState === ContentStates.set && localSummaryRequest.status === Status.success) && 
+            <div className='basic-container'>
                 <p>Options: {localSummaryRequest.options}</p>
                 <p>Type: {localSummaryRequest.type}</p>
                 <p>Content: {localSummaryRequest.content}</p>
