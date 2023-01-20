@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { readFileToText, apiJSONFetch } from '../../functions/basefunctions'
+import logo from '../../media/react-logo.svg'
 
 const ContentStates = {
     unset: 0,
@@ -67,11 +68,16 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
     const renderContentState = (contentState) => {
         switch(contentState) {
             case ContentStates.unset:
-                return 'No content available'
+                return (<div><p>No content available</p></div>)
             case ContentStates.loading:
-                return 'Content Loading'
+                return (
+                    <div>
+                        <img src={logo} className="App-logo" alt="logo" />
+                        <p>Loading</p>
+                    </div>
+                )
             default:
-                return 'UNKNOWN!'
+                return (<div><p>Unknown</p></div>)
         }
     }
 
@@ -79,7 +85,7 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
         <div className="basic-container">
             <h1>Summary View</h1>
             <p>This will contain the information about the rendered summary</p>
-            {  ( contentState !== ContentStates.set) && <p>{renderContentState(contentState)}</p>}
+            {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
 
             {/* Errorneous request */}
             { (contentState === ContentStates.set && localSummaryRequest.status !== Status.success) && 

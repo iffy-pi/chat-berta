@@ -127,3 +127,14 @@ footer {
   margin-top: 30px;
   text-align: center;
 }
+
+.App-logo {
+  height: 15vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
