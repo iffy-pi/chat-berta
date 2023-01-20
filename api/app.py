@@ -2,6 +2,7 @@ import io
 import mimetypes
 import os
 import json
+import time
 
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
@@ -246,6 +247,8 @@ def route_api_submit_chat():
         'summary_options': summary_options,
         'chat_text': chat_text
     }
+
+    time.sleep(0.5)
 
     resp = make_json_response(js)
     return resp
