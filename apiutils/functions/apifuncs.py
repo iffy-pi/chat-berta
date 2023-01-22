@@ -6,7 +6,7 @@ import time
 from apiutils.configs.apiconfig import ALLOWED_EXTENSIONS
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
 from werkzeug.utils import secure_filename
-from apiutils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR
+from apiutils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR, JSON_CHATLOGS_DIR
 
 def make_summarizer_opt_str(opt:list) -> str:
     if len(opt) < 1: return 'NoOpts'
@@ -110,3 +110,15 @@ def save_chatlog_xml(pbfs:PushBulletFileServer, chatlog_xml:str ):
 
 def get_chatlog_xml(pbfs:PushBulletFileServer, tag:str) -> str:
     return get_text_for_file(pbfs, '{}/{}.xml'.format(XML_CHATLOGS_DIR, tag))
+
+def save_chatlog_json(pbfs:PushBulletFileServer, chatlog_json:str ):
+    file_tag = gen_unique_tag()
+    pbfs_file_path = '{}/{}.json'.format(JSON_CHATLOGS_DIR ,file_tag)
+
+    # save the text to file
+    fpath = pbfs.upload_binary_to_path(pbfs_file_path, chatlog_json.encode())
+    res = 1 if fpath is None else 0
+
+    return ( res, file_tag )
+def get_chatlog_json(pbfs:PushBulletFileServer, tag:str) -> str:
+    return get_text_for_file(pbfs, '{}/{}.json'.format(JSON_CHATLOGS_DIR, tag))

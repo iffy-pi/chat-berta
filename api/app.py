@@ -10,10 +10,11 @@ from flask import (Flask, flash, redirect, render_template, request, send_file,
 from flask_cors import CORS 
 from apiutils.functions.apifuncs import *
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
-from apiutils.functions.ChatParser import create_chatlog_xml
+from apiutils.functions.ChatParser import create_chatlog_json
 from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
 from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 from apiutils.functions.HTTPResponses import *
+from apiutils.nec.NetworkComponent import NetworkComponent
 
 # initialize app flask object
 # intializing to the name of the file
@@ -119,7 +120,7 @@ def route_download_file(filepath):
 @app.route('/summarize/<source>/<tag>/<options>')
 def route_summarize(source, tag, options):
     # get the text
-    text = get_chatlog_xml(pbfs, tag)
+    text = get_chatlog_json(pbfs, tag)
     
     if text is None:
         return render_template('console.html', content='No valid source found!, {}'.format(pbfs.get_file_index()))
@@ -142,7 +143,7 @@ def route_chat_submitted():
 
         source = None
         tag = None
-        chatlog_xml = None
+        chatlog_json = None
         # check for the transcript file
         transcript_text = request.form.get('transcript_text')
         if transcript_text:
@@ -150,7 +151,7 @@ def route_chat_submitted():
             # save the file
             source = 'text'
             try:
-                chatlog_xml = create_chatlog_xml(transcript_text)
+                chatlog_json = create_chatlog_json(transcript_text)
             
             except Exception as e:
                 return render_template('console.html', content="Transcript Parsing Error: {}".format(e))
@@ -169,13 +170,16 @@ def route_chat_submitted():
             chatfile_str = chatfile.read().decode('utf-8')
 
             try:
-                chatlog_xml = create_chatlog_xml(chatfile_str)
+                chatlog_json = create_chatlog_json(chatfile_str)
             except Exception as e:
                 return render_template('console.html', content="Parsing Error: {}".format(e))
 
         if source is not None:
-            # save the xml file in the right location
-            res, tag = save_chatlog_xml(pbfs, chatlog_xml)
+            # create Network Component object to process summarization
+            nec = NetworkComponent()
+            nec.generate_summary(chatlog_json)
+            # save the json file to specified folder
+            res, tag = save_chatlog_json(pbfs, nec.json)
             if res != 0:
                  return render_template('console.html', content='Something went wrong saving the file!')
 
