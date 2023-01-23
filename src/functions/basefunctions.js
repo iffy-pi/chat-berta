@@ -14,8 +14,14 @@ const readFileToText = file => new Promise((resolve, reject) => {
     reader.readAsText(file)
 })
 
-// The api always returns in JSON format, even for errors
-// Receives body object that is converted to JSON
+/*
+    Returns a Response object for a given API call, repsonse object is of the format:
+    {
+        success: true or false based on result of call
+        status: http status for the call
+        content: contains JSON for success call or client side error call, contains text for other failures
+    }
+*/
 async function apiJSONFetch(apiPath, method, headers, body ) {
 
     const request = {

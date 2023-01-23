@@ -227,7 +227,7 @@ def route_api_submit_chat():
     if request.json is None:
         return error_response(400, message='No JSON content included!')
 
-    expected_keys = [ 'summary_options', 'chat_text']
+    expected_keys = [ 'summary_options', 'parsed_chat']
 
     missing_keys = list(filter(
         lambda key: key not in request.json,
@@ -239,13 +239,12 @@ def route_api_submit_chat():
 
     # then retrieve the items
     summary_options = request.json['summary_options']
-    chat_text = request.json['chat_text']
+    parsed_chat = request.json['parsed_chat']
 
     # for now craft a simple relay message
     js = {
-        'status' : 'success',
         'summary_options': summary_options,
-        'chat_text': chat_text
+        'parsed_chat': parsed_chat
     }
 
     time.sleep(0.5)

@@ -33,23 +33,23 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
 
         const req = {
             summary_options: request.options,
-            chat_text: request.content
+            parsed_chat: request.content
         }
 
         try {
-            const [ status, res ] = await apiJSONFetch('submit-chat', 'POST', {}, req)
+            const res = await apiJSONFetch('submit-chat', 'POST', {}, req)
             
-            console.log(status)
-            if ( status !== 200 ) throw new Error('Invalid response: '+res)
+            if ( !res.success ) throw new Error('Invalid response: '+res)
 
-            console.log(res.chat_text)
+            console.log(res)
+
 
             // Success so store the data into the local Summary Request
             setlocalSummaryRequest( {
                 status: Status.success,
-                options: res.summary_options,
-                type: res.status,
-                content: JSON.stringify(res.chat_text)
+                options: res.content.summary_options,
+                type: res.content.status,
+                content: JSON.stringify(res.content.parsed_chat)
             })
         } catch ( error ){
             console.error(error)
