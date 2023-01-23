@@ -38,15 +38,18 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
 
         try {
             const [ status, res ] = await apiJSONFetch('submit-chat', 'POST', {}, req)
-        
+            
+            console.log(status)
             if ( status !== 200 ) throw new Error('Invalid response: '+res)
+
+            console.log(res.chat_text)
 
             // Success so store the data into the local Summary Request
             setlocalSummaryRequest( {
                 status: Status.success,
                 options: res.summary_options,
                 type: res.status,
-                content: res.chat_text
+                content: JSON.stringify(res.chat_text)
             })
         } catch ( error ){
             console.error(error)
@@ -72,8 +75,7 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             case ContentStates.loading:
                 return (
                     <div>
-                        <img src={logo} className="App-logo" alt="logo" />
-                        <p>Loading</p>
+                        <p>Loading...</p>
                     </div>
                 )
             default:

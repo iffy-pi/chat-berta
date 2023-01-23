@@ -38,25 +38,83 @@ async function apiJSONFetch(apiPath, method, headers, body ) {
         request
     )
 
+    const response = {
+        success: true,
+        status: res.status
+    }
+
     if ( res.status !== 200 ){
         // check if it is a client side error, api always returns 400,
         // if it is then we can return the JSON message
-        if ( res.status === 400 ){
-            return [ res.status, await res.json()]
-        } else{
-            // unrecognized error, JSON may not be available
-            return [ res.status, await res.text()]
-        }
+        response.success = false
+
+        response.content = ( res.status === 400) ? await res.json() : await res.text()
+        return response
     }
 
     // check if we have json which we should have
-    const data = await res.json()
+    response.content = await res.json()
 
-    return [ res.status, data ]
+    return response
+}
+
+// Parse the text into the json format
+const chatTextToChatJSON = ( transcriptText ) => {
+    const lines = transcriptText.split('\n')
+
+    const parties = []
+    const messages = []
+    let partiesFound = null
+    let curParty = null
+    let curPartyID = -1
+
+    for ( let i=0; i < lines.length; i++ ) {
+        const line = lines[i]
+        if ( line === '' ) continue;
+
+        // get the party that sent the message if it is a party identifier line
+        partiesFound = line.match(/^[a-zA-z][a-zA-z]*:/) 
+        if ( partiesFound != null  ) {
+            // Removing colon from party name
+            curParty = partiesFound[0].substring(0, partiesFound[0].length-1)
+
+            curPartyID = parties.indexOf(curParty)
+
+            if ( curPartyID === -1 ) {
+                curPartyID = parties.length
+                parties.push(curParty)
+            }
+            continue;
+        }
+
+        if ( curPartyID === -1) throw new Error('Text Parsing Error: No party labels found!')
+
+        // Add to messages if it is not already present
+        messages.push({
+            id: messages.length,
+            pid: curPartyID,
+            text: line
+        })
+        
+    }
+
+    const partiesObj = []
+    parties.forEach((p, i) => { partiesObj.push({ id: i, name: p })})
+
+    const parsedChat = {
+        config: {
+            parties: partiesObj
+        },
+        messages: messages
+    }
+
+    return parsedChat
+
 }
 
 export {
     goodChatFileUpload,
     readFileToText,
-    apiJSONFetch
+    apiJSONFetch,
+    chatTextToChatJSON
 }
