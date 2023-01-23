@@ -88,7 +88,7 @@ def prettify_xml(elem):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="\t")
 
-def create_chatlog_jon(raw_chatstr:str, indent=None):
+def create_chatlog_json(raw_chatstr:str, indent=None):
     # doing the chat parsing but for json
     lines = raw_chatstr.split('\n')
     parties = []
@@ -202,7 +202,7 @@ def main():
     else:
         with open(sample_raw_chat, 'r') as f: content = f.read()
         with open ('test.json', 'w') as file:
-            file.write(create_chatlog_jon(content, indent=4))
+            file.write(create_chatlog_json(content, indent=4))
         
 
     
