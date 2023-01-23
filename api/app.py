@@ -8,7 +8,7 @@ from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for, Response)
 from apiutils.functions.apifuncs import *
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
-from apiutils.functions.ChatlogXML import create_chatlog_xml
+from apiutils.functions.ChatParser import create_chatlog_xml
 from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
 from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 
