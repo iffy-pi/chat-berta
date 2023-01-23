@@ -35,7 +35,6 @@
     ],
 
     "summary_messages": [
-        // id and pid of the message object is the id and pid of the message the sentence came from
         {
             "id": 0,
             "pid": 0,
@@ -45,6 +44,6 @@
             "id": 1,
             "pid": 1,
             "text": "I like oranges better, apples be gross sometime"
-        },
+        }
     ]
 } 

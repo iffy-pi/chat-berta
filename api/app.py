@@ -239,7 +239,11 @@ def route_api_submit_chat():
 
     # then retrieve the items
     summary_options = request.json['summary_options']
-    parsed_chat = request.json['parsed_chat']
+
+    # retrieve the sample summary chat
+    with open( os.path.join( os.path.split(__name__)[0], '..', 'apiutils', 'samples', 'sample_summary_report.json' ) , 'r' ) as file:
+        parsed_chat = json.loads(file.read())
+
 
     # for now craft a simple relay message
     js = {

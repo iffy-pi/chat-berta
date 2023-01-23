@@ -29,8 +29,6 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             request.content = await readFileToText(request.file)
         }
 
-        // API call can be placed here!!!
-
         const req = {
             summary_options: request.options,
             parsed_chat: request.content

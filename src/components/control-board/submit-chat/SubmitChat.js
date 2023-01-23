@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, chatTextToChatJSON, apiJSONFetch } from "../../../functions/basefunctions";
+import { goodChatFileUpload, chatTextToChatJSON, apiJSONFetch, readFileToText } from "../../../functions/basefunctions";
 
 const InputOptions = {
     def: 0,
@@ -79,13 +79,11 @@ const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
 
 
                 request.type = 'file'
-                request.file = selectedFile.current
+                request.content = chatTextToChatJSON( await readFileToText(selectedFile.current) )
             }
 
             else if ( selectedInput === InputOptions.text ) {
                 if ( transcriptText.current === "" ) throw new Error('No transcript text!')
-                
-                
                 request.type = 'text'
                 request.content = chatTextToChatJSON( transcriptText.current )
 
