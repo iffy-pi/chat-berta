@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, readFileToText, apiJSONFetch } from "../../../functions/basefunctions";
+import { goodChatFileUpload, chatTextToChatJSON, apiJSONFetch } from "../../../functions/basefunctions";
 
 const InputOptions = {
     def: 0,
@@ -87,7 +87,7 @@ const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
                 
                 
                 request.type = 'text'
-                request.content = transcriptText.current
+                request.content = chatTextToChatJSON( transcriptText.current )
 
             } else {
                 throw new Error('No chat input selected!')
@@ -100,6 +100,7 @@ const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
 
         request.options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
 
+        //console.log(request)
         setSummaryRequest(request)
     }
 
