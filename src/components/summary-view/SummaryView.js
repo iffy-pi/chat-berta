@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { readFileToText, apiJSONFetch } from '../../functions/basefunctions'
 import logo from '../../media/react-logo.svg'
+import ChatPane from './chat-pane/ChatPane'
 
 const ContentStates = {
     unset: 0,
@@ -18,16 +19,12 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
 
     const [ localSummaryRequest, setlocalSummaryRequest ] = useState(null)
     const [ contentState, setContentState ] = useState(ContentStates.unset)
+    const [ summarySuccess, setSummarySuccess ] = useState(false)
+    const [ summaryResponseChat, setSummaryResponseChat ] = useState(null)
 
     const unpackSummaryRequest = async (request) => {
         // unpack the file if the request package is a file
         console.log('Unpacking request')
-
-        console.log(request)
-
-        if ( request.type === 'file' ) {
-            request.content = await readFileToText(request.file)
-        }
 
         const req = {
             summary_options: request.options,
@@ -39,19 +36,22 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             
             if ( !res.success ) throw new Error('Invalid response: '+res)
 
-            console.log(res)
+            // console.log(res)
 
 
             // Success so store the data into the local Summary Request
-            setlocalSummaryRequest( {
-                status: Status.success,
-                options: res.content.summary_options,
-                type: res.content.status,
-                content: JSON.stringify(res.content.parsed_chat)
-            })
+            // setlocalSummaryRequest( {
+            //     status: Status.success,
+            //     options: res.content.summary_options,
+            //     type: res.content.status,
+            //     content: JSON.stringify(res.content.parsed_chat)
+            // })
+
+            setSummaryResponseChat(res.content.parsed_chat)
+            setSummarySuccess(true)
         } catch ( error ){
             console.error(error)
-            setlocalSummaryRequest({ status: Status.failure})
+            setSummarySuccess(false)
         }
 
         setContentState(ContentStates.set)
@@ -88,18 +88,16 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
 
             {/* Errorneous request */}
-            { (contentState === ContentStates.set && localSummaryRequest.status !== Status.success) && 
+            { (contentState === ContentStates.set && !summarySuccess) && 
             <div className='basic-container'>
                 <p>Request failed!</p>
             </div>
             }
 
             {/* For loading the actual data */}
-            { (contentState === ContentStates.set && localSummaryRequest.status === Status.success) && 
+            { (contentState === ContentStates.set && summarySuccess ) && 
             <div className='basic-container'>
-                <p>Options: {localSummaryRequest.options}</p>
-                <p>Type: {localSummaryRequest.type}</p>
-                <p>Content: {localSummaryRequest.content}</p>
+                <ChatPane chatPackage={summaryResponseChat}/>
             </div>
             }
         </div>
