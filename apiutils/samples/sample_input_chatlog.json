@@ -1,15 +1,7 @@
 {
     "config": {
         "parties": [
-<<<<<<< HEAD
-<<<<<<< HEAD
            {
-=======
-            {
->>>>>>> 5f6e395 (Updated sample input chatlogs)
-=======
-           {
->>>>>>> 39de942 (Adding simple functions)
                 "id": 0,
                 "name": "John"
             },
@@ -41,12 +33,4 @@
             "text": "Interesting"
         }
     ]
-<<<<<<< HEAD
-<<<<<<< HEAD
 } 
-=======
-}
->>>>>>> 5f6e395 (Updated sample input chatlogs)
-=======
-} 
->>>>>>> 39de942 (Adding simple functions)
