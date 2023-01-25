@@ -3,7 +3,7 @@ import UploadChatText from "./UploadChatText";
 import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
-import data from "../../../shared/config.json"
+import data from "../../../shared-linked/config.json"
 import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
 
 const InputOptions = {
