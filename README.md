@@ -99,6 +99,9 @@ This file is not present on the app-vercel-production branch since we want Verce
 
 **Note that commit afa86ea21db05f4f819323b642f6dfc0ea3a5c56 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
 
+## Previous Deployments
+January 25 2022: Iffy deployed bare bones React frontend
+
 # Development Workbench Requirements
 You will need the following to work on the repository and use the development server.
 
