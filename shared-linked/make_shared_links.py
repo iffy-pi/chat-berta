@@ -3,7 +3,7 @@ import os
 import sys
 
 # this is the place we will be linking to
-MASTER_SHARED_DIR = os.path.split(__name__)[0]
+MASTER_SHARED_DIR = os.path.abspath(os.path.split(__name__)[0])
 APP_SHARED_DIR = os.path.join( MASTER_SHARED_DIR, '..', 'src', 'shared-linked')
 API_SHARED_DIR = os.path.join( MASTER_SHARED_DIR, '..', 'apiutils', 'shared-linked')
 
