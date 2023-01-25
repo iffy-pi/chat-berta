@@ -227,7 +227,7 @@ def route_api_submit_chat():
     if request.json is None:
         return error_response(400, message='No JSON content included!')
 
-    expected_keys = [ 'summary_options', 'parsed_chat']
+    expected_keys = [ 'summary_options', 'chat_package']
 
     missing_keys = list(filter(
         lambda key: key not in request.json,
@@ -242,13 +242,13 @@ def route_api_submit_chat():
 
     # retrieve the sample summary chat
     with open( os.path.join( os.path.split(__name__)[0], '..', 'apiutils', 'samples', 'sample_summary_report.json' ) , 'r' ) as file:
-        parsed_chat = json.loads(file.read())
+        chat_package = json.loads(file.read())
 
 
     # for now craft a simple relay message
     js = {
         'summary_options': summary_options,
-        'parsed_chat': parsed_chat
+        'chat_package': chat_package
     }
 
     time.sleep(0.5)

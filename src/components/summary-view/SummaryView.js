@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { readFileToText, apiJSONFetch } from '../../functions/basefunctions'
-import logo from '../../media/react-logo.svg'
+import { apiJSONFetch } from '../../functions/basefunctions'
 import ChatPane from './chat-pane/ChatPane'
 import SummaryContentUnset from './summary-states/SummaryContentUnset'
 import SummaryContentLoading from './summary-states/SummaryContentLoading'
@@ -13,19 +12,17 @@ const ContentStates = {
     set: 2
 }
 
-const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
+const SummaryView = ({ summaryRequest }) => {
 
     const [ contentState, setContentState ] = useState(ContentStates.unset)
     const [ summarySuccess, setSummarySuccess ] = useState(false)
     const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
     const [ requestError, setRequestError ] = useState('')
 
-    const unpackSummaryRequest = async (request) => {
-        // unpack the file if the request package is a file
-
+    const handleSummaryRequest = async (request) => {
         const req = {
             summary_options: request.options,
-            parsed_chat: request.content
+            chat_package: request.chat_package
         }
 
         try {
@@ -44,7 +41,7 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             //     content: JSON.stringify(res.content.parsed_chat)
             // })
 
-            setSummaryChatPackage(res.content.parsed_chat)
+            setSummaryChatPackage(res.content.chat_package)
             setSummarySuccess(true)
         } catch ( error ){
             setRequestError(String(error))
@@ -55,11 +52,10 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
     }
 
     useEffect(  () => {
-        // on change of summaryRequest, we want to populate our local summary request
-        // with the information
+        // on change we handle the summary request by making the api call
         if ( summaryRequest !== null ) {
             setContentState(ContentStates.loading)
-            unpackSummaryRequest({ ...summaryRequest})
+            handleSummaryRequest({ ...summaryRequest})
         }
     }, [ summaryRequest ])
 

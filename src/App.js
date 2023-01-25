@@ -74,11 +74,11 @@ function App() {
 
   return (
     <div>
-      <Header message={headerMsg}/>
+      {/* <Header message={headerMsg}/>
       <Button buttonText="Click?" onClick={toggleButton}/>
-      <Button buttonText="Query Backend" onClick={getBEMsg}/>
-      <ControlBoard summaryRequest={summaryRequest} setSummaryRequest={setSummaryRequest}/>
-      <SummaryView summaryRequest={summaryRequest} setSummaryRequest={setSummaryRequest}/>
+      <Button buttonText="Query Backend" onClick={getBEMsg}/> */}
+      <ControlBoard setSummaryRequest={setSummaryRequest}/>
+      <SummaryView summaryRequest={summaryRequest}/>
     </div>
   );
 }

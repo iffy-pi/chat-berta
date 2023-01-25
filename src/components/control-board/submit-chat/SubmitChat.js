@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, chatTextToChatJSON, apiJSONFetch, readFileToText } from "../../../functions/basefunctions";
+import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
 
 const InputOptions = {
     def: 0,
@@ -16,7 +16,7 @@ const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
     { ...opt, id:index, selected:false}
 ))
 
-const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
+const SubmitChat = ({ setSummaryRequest }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
@@ -42,29 +42,8 @@ const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
         fileUploaded.current = true
     }
 
-    const submitAPISummaryRequest = async (summary_options, chat_text) => {
-        const req = {
-            summary_options: summary_options,
-            chat_text: chat_text
-        }
-
-        try {
-            const [ status, res ] = await apiJSONFetch('submit-chat', 'POST', {}, req)
-        
-            if ( status !== 200 ) throw new Error('Invalid response: '+res)
-
-            // alert('Success!\n'+String(res))
-            console.log('Success;', res)
-        } catch ( error ){
-            console.error(error)
-        }
-    }
-
     const onSubmit = async () => {
-
-        let uploadContent = ""
         const request = {}
-
 
         try {
             if ( selectedInput === InputOptions.file ) {
@@ -72,20 +51,14 @@ const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
                 if ( !fileUploaded.current ) throw new Error('No file or invalid file uploaded!')
                 if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
 
-                
-
-                // read the contents from th e file
-                // uploadContent = await readFileToText(selectedFile.current)
-
-
                 request.type = 'file'
-                request.content = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+                request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
             }
 
             else if ( selectedInput === InputOptions.text ) {
                 if ( transcriptText.current === "" ) throw new Error('No transcript text!')
                 request.type = 'text'
-                request.content = chatTextToChatJSON( transcriptText.current )
+                request.chat_package = chatTextToChatJSON( transcriptText.current )
 
             } else {
                 throw new Error('No chat input selected!')
