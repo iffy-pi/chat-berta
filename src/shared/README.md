@@ -1,0 +1,1 @@
+This directory is shared by the both React and Flask.
