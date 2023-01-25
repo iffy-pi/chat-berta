@@ -241,7 +241,7 @@ def route_api_submit_chat():
     summary_options = request.json['summary_options']
 
     # retrieve the sample summary chat
-    with open( os.path.join( os.path.split(__name__)[0], '..', 'apiutils', 'samples', 'sample_summary_report.json' ) , 'r' ) as file:
+    with open( os.path.join( os.path.abspath(os.path.split(__file__)[0]), '..', 'apiutils', 'samples', 'sample_summary_report.json' ) , 'r' ) as file:
         chat_package = json.loads(file.read())
 
 
