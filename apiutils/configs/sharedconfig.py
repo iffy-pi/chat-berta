@@ -5,7 +5,7 @@ import json
 
 def load_shared_config():
     # read the json file and convert to dictionary
-    shared_config = json.loads( open( os.path.join('..', '..', 'src', 'shared', 'config.json') ).read() )
+    shared_config = json.loads( open( os.path.join('..', 'shared-linked', 'config.json') ).read() )
     return shared_config
 
 SHARED_CONFIG = load_shared_config()
