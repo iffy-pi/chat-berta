@@ -39,6 +39,12 @@ root
 ```
 server-void/ contains files that are not relevant for the entire application. This includes simple READMEs and notes, as well as prototype models and such. **All files required by the server can NEVER be put in server-void/**
 
+### Sharing files between frontend and backend
+If you want a given file to be shared by the frontend and backend, do the following:
+1. Save the file under shared-linked/
+2. Add the file path (relative to shared-linked) to shared-linked/shared_files.txt
+3. Run the script make_shared_links.py and commit your changes.
+
 
 # The Deployment Configuration
 The entire web server is split into the React frontend (APP) and the Flask Backend (API). These are deployed **separately** into different vercel productions.
@@ -92,6 +98,9 @@ vercel.json is used in the API deployment to override the default React build pr
 This file is not present on the app-vercel-production branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [afa86ea21db05f4f819323b642f6dfc0ea3a5c56](https://github.com/iffy-pi/chat-berta/commit/afa86ea21db05f4f819323b642f6dfc0ea3a5c56).
 
 **Note that commit afa86ea21db05f4f819323b642f6dfc0ea3a5c56 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+
+## Previous Deployments
+January 25 2022: Iffy deployed bare bones React frontend
 
 # Development Workbench Requirements
 You will need the following to work on the repository and use the development server.
@@ -166,6 +175,8 @@ pip freeze > requirements.txt
 ```
 
 You can test your changes in the development application (See the steps above)
+
+**Have a file that is used by both React and Flask? Place it in src/shared and access it from there!**
 
 ## Push Branch
 Push all your commits by using the command:

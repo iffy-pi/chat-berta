@@ -1,1 +1,1 @@
-This contains files used by React and Flask, it is located here to support React Imports.
+This directory is shared by the both React and Flask.
