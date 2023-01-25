@@ -23,9 +23,12 @@ The files and directories used for the Flask backend are:
 root
 |  api/
 |  apiutils/
+|  src/shared/
 |  requirements.txt
 |  vercel.json
 ```
+
+Note that src/shared/ contains JSON data files that are used by both React and Flask, it is located within src to support React imports!
 
 The remaining files would be:
 ```
@@ -49,11 +52,11 @@ Following this, each deployment has their own assigned branch in the repository:
 
 The development workflow is to merge commits into `main` and then merge from `main` to any of the production branches.
 
-**NEVER MERGE THE PRODUCTION BRANCHES INTO MAIN, THEY HAVE COMMITS SPECIFICALLY CONFIGURED FOR PRODUCTION**
+**⚠️NEVER MERGE THE PRODUCTION BRANCHES INTO MAIN, THEY HAVE COMMITS SPECIFICALLY CONFIGURED FOR PRODUCTION⚠️**
 
-**NEVER MERGE DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES**
+**⚠️NEVER MERGE DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES⚠️**
 
-**NEVER COMMIT DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES**
+**⚠️NEVER COMMIT DIRECTLY TO THE PRODUCTION BRANCHES, YOU SHOULD ONLY MERGE FROM MAIN INTO THE PRODUCTION BRANCHES⚠️**
 
 ## Vercel Project Management
 The vercel projects are under Iffy's Vercel account:
@@ -68,9 +71,9 @@ As said before, we only deploy from `main`. We do deployments by merging main to
 You can use the below links to quickly initiate a pull request:
 
 | Deployment Type |Pull Request URL |
-|------------------------|------------------------------------------------------------------------|
-| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/vercel-production...main |
-| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/vercel-production...main |
+|------------------------|----------------------------------------------------------------------------|
+| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/app-vercel-production...main |
+| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/api-vercel-production...main |
 
 Alternatively, you can also use promote.bat to quickly launch either of these pages from the command line.
 
@@ -178,4 +181,3 @@ git-pr.bat
 ```
 Enter `Y` to open a pull request and make sure to select `main` as the branch to merge with.
 Ideally, we should review merges to the mainline, but this may not be guaranteed.
-

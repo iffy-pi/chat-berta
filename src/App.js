@@ -1,12 +1,27 @@
-import Header from './components/Header'
+import Header from './components/common/Header'
 import { useState, useEffect } from 'react'
-import Button from './components/Button';
+import Button from './components/common/Button';
 import { CHAT_BERTA_API } from './configs/apiconfig'
+import ControlBoard from './components/control-board/ControlBoard';
+import SummaryView from './components/summary-view/SummaryView';
+
+const summaryStates = {
+  undef: 0,
+  paramsSent: 1
+}
 
 function App() {
 
   const [ headerMsg, setHeaderMsg ] = useState('Hello World!')
   const [ btnToggle, setButtonToggle ] = useState(true)
+
+  
+  const [ summaryRequest, setSummaryRequest ] = useState(null)
+
+  /*
+    summaryRequest is object of properties to make a summary with
+    request is populated from SubmitChat and used in the summary view
+  */
 
   const toggleButton = () => {
     setButtonToggle(!btnToggle)
@@ -28,6 +43,7 @@ function App() {
     console.log('End State:====>')
     console.log('Headers:===>')
     res.headers.forEach(function(val, key) { console.log(`'${key}': '${val}'`); })
+    console.log(res.headers.get('content-type'))
     console.log('End Headers:===>')
     
     // 201 is testing if we actually connected to the server
@@ -55,16 +71,14 @@ function App() {
     setHeaderMsg(data.message)
   }
 
-  useEffect( () => {
-    //getBEMsg()
-  }, [])
-
 
   return (
     <div>
-      <Header message={headerMsg}/>
+      {/* <Header message={headerMsg}/>
       <Button buttonText="Click?" onClick={toggleButton}/>
-      <Button buttonText="Query Backend" onClick={getBEMsg}/>
+      <Button buttonText="Query Backend" onClick={getBEMsg}/> */}
+      <ControlBoard setSummaryRequest={setSummaryRequest}/>
+      <SummaryView summaryRequest={summaryRequest}/>
     </div>
   );
 }
