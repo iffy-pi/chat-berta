@@ -106,11 +106,11 @@ const SubmitChat = ({ summaryRequest, setSummaryRequest }) => {
 
     return (
         <div className="basic-container">
-            <h1>{data.test}</h1>
+            <h2>Submit A Chat Request</h2>
             <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
-            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText}/>}
+            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
             { (selectedInput === InputOptions.def) && <br />}
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
             <Button buttonText="Summarize!" onClick={onSubmit}/>

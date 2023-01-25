@@ -2,7 +2,7 @@
     "SUMMARIZER_OPTIONS": [
         {
             "tag": "useStrict",
-            "desc": "Strict Sumamrizatiosn"
+            "desc": "Strict Sumamrization"
         },
         {
             "tag": "treatAsMonologue",

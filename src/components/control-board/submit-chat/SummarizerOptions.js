@@ -18,6 +18,7 @@ const SummarizerOptions = ({ options, returnOptions }) => {
 
     return (
         <div className="basic-container">
+            <h3>Summarizer Options</h3>
             {
             // map is a JS list function , takes a callback
             // and returns a new list where each element was run through the callbackl

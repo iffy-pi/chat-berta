@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { readFileToText, apiJSONFetch } from '../../functions/basefunctions'
 import logo from '../../media/react-logo.svg'
 import ChatPane from './chat-pane/ChatPane'
+import SummaryContentUnset from './summary-states/SummaryContentUnset'
+import SummaryContentLoading from './summary-states/SummaryContentLoading'
+import SummaryContentError from './summary-states/SummaryContentError'
+import SummaryParagraph from './SummaryParagraph'
 
 const ContentStates = {
     unset: 0,
@@ -9,22 +13,15 @@ const ContentStates = {
     set: 2
 }
 
-const Status = {
-    undef: 0,
-    success: 1,
-    failure: 2
-}
-
 const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
 
-    const [ localSummaryRequest, setlocalSummaryRequest ] = useState(null)
     const [ contentState, setContentState ] = useState(ContentStates.unset)
     const [ summarySuccess, setSummarySuccess ] = useState(false)
-    const [ summaryResponseChat, setSummaryResponseChat ] = useState(null)
+    const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
+    const [ requestError, setRequestError ] = useState('')
 
     const unpackSummaryRequest = async (request) => {
         // unpack the file if the request package is a file
-        console.log('Unpacking request')
 
         const req = {
             summary_options: request.options,
@@ -47,10 +44,10 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             //     content: JSON.stringify(res.content.parsed_chat)
             // })
 
-            setSummaryResponseChat(res.content.parsed_chat)
+            setSummaryChatPackage(res.content.parsed_chat)
             setSummarySuccess(true)
         } catch ( error ){
-            console.error(error)
+            setRequestError(String(error))
             setSummarySuccess(false)
         }
 
@@ -69,13 +66,9 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
     const renderContentState = (contentState) => {
         switch(contentState) {
             case ContentStates.unset:
-                return (<div><p>No content available</p></div>)
+                return (<SummaryContentUnset />)
             case ContentStates.loading:
-                return (
-                    <div>
-                        <p>Loading...</p>
-                    </div>
-                )
+                return (<SummaryContentLoading />)
             default:
                 return (<div><p>Unknown</p></div>)
         }
@@ -88,16 +81,13 @@ const SummaryView = ({ summaryRequest, setSummaryRequest }) => {
             {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
 
             {/* Errorneous request */}
-            { (contentState === ContentStates.set && !summarySuccess) && 
-            <div className='basic-container'>
-                <p>Request failed!</p>
-            </div>
-            }
+            { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
 
             {/* For loading the actual data */}
             { (contentState === ContentStates.set && summarySuccess ) && 
-            <div className='basic-container'>
-                <ChatPane chatPackage={summaryResponseChat}/>
+            <div>
+                <SummaryParagraph chatPackage={summaryChatPackage}/>
+                <ChatPane chatPackage={summaryChatPackage}/>
             </div>
             }
         </div>

@@ -7,7 +7,9 @@ const ChatPane = ({ chatPackage }) => {
     const summaryMessageIDs = chatPackage.summary_messages.map( (message) => message.id)
 
     return (
-        <div>
+        <div className="basic-container">
+            <h3>Chat Pane</h3>
+            <p>Messsages collation below should be scrollable</p>
             {
                 messages.map( (message) => {
                     return <Message text={message.text} thick={ summaryMessageIDs.includes(message.id) } />

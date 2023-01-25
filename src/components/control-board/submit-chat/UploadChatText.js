@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-const UploadChatText = ({ returnText }) => {
-    const [ _transcriptText, _setTranscriptText ] = useState('')
+const UploadChatText = ({ returnText, transcriptText }) => {
+    const [ _transcriptText, _setTranscriptText ] = useState(transcriptText)
 
     const onTextChange = (newText) => {
         // we set the transcript text and return to parent component
@@ -16,7 +16,7 @@ const UploadChatText = ({ returnText }) => {
             <textarea 
             id="transcript_text_box" 
             name="transcript_text" 
-            rows="10" cols="75" 
+            rows="20" cols="100" 
             placeholder="Type/Paste transcript here!" 
             value={_transcriptText} 
             onChange={(e) => onTextChange(e.target.value)} />
