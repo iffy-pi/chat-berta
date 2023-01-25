@@ -3,7 +3,7 @@ import os
 import sys
 
 # this is the place we will be linking to
-MASTER_SHARED_DIR = os.path.abspath(os.path.split(__name__)[0])
+MASTER_SHARED_DIR = os.path.abspath(os.path.split(__file__)[0])
 APP_SHARED_DIR = os.path.join( MASTER_SHARED_DIR, '..', 'src', 'shared-linked')
 API_SHARED_DIR = os.path.join( MASTER_SHARED_DIR, '..', 'apiutils', 'shared-linked')
 
@@ -22,7 +22,7 @@ with open( os.path.join(MASTER_SHARED_DIR, 'shared_files.txt'), 'r') as file:
             # delete the file if it already exists at that location
             if os.path.exists( link_dest_path ):
                 os.remove( link_dest_path )
-                print('Deleted {}'.format(link_dest_path))
+                
 
             os.link( src_file_path, link_dest_path  )
-            print('Link Created: {} <===> {}'.format(src_file_path, link_dest_path))
+            print('Link Created:\n{} <===> {}'.format(src_file_path, link_dest_path))
