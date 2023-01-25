@@ -39,6 +39,33 @@ root
 ```
 server-void/ contains files that are not relevant for the entire application. This includes simple READMEs and notes, as well as prototype models and such. **All files required by the server can NEVER be put in server-void/**
 
+## Shared Files with shared-linked/
+shared-linked/ is a special folder that is shared by both the backend and the frontend. However, this folder is not immediately accessible to either ends, so proxy folders were created:
+- apiutils/shared-linked Flask backend
+- src/shared-linked for React frontend
+
+The files in these proxy folders are hard links to the file in the master shared folder (shared-linked/). For example, apituils/shared-linked/config.json and scr/shared-linked/config.json are both hard links to the actual file shared-linked/config.json.
+
+Hard links are essentially super shortcuts. When a hard link is created from a/foo.txt to b/foo.txt, it implements an OS level shortcut such that any file reading will see foo.txt under b/ even though it only exists as an actual file in a/.
+
+With hard links, we would only have to make changes to files in shared-linked/ and the changes will be reflected to the 'files' in the different proxy folders.
+
+However, Git cannot recognize or maintain hard links, so it just sees actual files at the proxy locations and handles them as actual file copies. This means that if the repository is cloned, the files in the proxy folder will not be hardlinked to the master shared folder.
+
+To fix this, the python script shared-linked/make_shared_links.py automatically converts the file copies to hard links within the local copy of the repository. After the script is run, any changes made to the master shared folder would be reflected in the proxy folders due to the hard links.
+
+The file shared_files.txt, contains a list of files in the master shared folder which are to be put in the proxy folders. This is read by the python script and used in making the hard links.
+
+In summary, when the repository is cloned, you must run make_shared_links.py to make sue changes are done correctly.
+
+This also means that if you want files to be shared by both frontend and backend, be sure to add it to shared_files.txt
+
+### Sharing files between frontend and backend
+If you want a given file to be shared by the frontend and backend, do the following:
+1. Save the file under shared-linked/
+2. Add the file path (relative to shared-linked) to shared-linked/shared_files.txt
+3. Run the script make_shared_links.py and commit your changes.
+
 
 # The Deployment Configuration
 The entire web server is split into the React frontend (APP) and the Flask Backend (API). These are deployed **separately** into different vercel productions.
@@ -105,6 +132,13 @@ You will need the following to work on the repository and use the development se
 2. The environment variable `CHATBERTA_SECRET_KEY`, used for setting the server session key, (contact Iffy for environment variable value)
 3. The environment variable set `CHATBERTA_PBFS_DEV_SVR` to `ChatBerta-PBFS-Dev-Server`
 
+## Initial Clone of The Repository
+When you initially clone the repository run the python script below to make required hard links (see Shared files with shared-linked/):
+
+```
+python shared-linked/make_shared_links.py
+```
+
 # Running The Development Application
 ## Running the backend (Flask)
 1. Start your virtual environment
@@ -166,6 +200,8 @@ pip freeze > requirements.txt
 ```
 
 You can test your changes in the development application (See the steps above)
+
+**Have a file that is used by both React and Flask? See Sharing files between frontend and backend above**
 
 ## Push Branch
 Push all your commits by using the command:
