@@ -2,23 +2,28 @@ import io
 import mimetypes
 import os
 import json
+import time
 
 
 from flask import (Flask, flash, redirect, render_template, request, send_file,
                    session, url_for, Response)
-from api.apiutils import *
-from utils.PushBulletFileServer import PushBulletFileServer
-from utils.ChatlogXML import create_chatlog_xml
-from utils.configs.summarizer import SUMMARIZER_OPTIONS
-from utils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
+from flask_cors import CORS 
+from apiutils.functions.apifuncs import *
+from apiutils.functions.PushBulletFileServer import PushBulletFileServer
+from apiutils.functions.ChatParser import create_chatlog_xml
+from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
+from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
+from apiutils.functions.HTTPResponses import *
 
 # initialize app flask object
 # intializing to the name of the file
 app = Flask(__name__)
+# https://stackoverflow.com/questions/20035101/why-does-my-javascript-code-receive-a-no-access-control-allow-origin-header-i
+CORS(app)
 
 # Load app configuration from config.py, must be at root of repository
 # Source: https://exploreflask.com/en/latest/configuration.html
-app.config.from_pyfile('config.py')
+app.config.from_pyfile(os.path.join('..', 'apiutils', 'configs', 'apiconfig.py'))
 
 # App routing information
     # now we use app routing to map a function to a given page of our website
@@ -41,7 +46,7 @@ pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, cre
 
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
-    return render_template('console.html', content=gen_unique_tag())
+    return render_template('console.html', content=app.config['ALLOWED_EXTENSIONS'])
 
 
 @app.route('/testPage', methods=['GET', 'POST'])
@@ -211,6 +216,47 @@ def route_react_testing():
     return resp
     
     #return render_template('console.html', content='Serving')
+
+@app.route('/api/submit-chat', methods=['POST', 'GET'])
+def route_api_submit_chat():
+    if request.method != 'POST':
+        return error_response(400, message='Invalid HTTP method!')
+
+    # Expecting the following keys
+    # summary options and transcript
+    if request.json is None:
+        return error_response(400, message='No JSON content included!')
+
+    expected_keys = [ 'summary_options', 'chat_package']
+
+    missing_keys = list(filter(
+        lambda key: key not in request.json,
+        expected_keys
+    ))
+
+    if len(missing_keys) > 0:
+        return error_response(400, message="Required keys are missing: {}".format(missing_keys))
+
+    # then retrieve the items
+    summary_options = request.json['summary_options']
+
+    # retrieve the sample summary chat
+    with open( os.path.join( os.path.split(__name__)[0], '..', 'apiutils', 'samples', 'sample_summary_report.json' ) , 'r' ) as file:
+        chat_package = json.loads(file.read())
+
+
+    # for now craft a simple relay message
+    js = {
+        'summary_options': summary_options,
+        'chat_package': chat_package
+    }
+
+    time.sleep(0.5)
+
+    resp = make_json_response(js)
+    return resp
+
+
 
 # running the code
 if __name__ == '__main__':

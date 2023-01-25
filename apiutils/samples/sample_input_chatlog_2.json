@@ -1,0 +1,181 @@
+{
+    "config": {
+        "parties": [
+            {
+                "id": 0,
+                "name": "Jane"
+            },
+            {
+                "id": 1,
+                "name": "John"
+            }
+        ]
+    },
+    "messages": [
+        {
+            "id": 0,
+            "pid": 0,
+            "text": "What are three words you use describe yourself and why? (Nathalia)"
+        },
+        {
+            "id": 1,
+            "pid": 0,
+            "text": "Describe a situation where you juggled multiple priorities and how were you able to be organized? (Iffy)"
+        },
+        {
+            "id": 2,
+            "pid": 0,
+            "text": "What is your motivation for joining NSBE and what do you want to gain from NSBE? (Nathalia)"
+        },
+        {
+            "id": 3,
+            "pid": 0,
+            "text": "What makes you think you are a good fit for this position? (Iffy)"
+        },
+        {
+            "id": 4,
+            "pid": 0,
+            "text": "Do you have experience in the management/creation of websites? (Nathalia)"
+        },
+        {
+            "id": 5,
+            "pid": 0,
+            "text": "Do you have any experience in troubleshooting technical problems? If so could you give us one example and a possible solution? (Iffy)"
+        },
+        {
+            "id": 6,
+            "pid": 0,
+            "text": "Are you familiar with any skills or methods at obtaining club sponsors and the such? (Nathalia)"
+        },
+        {
+            "id": 7,
+            "pid": 1,
+            "text": "What are three words you use describe yourself and why? (Iffy)"
+        },
+        {
+            "id": 8,
+            "pid": 1,
+            "text": "Describe a situation where you juggled multiple priorities and how were you able to be organized (Nathalia)"
+        },
+        {
+            "id": 9,
+            "pid": 1,
+            "text": "What is your motivation for joining NSBE and what do you want to gain from NSBE? (Iffy)"
+        },
+        {
+            "id": 10,
+            "pid": 1,
+            "text": "What makes you think you are a good fit for this position? (Nathalia)"
+        },
+        {
+            "id": 11,
+            "pid": 1,
+            "text": "Do you have any tutoring or some level of teaching experience? (e.g. helping peers with assignments, understanding lesson concepts) (Iffy)"
+        },
+        {
+            "id": 12,
+            "pid": 1,
+            "text": "What are three words you use describe yourself and why? (Nathalia)"
+        },
+        {
+            "id": 13,
+            "pid": 1,
+            "text": "Describe a situation where you juggled multiple priorities and how were you able to be organized (Iffy)"
+        },
+        {
+            "id": 14,
+            "pid": 1,
+            "text": "What is your motivation for joining NSBE and what do you want to gain from NSBE? (Nathalia)"
+        },
+        {
+            "id": 15,
+            "pid": 1,
+            "text": "What makes you think you are a good fit for this position? (Iffy)"
+        },
+        {
+            "id": 16,
+            "pid": 1,
+            "text": "Are you comfortable with starting and facilitating communications between the club and external companies? (Nathalia)"
+        },
+        {
+            "id": 17,
+            "pid": 1,
+            "text": "You mentioned in your application that your experience as black-identifying student has been excellent, and the presence of a strong African community. Did you actively seek out that community or were they already visible? (Iffy)"
+        },
+        {
+            "id": 18,
+            "pid": 1,
+            "text": "Do you have any connections with professional alumni and or interested organizations? (Not a do/don't more just a curious one). (Nathalia)"
+        },
+        {
+            "id": 19,
+            "pid": 0,
+            "text": "What are three words you use describe yourself and why? (Iffy)"
+        },
+        {
+            "id": 20,
+            "pid": 0,
+            "text": "Describe a situation where you juggled multiple priorities and how were you able to be organized (Nathalia)"
+        },
+        {
+            "id": 21,
+            "pid": 0,
+            "text": "What is your motivation for joining NSBE and what do you want to gain from NSBE? (Iffy)"
+        },
+        {
+            "id": 22,
+            "pid": 0,
+            "text": "What makes you think you are a good fit for this position? (Nathalia)"
+        },
+        {
+            "id": 23,
+            "pid": 0,
+            "text": "Do you have experience in the management/creation of websites  (Iffy)"
+        },
+        {
+            "id": 24,
+            "pid": 0,
+            "text": "Do you have any experience in troubleshooting technical problems? If so could you give us one example and a possible solution? (Nathalia)"
+        },
+        {
+            "id": 25,
+            "pid": 0,
+            "text": "Are you familiar with any skills or methods at obtaining club sponsors and the such? (Iffy)"
+        },
+        {
+            "id": 26,
+            "pid": 1,
+            "text": "What are three words you use describe yourself and why? (Iffy)"
+        },
+        {
+            "id": 27,
+            "pid": 1,
+            "text": "Describe a situation where you juggled multiple priorities and how were you able to be organized (Nathalia)"
+        },
+        {
+            "id": 28,
+            "pid": 1,
+            "text": "What is your motivation for joining NSBE and what do you want to gain from NSBE? (Iffy)"
+        },
+        {
+            "id": 29,
+            "pid": 1,
+            "text": "What makes you think you are a good fit for this position? (Nathalia)"
+        },
+        {
+            "id": 30,
+            "pid": 1,
+            "text": "Do you have experience in the management/creation of websites  (Iffy)"
+        },
+        {
+            "id": 31,
+            "pid": 1,
+            "text": "Do you have any experience in troubleshooting technical problems? If so could you give us one example and a possible solution? (Nathalia)"
+        },
+        {
+            "id": 32,
+            "pid": 1,
+            "text": "Are you familiar with any skills or methods at obtaining club sponsors and the such? (Iffy)"
+        }
+    ]
+}
