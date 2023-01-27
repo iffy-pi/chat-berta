@@ -39,7 +39,7 @@ On a phone, the SummaryView component should automatically fall under the Contro
 
 ![[Pasted image 20230126004739.png]]
 
-### Initial Page
+### Initial Page (SummaryContentUnset)
 The Initial page should have some basic info on the SummaryView component such as:
 
 ![[Pasted image 20230126004839.png]]
@@ -48,12 +48,12 @@ We also have the different layouts for the different input options, the above is
 
 ![[Pasted image 20230126004915.png]]
 
-### Loading Page
+### Loading Page (SummaryContentLoading)
 The loading page will have a simple loading gif (not rendered below):
 
 ![[Pasted image 20230126005005.png]]
 
-### Error Page
+### Error Page (SummaryContentError)
 If the summary request failed, we can have a simple error page that returns the error information:
 
 ![[Pasted image 20230126005034.png]]
