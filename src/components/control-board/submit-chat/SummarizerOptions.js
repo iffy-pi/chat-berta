@@ -26,7 +26,7 @@ const SummarizerOptions = ({ options, returnOptions }) => {
             // so returns task headers
             // JSX knows to expand scripts outwards
             _options.map( (opt) => (
-                <div>
+                <div key={opt.id}>
                     <input type="checkbox" id={`summarizer_opt_id_${opt.id}`} name={`summarizer_opt_${opt.tag}`} value={opt.tag} checked={opt.selected} onChange={() => _toggleOption(opt.id)}/>
                     <label htmlFor={`summarizer_opt_id_${opt.id}`}>{opt.desc}</label><br/>
                 </div>

@@ -24,7 +24,7 @@ const ChatInputOptions = ({ options, returnSelected}) => {
             // so returns task headers
             // JSX knows to expand scripts outwards
             localOptions.map( (opt) => (
-                <div>
+                <div key={opt.id}>
                     <input type="radio" id={`chat_input_opt_id${opt.id}`} name={`chat_input_${opt.label}`} checked={opt.selected} value={opt.label}  onChange={() => selectOption(opt.id)}/>
                     <label htmlFor={`chat_input_opt_id${opt.id}`}>{opt.label}</label><br/>
                 </div>
