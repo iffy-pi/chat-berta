@@ -8,7 +8,9 @@ The labelled items above are the React components used in the source code. Each 
 
 The message components with thicker lines are summarizer messages. (That is, messages included in the summary paragraph)
 
-The OptionsToggle will be implemented as a checkbox component, in a few days but as for now it is just implemented as two buttons. (The CSS can design it as a checkbox).
+The OptionsToggle (formally ChatInputOptions component) will be implemented as a checkbox component, (The CSS can design it as a checkbox):
+
+![[Pasted image 20230127190931.png]]
 
 We also have different components for different states of the `SummaryView` content.
 
