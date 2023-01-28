@@ -5,12 +5,26 @@ import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
 import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
+import ChatInputOptions from "./ChatInputOptions";
 
 const InputOptions = {
     def: 0,
     file: 1,
     text: 2
 }
+
+const inputOptionsRendered = [
+    {
+        'label': 'Paste Transcript',
+        'id': InputOptions.text,
+        selected: false,
+    },
+    {
+        'label': 'Upload File',
+        'id': InputOptions.file,
+        selected: false,
+    }
+]
 
 const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
     { ...opt, id:index, selected:false}
@@ -32,6 +46,10 @@ const SubmitChat = ({ setSummaryRequest }) => {
     const updateSelectedOptions = ( options ) => {
         summaryOptions.current = options
     }
+
+    const updateSelectedInput = (inputOption) => {
+        setSelectedInput(inputOption)
+    } 
 
     const failedFileUpload = ( error ) => {
         alert('File upload failed!\nError: '+error)
@@ -80,8 +98,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
     return (
         <div className="basic-container">
             <h2>Submit A Chat Request</h2>
-            <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
-            <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+            <ChatInputOptions options={inputOptionsRendered} returnSelected={updateSelectedInput}/>
+            {/* <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
+            <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/> */}
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
             { (selectedInput === InputOptions.def) && <br />}
