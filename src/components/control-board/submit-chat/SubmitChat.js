@@ -70,20 +70,30 @@ const SubmitChat = ({ setSummaryRequest }) => {
                 if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
 
                 request.type = 'file'
-                request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+
+                try{ 
+                    request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+                } catch ( error ) {
+                    throw new Error('File Parsing Error: '+String(error.message))
+                }
             }
 
             else if ( selectedInput === InputOptions.text ) {
                 if ( transcriptText.current === "" ) throw new Error('No transcript text!')
                 request.type = 'text'
-                request.chat_package = chatTextToChatJSON( transcriptText.current )
+
+                try{ 
+                    request.chat_package = chatTextToChatJSON( transcriptText.current )
+                } catch ( error ) {
+                    throw new Error('File Parsing Error: '+String(error.message))
+                }
 
             } else {
                 throw new Error('No chat input selected!')
             }
 
         } catch(error){
-            alert('Submission Failed!\nReason: '+error)
+            alert('Submission Failed!\nError: '+error.message)
             return
         }
 

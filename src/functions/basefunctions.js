@@ -93,7 +93,7 @@ const chatTextToChatJSON = ( transcriptText ) => {
             continue;
         }
 
-        if ( curPartyID === -1) throw new Error('Text Parsing Error: No party labels found!')
+        if ( curPartyID === -1) throw new Error('No party labels found!')
 
         // Add to messages if it is not already present
         messages.push({
@@ -103,6 +103,8 @@ const chatTextToChatJSON = ( transcriptText ) => {
         })
         
     }
+
+    if ( messages.length === 0 ) throw new Error('No messages found in the transcript!')
 
     const partiesObj = []
     parties.forEach((p, i) => { partiesObj.push({ id: i, name: p })})
