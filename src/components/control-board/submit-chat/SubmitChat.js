@@ -6,6 +6,7 @@ import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
 import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
 import ChatInputOptions from "./ChatInputOptions";
+import ExpectedTranscriptFormat from "./ExpectedTranscriptFormat";
 
 const InputOptions = {
     def: 0,
@@ -111,6 +112,7 @@ const SubmitChat = ({ setSummaryRequest }) => {
             <ChatInputOptions options={inputOptionsRendered} returnSelected={updateSelectedInput}/>
             {/* <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/> */}
+            <ExpectedTranscriptFormat />
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
             { (selectedInput === InputOptions.def) && <br />}

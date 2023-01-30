@@ -144,3 +144,14 @@ footer {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+code {font-size: 120%;}
+      
+      
+pre code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 1px;
+  width: 650px;
+}
