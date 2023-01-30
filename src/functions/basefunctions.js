@@ -106,6 +106,8 @@ const chatTextToChatJSON = ( transcriptText ) => {
 
     if ( messages.length === 0 ) throw new Error('No messages found in the transcript!')
 
+    if ( parties.length > 2 ) throw new Error('Chat summarization is only supported for two parties!')
+
     const partiesObj = []
     parties.forEach((p, i) => { partiesObj.push({ id: i, name: p })})
 
