@@ -115,7 +115,7 @@ const SubmitChat = ({ setSummaryRequest }) => {
             <ExpectedTranscriptFormat />
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
-            { (selectedInput === InputOptions.def) && <br />}
+            { (selectedInput !== InputOptions.def) && <br />} 
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
             <Button buttonText="Summarize!" onClick={onSubmit}/>
         </div>
