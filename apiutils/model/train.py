@@ -5,6 +5,7 @@ from chat_bert_trainer import CustomTrainer
 from datasets import load_dataset, load_metric
 from data_preprocessing import process_dataset
 from samsum import SamSumDataset
+import logging
 tokenizer:PreTrainedTokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=1)
 datasets = load_dataset("samsum")
@@ -15,19 +16,25 @@ def preprocess_function(dataset, tokenizer, max_length=512):
     for example in dataset:
         # Tokenize the input text
         encoded_input = tokenizer.encode_plus(example["dialogue"], max_length=max_length, pad_to_max_length=True, return_tensors='pt')
-        # sentences = example['dialogue'].split("\r\n")
-        # encoded_input = tokenizer.encode_plus(sentences, max_length=max_length, pad_to_max_length=True, return_tensors='pt')
-
         # Concatenate the summaries and tokenize the label
         label = example["summary"]
         encoded_label = tokenizer.encode_plus(label, max_length=max_length, pad_to_max_length=True, return_tensors='pt')
 
         encodings["input_ids"] = torch.cat((encodings["input_ids"], encoded_input["input_ids"]), dim=0)
-       # encodings["input_ids"].append(encoded_input["input_ids"])
         encodings["attention_mask"] = torch.cat((encodings["attention_mask"], encoded_input["attention_mask"]), dim=0)
-        #encodings["attention_mask"].append(encoded_input["attention_mask"])
         labels = torch.cat((labels, encoded_label["input_ids"]), dim=0)
+    
+    # for example in dataset:
+    #     sentences = example['dialogue'].split("\r\n")
+    #     encoded_input = tokenizer.encode_plus(sentences, max_length=max_length, pad_to_max_length=True, return_tensors='pt')
 
+    #     # Concatenate the summaries and tokenize the label
+    #     label = example["summary"]
+    #     encoded_label = tokenizer.encode_plus(label, max_length=max_length, pad_to_max_length=True, return_tensors='pt')
+
+    #     encodings["input_ids"] = torch.cat((encodings["input_ids"], encoded_input["input_ids"]), dim=0)
+    #     encodings["attention_mask"] = torch.cat((encodings["attention_mask"], encoded_input["attention_mask"]), dim=0)
+    #     labels = torch.cat((labels, encoded_label["input_ids"]), dim=0)
 
     return SamSumDataset(encodings, labels)
 
