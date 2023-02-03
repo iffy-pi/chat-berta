@@ -96,8 +96,8 @@ const SubmitChat = ({ setSummaryRequest }) => {
     
 
     return (
-        <div className="basic-container">
-            <h2>Submit A Chat Request</h2>
+        <div className="submit-chat-component">
+            <h2 className="header">Submit A Chat Request</h2>
             <ChatInputOptions options={inputOptionsRendered} returnSelected={updateSelectedInput}/>
             {/* <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
             <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/> */}

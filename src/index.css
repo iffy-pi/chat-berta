@@ -165,3 +165,9 @@ footer {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+.submit-chat-component {
+  border: 1px solid red;
+  margin: 10px;
+  padding: 10px;
+}
