@@ -18,6 +18,8 @@ body {
   border: 1px solid steelblue;
   padding: 30px;
   border-radius: 5px;
+  background-color: #f2f2f2; /* Added background color to container */
+  text-align: center; /* Aligned text center in container */
 }
 
 .higherordercontainer {
@@ -48,10 +50,15 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  background-color: steelblue; /* Changed header background color */
+  color: #fff; /* Changed text color in header */
+  padding: 20px; /* Added padding to header */
+  border-radius: 5px 5px 0 0; /* Added rounded corners to header */
 }
 
 .btn {
   display: inline-block;
+  background: steelblue; /* Changed button background color */
   background: #000;
   color: #fff;
   border: none;
@@ -82,10 +89,12 @@ body {
   margin: 5px;
   padding: 10px 20px;
   cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Added box shadow to task */
 }
 
 .task.reminder {
   border-left: 5px solid green;
+  background-color: #e6ffed; /* Changed reminder task background color */
 }
 
 .task h3 {
@@ -107,11 +116,12 @@ body {
 }
 
 .form-control input {
-  width: 100%;
+  width: 60%; /* Reduced input width */
   height: 40px;
-  margin: 5px;
+  margin: 5px 20%; /* Changed margin value */
   padding: 3px 7px;
   font-size: 17px;
+  border: 1px solid steelblue; /* Added border to input field */
 }
 
 .form-control-check {
@@ -132,6 +142,7 @@ body {
 footer {
   margin-top: 30px;
   text-align: center;
+  color: steelblue; /* Changed text color in footer */
 }
 
 .App-logo {
@@ -139,10 +150,26 @@ footer {
   pointer-events: none;
 }
 
+.basic-container button{
+  background: rgb(0 126 57);
+  font-family: 'Poppins';
+  width: 100%;
+  color: #fff;
+  height: 50px;
+  font-size: 25px;
+  border: 3px solid #000;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.submit-chat-component {
+  border: 1px solid red;
+  margin: 10px;
+  padding: 10px;
 }
 
 code {font-size: 120%;}
