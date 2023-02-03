@@ -153,5 +153,15 @@ pre code {
   border: 1px solid #999;
   display: block;
   padding: 1px;
-  width: 650px;
+  /* width: 650px; */
+}
+
+.code-block {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 1%;
+  white-space: pre;
+  font-size: 120%;
+  /* width: 650px; */
 }
