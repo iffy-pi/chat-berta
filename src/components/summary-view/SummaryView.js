@@ -71,21 +71,23 @@ const SummaryView = ({ summaryRequest }) => {
     }
 
     return (
-        <div className="basic-container">
-            <h1>Summary View</h1>
-            <p>This will contain the information about the rendered summary</p>
-            {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
+        <div className="bcontainer summary-view-parent">
+            <div className="bcontainer summary-view">
+                <h1>Summary View</h1>
+                <p>This will contain the information about the rendered summary</p>
+                {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
 
-            {/* Errorneous request */}
-            { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
+                {/* Errorneous request */}
+                { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
 
-            {/* For loading the actual data */}
-            { (contentState === ContentStates.set && summarySuccess ) && 
-            <div>
-                <SummaryParagraph chatPackage={summaryChatPackage}/>
-                <ChatPane chatPackage={summaryChatPackage}/>
+                {/* For loading the actual data */}
+                { (contentState === ContentStates.set && summarySuccess ) && 
+                <div>
+                    <SummaryParagraph chatPackage={summaryChatPackage}/>
+                    <ChatPane chatPackage={summaryChatPackage}/>
+                </div>
+                }
             </div>
-            }
         </div>
     )
 }

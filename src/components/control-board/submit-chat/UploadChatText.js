@@ -16,7 +16,7 @@ const UploadChatText = ({ returnText, transcriptText }) => {
             <textarea 
             id="transcript_text_box" 
             name="transcript_text" 
-            rows="20" cols="100" 
+            rows="20" cols="50" 
             placeholder="Type/Paste transcript here!" 
             value={_transcriptText} 
             onChange={(e) => onTextChange(e.target.value)} />
