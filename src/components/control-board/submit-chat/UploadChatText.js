@@ -11,8 +11,8 @@ const UploadChatText = ({ returnText, transcriptText }) => {
     }
 
     return (
-        <div className="basic-container">
-            <p><label htmlFor="transcript_text_box">Paste Dialog Transcript Below:</label></p>
+        <div className="chat-src-panel">
+            <smalltitle>Paste Dialog Transcript Below:</smalltitle>
             <textarea 
             id="transcript_text_box" 
             name="transcript_text" 

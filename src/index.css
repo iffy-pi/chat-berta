@@ -49,7 +49,7 @@ body {
 
 .btn {
   display: inline-block;
-  background: steelblue; /* Changed button background color */
+  background: steelblue;
   background: #000;
   color: #fff;
   border: none;
@@ -141,7 +141,7 @@ footer {
   pointer-events: none;
 }
 
-.basic-container button{
+/* .basic-container button{
   background: rgb(0 126 57);
   font-family: 'Poppins';
   width: 100%;
@@ -149,7 +149,7 @@ footer {
   height: 50px;
   font-size: 25px;
   border: 3px solid #000;
-}
+} */
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -163,7 +163,9 @@ footer {
   padding: 10px;
 }
 
-code {font-size: 120%;}
+code {
+  font-size: 120%;
+}
       
       
 pre code {
@@ -171,7 +173,132 @@ pre code {
   border: 1px solid #999;
   display: block;
   padding: 1px;
+  white-space: pre-wrap;
   /* width: 650px; */
+}
+
+/* New CSS Begins here */
+
+.center-div {
+  text-align: center;
+}
+
+/* App JS stuff */
+.app-container {
+  display: flex;
+  flex-wrap: wrap;
+  border: 6px solid black;
+  justify-content: space-between;
+  min-width: 850px;
+}
+
+.summary-view-parent {
+  padding: 16px;
+  flex-basis: 800px;
+}
+
+.control-board-parent {
+  padding: 16px;
+  flex-basis: 560px;
+}
+
+.summary-view {
+  margin: auto;
+  width: 720px;
+}
+
+.control-board {
+  width: 480px;
+}
+
+/* Control Board Items */
+.control-board-header {
+  border-bottom: 2px solid rgb(126, 126, 126);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.control-board-subtitle {
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Submit Chat */
+.submit-chat-section {
+  display: flex;
+  justify-content: space-between;
+  width: 435px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(126, 126, 126);
+}
+
+.submit-chat-header {
+  width: 170px;
+}
+
+/* Chat Input Options */
+
+.chat-input-options {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.opt-btn {
+  background: white;
+  color: black;
+  border: 2.5px solid black;
+  padding: 3px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.opt-btn:focus {
+  background: #00B050;
+  color: white;
+}
+
+.opt-btn:hover {
+  background: #80b598;
+  color: white;
+}
+
+/* Expected Transcript Format */
+
+.transcript-format {
+  margin: 10px;
+  padding-top: 5px;
+}
+
+.transcript-format subtitle {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.tfp button {
+  width: 96%;
+  color: #fff;
+  background: rgb(0, 76, 126);
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 15px;
+  border: 3px solid #000;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.tfp button:hover {
+  background: rgb(0, 112, 186);
+}
+
+.clicked {
+  margin-top: 0px;
 }
 
 .code-block {
@@ -181,32 +308,37 @@ pre code {
   padding: 1%;
   white-space: pre;
   font-size: 120%;
+  overflow: auto;
   /* width: 650px; */
 }
 
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  border: 6px solid black;
-  justify-content: space-between;
-  min-width: 850px;
+/* Chat input sources */
+
+smalltitle {
+  font-size: 17px;
+  font-weight: bold;
 }
 
-.summary-view-parent {
-  padding: 1rem;
-  flex-basis: 50rem;
+.chat-src-panel {
+  /* border: 3px solid #005f2b; */
+  /* margin: 10px; */
+  padding: 10px;
+  border-radius: 7px;
+  text-align:center;
 }
 
-.control-board-parent {
-  padding: 1rem;
-  flex-basis: 35em;
+.summarize-btn{
+  background: rgb(0 126 57);
+  font-family: 'Poppins';
+  width: 100%;
+  color: #fff;
+  height: 50px;
+  font-size: 25px;
+  border: 3px solid #000;
+  font-weight: bold;
 }
 
-.summary-view {
-  margin: auto;
-  width: 45rem;
-}
-
-.control-board {
-  width: 30rem;
+.summarize-btn:hover {
+  background: rgb(0, 229, 103);
+  color: #fff;
 }

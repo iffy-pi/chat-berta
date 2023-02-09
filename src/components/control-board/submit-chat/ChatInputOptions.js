@@ -16,7 +16,8 @@ const ChatInputOptions = ({ options, returnSelected}) => {
     }
 
     return (
-        <div className="basic-container">
+        <div className="bcontainer chat-input-options">
+            <p>Select source:</p>
             {
             // map is a JS list function , takes a callback
             // and returns a new list where each element was run through the callbackl

@@ -12,7 +12,7 @@ function App() {
 
 
   return (
-    <div className="flex-container">
+    <div className="app-container">
       <ControlBoard setSummaryRequest={setSummaryRequest}/>
       <SummaryView summaryRequest={summaryRequest}/>
     </div>

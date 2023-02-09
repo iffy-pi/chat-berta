@@ -108,16 +108,23 @@ const SubmitChat = ({ setSummaryRequest }) => {
 
     return (
         <div className="submit-chat-component">
-            <h2 className="header">Submit A Chat Request</h2>
-            <ChatInputOptions options={inputOptionsRendered} returnSelected={updateSelectedInput}/>
-            {/* <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
-            <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/> */}
-            <ExpectedTranscriptFormat />
+            <div className="submit-chat-section">
+                <div className="submit-chat-header">
+                    <h2>Submit A</h2>
+                    <h2>Chat Request</h2>
+                </div>
+                <div className="chat-input-options">
+                    <p>Select a source:</p>
+                    <Button className="opt-btn" buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
+                    <Button className="opt-btn" buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+                </div>
+            </div>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
+            <ExpectedTranscriptFormat />
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
-            <Button buttonText="Summarize!" onClick={onSubmit}/>
+            <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
         </div>
     )
 }
