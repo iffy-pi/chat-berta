@@ -266,6 +266,11 @@ pre code {
   color: white;
 }
 
+.opt-btn-clicked {
+  background: #00B050;
+  color: white;
+}
+
 /* Expected Transcript Format */
 
 .transcript-format {

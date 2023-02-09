@@ -115,8 +115,8 @@ const SubmitChat = ({ setSummaryRequest }) => {
                 </div>
                 <div className="chat-input-options">
                     <p>Select a source:</p>
-                    <Button className="opt-btn" buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
-                    <Button className="opt-btn" buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+                    <Button className={"opt-btn" + ((selectedInput === InputOptions.text) ? " opt-btn-clicked": "")}  buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
+                    <Button className={"opt-btn" + ((selectedInput === InputOptions.file) ? " opt-btn-clicked" : "")} buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
                 </div>
             </div>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
