@@ -124,7 +124,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
-            <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
+            <div className="center-div">
+                <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
+            </div>
         </div>
     )
 }

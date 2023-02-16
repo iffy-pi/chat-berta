@@ -157,11 +157,11 @@ footer {
   }
 }
 
-.submit-chat-component {
+/* .submit-chat-component {
   border: 1px solid red;
   margin: 10px;
   padding: 10px;
-}
+} */
 
 code {
   font-size: 120%;
@@ -209,13 +209,14 @@ pre code {
 
 .control-board {
   width: 480px;
+  padding: 10px;
 }
 
-/* Control Board Items */
+/* Control Board Items ---------------------------------------------------------------------- */
 .control-board-header {
   border-bottom: 2px solid rgb(126, 126, 126);
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .control-board-subtitle {
@@ -224,12 +225,14 @@ pre code {
   margin-bottom: 5px;
 }
 
-/* Submit Chat */
+/* Submit Chat ---------------------------------------------------------------------- */
 .submit-chat-section {
   display: flex;
   justify-content: space-between;
-  width: 435px;
-  padding-bottom: 10px;
+  margin-top: 8px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 5px;
   border-bottom: 1px solid rgb(126, 126, 126);
 }
 
@@ -237,7 +240,7 @@ pre code {
   width: 170px;
 }
 
-/* Chat Input Options */
+/* Chat Input Option Selector ---------------------------------------------------------------------- */
 
 .chat-input-options {
   flex-grow: 1;
@@ -271,7 +274,7 @@ pre code {
   color: white;
 }
 
-/* Expected Transcript Format */
+/* Expected Transcript Format ---------------------------------------------------------------------- */
 
 .transcript-format {
   margin: 10px;
@@ -284,7 +287,7 @@ pre code {
 }
 
 .tfp button {
-  width: 96%;
+  width: 85%;
   color: #fff;
   background: rgb(0, 76, 126);
   padding: 5px;
@@ -317,7 +320,7 @@ pre code {
   /* width: 650px; */
 }
 
-/* Chat input sources */
+/* Chat input sources ---------------------------------------------------------------------- */
 
 smalltitle {
   font-size: 17px;
@@ -328,14 +331,40 @@ smalltitle {
   /* border: 3px solid #005f2b; */
   /* margin: 10px; */
   padding: 10px;
-  border-radius: 7px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: 1px solid rgb(126, 126, 126);
   text-align:center;
 }
+
+/* Summarizer options  ---------------------------------------------------------------------- */
+
+.summarizer-options {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 6px;
+  margin-bottom: 13px;
+  /* border: 1px solid rgb(126, 126, 126);
+  border-radius: 8px; */
+}
+
+.sum-opts-checks {
+  padding: 5px 0;
+}
+
+.sum-opts subtitle {
+  padding: 1px 0;
+  font-size: 19px;
+  font-weight: bold;
+  display: block;
+}
+
+/* Summarize Button ---------------------------------------------------------------------- */
 
 .summarize-btn{
   background: rgb(0 126 57);
   font-family: 'Poppins';
-  width: 100%;
+  width: 96%;
   color: #fff;
   height: 50px;
   font-size: 25px;
