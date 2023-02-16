@@ -28,7 +28,7 @@ body {
 }
 
 .bcontainer {
-  border: 2px solid blue;
+  border: 2px dashed blue;
 }
 .thick-container {
   border: 2px solid black;
@@ -207,12 +207,14 @@ pre code {
   width: 720px;
 }
 
+
+/* Control Board Items ---------------------------------------------------------------------- */
 .control-board {
   width: 480px;
   padding: 10px;
+  border: 2px solid black;
 }
 
-/* Control Board Items ---------------------------------------------------------------------- */
 .control-board-header {
   border-bottom: 2px solid rgb(126, 126, 126);
   margin-left: 10px;
