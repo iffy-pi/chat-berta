@@ -421,11 +421,6 @@ smalltitle {
   margin-bottom: 10px;
 }
 
-/* Actual text */
-.sp-text {
-  border: 1px dashed blue;
-}
-
 /* Button */
 .sp-btn-div {
   text-align: right;
