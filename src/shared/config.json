@@ -10,5 +10,7 @@
         }
     ],
 
-    "ALLOWED_EXTENSIONS": [ "txt", "pdf", "png", "jpg", "jpeg", "gif" ]
+    "ALLOWED_EXTENSIONS": [ "txt", "pdf", "png", "jpg", "jpeg", "gif" ],
+
+    "PARAGRAPH_CHAR_LIMIT": 4000
 }

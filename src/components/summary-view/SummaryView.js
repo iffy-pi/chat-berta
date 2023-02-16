@@ -5,6 +5,7 @@ import SummaryContentUnset from './summary-states/SummaryContentUnset'
 import SummaryContentLoading from './summary-states/SummaryContentLoading'
 import SummaryContentError from './summary-states/SummaryContentError'
 import SummaryParagraph from './SummaryParagraph'
+import configdata from '../../shared/config.json'
 
 const ContentStates = {
     unset: 0,
@@ -59,7 +60,7 @@ const SummaryView = ({ summaryRequest }) => {
         }
     }, [ summaryRequest ])
 
-    const renderContentState = (contentState) => {
+    const renderUnserContentState = (contentState) => {
         switch(contentState) {
             case ContentStates.unset:
                 return (<SummaryContentUnset />)
@@ -73,17 +74,21 @@ const SummaryView = ({ summaryRequest }) => {
     return (
         <div className="bcontainer summary-view-parent">
             <div className="bcontainer summary-view">
-                <h1>Summary View</h1>
-                <p>This will contain the information about the rendered summary</p>
-                {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
+                <div className='sum-view-header'>
+                    <h1>Summary View</h1>
+                    <p>This will contain the information about the rendered summary.</p>
+                </div>
+
+                {/* For loading content or no content available */}
+                {  ( contentState !== ContentStates.set) && renderUnserContentState(contentState) }
 
                 {/* Errorneous request */}
                 { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
 
-                {/* For loading the actual data */}
+                {/* For rendedering returned data */}
                 { (contentState === ContentStates.set && summarySuccess ) && 
                 <div>
-                    <SummaryParagraph chatPackage={summaryChatPackage}/>
+                    <SummaryParagraph chatPackage={summaryChatPackage} characterLimit={configdata.PARAGRAPH_CHAR_LIMIT}/>
                     <ChatPane chatPackage={summaryChatPackage}/>
                 </div>
                 }

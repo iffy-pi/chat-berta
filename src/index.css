@@ -178,12 +178,14 @@ pre code {
 }
 
 /* New CSS Begins here ------------------------------------------------------------------ */
-
+/* Used to horizontally centre a div's components, usually used to centre buttons */
 .center-div {
   text-align: center;
 }
 
-/* App JS stuff */
+/* App JS Main Flexbox ---------------------------------------------------------------------- */
+/* Style for the topmost component in the application, i.e. application window itself */
+/* Set to flex so that components can fall under each other with changing window size */
 .app-container {
   display: flex;
   flex-wrap: wrap;
@@ -192,6 +194,8 @@ pre code {
   min-width: 850px;
 }
 
+/* Parent components for summary view and control board and implements flex item styles for the components*/
+/* Used in App.js */
 .summary-view-parent {
   padding: 16px;
   flex-basis: 800px;
@@ -202,19 +206,16 @@ pre code {
   flex-basis: 560px;
 }
 
-.summary-view {
-  margin: auto;
-  width: 720px;
-}
-
-
 /* Control Board Items ---------------------------------------------------------------------- */
+/* Style for the actual control board component that houses the control items */
+/* Used in ControlBoard component */
 .control-board {
   width: 480px;
   padding: 10px;
   border: 2px solid black;
 }
 
+/* "Chat-Berta!" header and subtitle controls in ControlBoard*/
 .control-board-header {
   border-bottom: 2px solid rgb(126, 126, 126);
   margin-left: 10px;
@@ -228,6 +229,9 @@ pre code {
 }
 
 /* Submit Chat ---------------------------------------------------------------------- */
+/* "Submit A Chat Request and Select A Source COmponent parent */
+/* Makes them flex so that the source options and header are on the same line */
+/* Used for the SubmitChat component */
 .submit-chat-section {
   display: flex;
   justify-content: space-between;
@@ -238,16 +242,20 @@ pre code {
   border-bottom: 1px solid rgb(126, 126, 126);
 }
 
+/* Specific configuration for the header "Submit A Cjhat Request" to fit to design specifications */
 .submit-chat-header {
   width: 170px;
 }
 
 /* Chat Input Option Selector ---------------------------------------------------------------------- */
-
+/* CSS for input options flex item, (child of submit-chat-section) */
+/* Used in SUbmitChat component for styling input options */
 .chat-input-options {
   flex-grow: 1;
   text-align: center;
 }
+
+/* Button style for the input options button, including highlighting and other information*/
 
 .opt-btn {
   background: white;
@@ -277,7 +285,8 @@ pre code {
 }
 
 /* Expected Transcript Format ---------------------------------------------------------------------- */
-
+/* CSS Styles for the expected transcrip[t format infomation */
+/* Used in ExpectedTranscriptFormat */
 .transcript-format {
   margin: 10px;
   padding-top: 5px;
@@ -288,6 +297,19 @@ pre code {
   font-weight: bold;
 }
 
+/* CSS style for the code block that contains the sample transcript */
+.code-block {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 1%;
+  white-space: pre;
+  font-size: 120%;
+  overflow: auto;
+  /* width: 650px; */
+}
+
+/* Style the see expected format button */
 .tfp button {
   width: 85%;
   color: #fff;
@@ -311,24 +333,10 @@ pre code {
   margin-top: 0px;
 }
 
-.code-block {
-  background-color: #eee;
-  border: 1px solid #999;
-  display: block;
-  padding: 1%;
-  white-space: pre;
-  font-size: 120%;
-  overflow: auto;
-  /* width: 650px; */
-}
-
 /* Chat input sources ---------------------------------------------------------------------- */
 
-smalltitle {
-  font-size: 17px;
-  font-weight: bold;
-}
 
+/* Applied to div for each chat source input (UploadChatText and UploadChatFile) */
 .chat-src-panel {
   /* border: 3px solid #005f2b; */
   /* margin: 10px; */
@@ -339,8 +347,17 @@ smalltitle {
   text-align:center;
 }
 
+/* Used for the tags in the chat input source panels */
+smalltitle {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+
 /* Summarizer options  ---------------------------------------------------------------------- */
 
+/* Styling main div of SummarizerOptions component */
+/* Set to flex to have the same inline feature as the submit chat */
 .summarizer-options {
   display: flex;
   justify-content: space-around;
@@ -350,10 +367,12 @@ smalltitle {
   border-radius: 8px; */
 }
 
+/* Used to vertically centre the summarizer option checkboxes */
 .sum-opts-checks {
   padding: 5px 0;
 }
 
+/* Used in styling the "Summarizer Options" title */
 .sum-opts subtitle {
   padding: 1px 0;
   font-size: 19px;
@@ -362,8 +381,8 @@ smalltitle {
 }
 
 /* Summarize Button ---------------------------------------------------------------------- */
-
-.summarize-btn{
+/* Styling the summarize button found in SubmitChat component */
+.summarize-btn {
   background: rgb(0 126 57);
   font-family: 'Poppins';
   width: 96%;
@@ -377,4 +396,53 @@ smalltitle {
 .summarize-btn:hover {
   background: rgb(0, 229, 103);
   color: #fff;
+}
+
+/* Summary View ---------------------------------------------------------------------- */
+/* Styling the topmost div of SummaryView component*/
+.summary-view {
+  margin: auto;
+  padding: 20px 30px;
+  width: 720px;
+}
+
+/* Handles the summary view header and description, adds padding before actual sumamry content */
+.sum-view-header {
+  margin-bottom: 15px;
+}
+
+/* Summary Paragraph ------------------------------------------------------------------- */
+/* Handles the CSS for the SummaryParagraph component */
+
+.summary-paragraph {
+  border-bottom: 1px solid rgb(126, 126, 126);
+  /* margin: 0px 25px; */
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+/* Actual text */
+.sp-text {
+  border: 1px dashed blue;
+}
+
+/* Button */
+.sp-btn-div {
+  text-align: right;
+}
+
+.sp-btn-div button {
+  color: #fff;
+  background: rgb(0, 76, 126);
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 15px;
+  border: 3px solid #000;
+  margin-top: 7px;
+}
+
+.sp-btn-div button:hover {
+  background: rgb(0, 112, 186);
 }
