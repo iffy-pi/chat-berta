@@ -190,8 +190,8 @@ html {
   /* width: 240px; */
   /* height: 240px; */
   background-color: white;
-  background-image: radial-gradient(#385723 1.5px, transparent 0%), radial-gradient(#385723 1.5px, transparent 0%);
-  background-size: 60px 60px;
+  background-image: radial-gradient(#385723 1px, transparent 0%), radial-gradient(#385723 1px, transparent 0%);
+  background-size: 20px 20px;
   background-position: 0 0, 30px 30px;
   background-repeat: repeat;
   display: block;
