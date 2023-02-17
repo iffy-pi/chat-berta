@@ -19,6 +19,7 @@ const SummaryView = ({ summaryRequest }) => {
     const [ summarySuccess, setSummarySuccess ] = useState(false)
     const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
     const [ requestError, setRequestError ] = useState('')
+    const [ characterLimit, setCharacterLimit ] = useState(configdata.PARAGRAPH_CHAR_LIMIT)
 
     const handleSummaryRequest = async (request) => {
         const req = {
@@ -87,7 +88,7 @@ const SummaryView = ({ summaryRequest }) => {
                 {/* For rendedering returned data */}
                 { (contentState === ContentStates.set && summarySuccess ) && 
                 <div>
-                    <SummaryParagraph chatPackage={summaryChatPackage} characterLimit={configdata.PARAGRAPH_CHAR_LIMIT}/>
+                    <SummaryParagraph chatPackage={summaryChatPackage} characterLimit={characterLimit}/>
                     <ChatPane chatPackage={summaryChatPackage}/>
                 </div>
                 }
