@@ -464,3 +464,32 @@ smalltitle {
   height: 150px;
   overflow: auto;
 }
+
+.users-message {
+  text-align: right;
+}
+
+.chatpane-message {
+  border: 1px solid black;
+  text-align: left;
+  display: inline-block;
+  margin: 8px;
+  padding: 10px;
+  max-width: 300px;
+}
+
+.parg {
+  display: inline-block;
+}
+
+.div-right {
+  text-align: right;
+}
+
+.right-align {
+  text-align: left;
+}
+
+.special {
+  border-color: red;
+}

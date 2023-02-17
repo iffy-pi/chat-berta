@@ -6,6 +6,10 @@ const ChatPane = ({ chatPackage }) => {
 
     const summaryMessageIDs = chatPackage.summary_messages.map( (message) => message.id)
 
+    // Using first pid as the primary party but could not be the case
+    // Will implement user input for it
+    const primaryPartyID = chatPackage.messages[0].pid
+
     return (
         <div className="">
             <div className="chatpane-header">
@@ -14,10 +18,11 @@ const ChatPane = ({ chatPackage }) => {
             <div className="chatpane-texts">
                 <div className="chatpane-text-info">
                     <p>Summary messages are highlighted in <o>orange!</o></p>
+                    {/* Do who is sending information here */}
                 </div>
                 {
                     messages.map( (message) => {
-                        return <Message text={message.text} thick={ summaryMessageIDs.includes(message.id) } />
+                        return <Message text={message.text} isUsersMessage={message.pid === primaryPartyID} special={ summaryMessageIDs.includes(message.id) } />
                     })
                 }
             </div>
