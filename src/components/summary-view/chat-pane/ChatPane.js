@@ -7,14 +7,20 @@ const ChatPane = ({ chatPackage }) => {
     const summaryMessageIDs = chatPackage.summary_messages.map( (message) => message.id)
 
     return (
-        <div className="bcontainer">
-            <h3>Chat Pane</h3>
-            <p>Messsages collation below should be scrollable</p>
-            {
-                messages.map( (message) => {
-                    return <Message text={message.text} thick={ summaryMessageIDs.includes(message.id) } />
-                })
-            }
+        <div className="">
+            <div className="chatpane-header">
+                <h2>Chat Pane</h2>
+            </div>
+            <div className="chatpane-texts">
+                <div className="chatpane-text-info">
+                    <p>Summary messages are highlighted in <o>orange!</o></p>
+                </div>
+                {
+                    messages.map( (message) => {
+                        return <Message text={message.text} thick={ summaryMessageIDs.includes(message.id) } />
+                    })
+                }
+            </div>
         </div>
     )
 }

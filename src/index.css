@@ -389,6 +389,7 @@ smalltitle {
   color: #fff;
   height: 50px;
   font-size: 25px;
+  cursor: pointer;
   border: 3px solid #000;
   font-weight: bold;
 }
@@ -413,15 +414,16 @@ smalltitle {
 
 /* Summary Paragraph ------------------------------------------------------------------- */
 /* Handles the CSS for the SummaryParagraph component */
-
+/* The topmost div of the SummaryParagraph component */
 .summary-paragraph {
   border-bottom: 1px solid rgb(126, 126, 126);
   /* margin: 0px 25px; */
   padding-bottom: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-/* Button */
+/* See More / Show Less paragraph button */
+/* Used to right align the see more button */
 .sp-btn-div {
   text-align: right;
 }
@@ -440,4 +442,25 @@ smalltitle {
 
 .sp-btn-div button:hover {
   background: rgb(0, 112, 186);
+}
+
+/* ChatPane ------------------------------------------------------------------- */
+
+.chatpane-header {
+  margin-bottom: 15px;
+}
+
+.chatpane-text-info {
+  text-align: center;
+  font-style: italic;
+}
+
+.chatpane-text-info o {
+  color: orange;
+}
+
+.chatpane-texts {
+  border: 1px solid black;
+  height: 150px;
+  overflow: auto;
 }

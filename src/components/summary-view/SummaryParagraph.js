@@ -63,7 +63,7 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
 
     return (
         <div className="summary-paragraph">
-            <h3>Summary Paragraph</h3>
+            <h2>Summary Paragraph</h2>
             <div className="">
                 <p>{getDisplayParagraph()}</p>
             </div>

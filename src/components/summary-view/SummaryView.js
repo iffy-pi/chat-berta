@@ -76,7 +76,6 @@ const SummaryView = ({ summaryRequest }) => {
             <div className="bcontainer summary-view">
                 <div className='sum-view-header'>
                     <h1>Summary View</h1>
-                    <p>This will contain the information about the rendered summary.</p>
                 </div>
 
                 {/* For loading content or no content available */}
