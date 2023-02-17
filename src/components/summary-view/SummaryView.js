@@ -19,7 +19,7 @@ const SummaryView = ({ summaryRequest }) => {
     const [ summarySuccess, setSummarySuccess ] = useState(false)
     const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
     const [ requestError, setRequestError ] = useState('')
-    const [ characterLimit, setCharacterLimit ] = useState(configdata.PARAGRAPH_CHAR_LIMIT)
+    const [ characterLimit, setCharacterLimit ] = useState(50)//useState(configdata.PARAGRAPH_CHAR_LIMIT)
 
     const handleSummaryRequest = async (request) => {
         const req = {
@@ -73,7 +73,7 @@ const SummaryView = ({ summaryRequest }) => {
     }
 
     return (
-        <div className="bcontainer summary-view-parent">
+        <div className="summary-view-parent">
             <div className="summary-view">
                 <div className='sum-view-header'>
                     <h1>Summary View</h1>

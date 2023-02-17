@@ -2,7 +2,7 @@ import SubmitChat from "./submit-chat/SubmitChat"
 
 const ControlBoard = ({ summaryRequest, setSummaryRequest }) => {
     return (
-        <div className="bcontainer control-board-parent">
+        <div className="control-board-parent">
             <div className="control-board">
                 <div className="control-board-header">
                     <h1>Chat-Berta!</h1>

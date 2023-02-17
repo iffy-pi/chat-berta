@@ -490,7 +490,7 @@ smalltitle {
 
 .chatpane-texts-parent {
   border: 1px solid grey;
-  border-radius: 5px;
+  border-radius: 20px;
   overflow: hidden;
 }
 
