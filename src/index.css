@@ -446,18 +446,30 @@ smalltitle {
 }
 
 /* ChatPane ------------------------------------------------------------------- */
-
+/* The ChatPane header and pagraph in the ChatPane component */
 .chatpane-header {
   margin-bottom: 15px;
 }
 
+/* The "Summary messages are hgihglighed in ...." text in the panel styling */
 .chatpane-text-info {
   text-align: center;
   font-style: italic;
 }
 
+/* Used to allow for inline o tag */
 .chatpane-text-info o {
   color: orange;
+}
+
+
+/* Styling for the scrollable text panel in ChatPane */
+/* chatpane-texts-parent is added to allow the curving of the scroll bar */
+
+.chatpane-texts {
+  background-color: rgb(242, 242, 242);
+  max-height: 400px;
+  overflow: auto;
 }
 
 .chatpane-texts-parent {
@@ -466,16 +478,15 @@ smalltitle {
   overflow: hidden;
 }
 
-.chatpane-texts {
-  max-height: 400px;
-  overflow: auto;
-}
 
+/* Used to handle messages that need to be right aligned */
+/* Set on message parent div so message bubble is right aligned */
 .right-align-div {
   text-align: right;
 }
 
-
+/* Styling for each message bubble */
+/* The default styling is for non-self messages */
 .chatpane-message {
   border: 2px solid #013d1c;
   background-color: #007E39;
@@ -488,11 +499,13 @@ smalltitle {
   max-width: 300px;
 }
 
+/* Message styling for a self messsage (i.e user sent it and POV of scroll pane is user) */
 .self-message {
   /* border-color: #105090;
   background-color: #1488FE; */
 }
 
+/* Used to style messages that are included in the summary */
 .special-message {
   background-color: #FC9308;
   border-color: #C55A11;

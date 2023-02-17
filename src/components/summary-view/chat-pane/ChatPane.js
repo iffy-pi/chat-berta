@@ -25,7 +25,7 @@ const ChatPane = ({ chatPackage }) => {
                     {
                         messages.map( (message) => {
                             // Message is special if the message id is in the summary message ids
-                            return <Message text={message.text} isUsersMessage={message.pid === primaryPartyID} special={ summaryMessageIDs.includes(message.id) } />
+                            return <Message text={message.text} isSelfMessage={message.pid === primaryPartyID} special={ summaryMessageIDs.includes(message.id) } />
                         })
                     }
                 </div>

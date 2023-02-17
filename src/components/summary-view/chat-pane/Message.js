@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react' 
 
-const Message = ({ text, color, isUsersMessage, special }) => {
+const Message = ({ text, color, isSelfMessage, special }) => {
     const [ messageStyle, setMessageStyle ] = useState('chatpane-message')
 
     useEffect( () => {
         let style = "chatpane-message"
-        if ( isUsersMessage ) style += " self-message"
+        if ( isSelfMessage ) style += " self-message"
         if ( special )  style += " special-message"
 
         setMessageStyle( style );
@@ -14,7 +14,7 @@ const Message = ({ text, color, isUsersMessage, special }) => {
     return (
         // Anchor the message to the right with users-message css if it is from user
         // Otherwise anchored to the left
-        <div className={(isUsersMessage) ? "right-align-div" : ""}>
+        <div className={(isSelfMessage) ? "right-align-div" : ""}>
             <div className={messageStyle}>
                 <p>{text}</p>
             </div>
@@ -24,7 +24,7 @@ const Message = ({ text, color, isUsersMessage, special }) => {
 
 Message.defaultProps = {
     special: false, // if it is a summary message
-    isUsersMessage: true // if the message is from the current user, used in determining alignment 
+    isSelfMessage: true // if the message is from the current user, used in determining alignment 
 }
 
 export default Message
