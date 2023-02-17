@@ -17,16 +17,18 @@ const ChatPane = ({ chatPackage }) => {
                 {/* Place primary party here */}
                 <p>Messages are rendered in primary party's point of view.</p>
             </div>
-            <div className="chatpane-texts">
-                <div className="chatpane-text-info">
-                    <p>Summary messages are highlighted in <o>orange!</o></p>
+            <div className="chatpane-texts-parent">
+                <div className="chatpane-texts">
+                    <div className="chatpane-text-info">
+                        <p>Summary messages are highlighted in <o>orange!</o></p>
+                    </div>
+                    {
+                        messages.map( (message) => {
+                            // Message is special if the message id is in the summary message ids
+                            return <Message text={message.text} isUsersMessage={message.pid === primaryPartyID} special={ summaryMessageIDs.includes(message.id) } />
+                        })
+                    }
                 </div>
-                {
-                    messages.map( (message) => {
-                        // Message is special if the message id is in the summary message ids
-                        return <Message text={message.text} isUsersMessage={message.pid === primaryPartyID} special={ summaryMessageIDs.includes(message.id) } />
-                    })
-                }
             </div>
         </div>
     )

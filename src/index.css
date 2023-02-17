@@ -405,6 +405,7 @@ smalltitle {
   margin: auto;
   padding: 20px 30px;
   width: 720px;
+  border: 2px solid black;
 }
 
 /* Handles the summary view header and description, adds padding before actual sumamry content */
@@ -459,8 +460,13 @@ smalltitle {
   color: orange;
 }
 
+.chatpane-texts-parent {
+  border: 1px solid grey;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
 .chatpane-texts {
-  border: 1px solid black;
   max-height: 400px;
   overflow: auto;
 }

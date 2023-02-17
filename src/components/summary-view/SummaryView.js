@@ -73,7 +73,7 @@ const SummaryView = ({ summaryRequest }) => {
 
     return (
         <div className="bcontainer summary-view-parent">
-            <div className="bcontainer summary-view">
+            <div className="summary-view">
                 <div className='sum-view-header'>
                     <h1>Summary View</h1>
                 </div>
