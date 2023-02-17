@@ -184,12 +184,26 @@ pre code {
 }
 
 /* App JS Main Flexbox ---------------------------------------------------------------------- */
+
+/* Pokadot background used in App.js */
+html {
+  /* width: 240px; */
+  /* height: 240px; */
+  background-color: white;
+  background-image: radial-gradient(#385723 1.5px, transparent 0%), radial-gradient(#385723 1.5px, transparent 0%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+  background-repeat: repeat;
+  display: block;
+}
+
+
 /* Style for the topmost component in the application, i.e. application window itself */
 /* Set to flex so that components can fall under each other with changing window size */
 .app-container {
   display: flex;
   flex-wrap: wrap;
-  border: 6px solid black;
+  /* border: 6px solid black; */
   justify-content: space-between;
   min-width: 850px;
 }
@@ -210,6 +224,7 @@ pre code {
 /* Style for the actual control board component that houses the control items */
 /* Used in ControlBoard component */
 .control-board {
+  background-color: white;
   width: 480px;
   padding: 10px;
   border: 2px solid black;
@@ -402,6 +417,7 @@ smalltitle {
 /* Summary View ---------------------------------------------------------------------- */
 /* Styling the topmost div of SummaryView component*/
 .summary-view {
+  background-color: white;
   margin: auto;
   padding: 20px 30px;
   width: 720px;
