@@ -461,16 +461,20 @@ smalltitle {
 
 .chatpane-texts {
   border: 1px solid black;
-  height: 150px;
+  max-height: 400px;
   overflow: auto;
 }
 
-.users-message {
+.right-align-div {
   text-align: right;
 }
 
+
 .chatpane-message {
-  border: 1px solid black;
+  border: 2px solid #013d1c;
+  background-color: #007E39;
+  color: white;
+  border-radius: 10px;
   text-align: left;
   display: inline-block;
   margin: 8px;
@@ -478,18 +482,12 @@ smalltitle {
   max-width: 300px;
 }
 
-.parg {
-  display: inline-block;
+.self-message {
+  /* border-color: #105090;
+  background-color: #1488FE; */
 }
 
-.div-right {
-  text-align: right;
-}
-
-.right-align {
-  text-align: left;
-}
-
-.special {
-  border-color: red;
+.special-message {
+  background-color: #FC9308;
+  border-color: #C55A11;
 }

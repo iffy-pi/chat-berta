@@ -5,7 +5,8 @@ const Message = ({ text, color, isUsersMessage, special }) => {
 
     useEffect( () => {
         let style = "chatpane-message"
-        if ( special )  style += " special"
+        if ( isUsersMessage ) style += " self-message"
+        if ( special )  style += " special-message"
 
         setMessageStyle( style );
     }, [])
@@ -13,7 +14,7 @@ const Message = ({ text, color, isUsersMessage, special }) => {
     return (
         // Anchor the message to the right with users-message css if it is from user
         // Otherwise anchored to the left
-        <div className={(isUsersMessage) ? "users-message" : ""}>
+        <div className={(isUsersMessage) ? "right-align-div" : ""}>
             <div className={messageStyle}>
                 <p>{text}</p>
             </div>
