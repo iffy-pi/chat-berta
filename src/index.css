@@ -152,31 +152,24 @@ footer {
   border: 3px solid #000;
 } */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 /* .submit-chat-component {
   border: 1px solid red;
   margin: 10px;
   padding: 10px;
 } */
 
-code {
+/* code {
   font-size: 120%;
-}
+} */
       
       
-pre code {
+/* pre code {
   background-color: #eee;
   border: 1px solid #999;
   display: block;
   padding: 1px;
   white-space: pre-wrap;
-  /* width: 650px; */
-}
+} */
 
 /* New CSS Begins here ------------------------------------------------------------------ */
 /* Used to horizontally centre a div's components, usually used to centre buttons */
@@ -530,3 +523,47 @@ smalltitle {
     padding: 2px;
     cursor: pointer;
  }
+
+ /* Loading Page (SummaryContentLoading component) ------------------------------------------------------------------- */
+ /* React Spinning Logo is done by creating animation and then using media */
+ @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* CSS for the loading gif */
+.loading-image {
+  display: block;
+  width: 400px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CSS for the overall loading page to align items vertically and horizontally */
+.loading-page {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.loading-inner-div{
+  flex-grow: 1
+}
+
+/* For the making summary title */
+.loading-title {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+}

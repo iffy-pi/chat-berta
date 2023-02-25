@@ -61,7 +61,7 @@ const SummaryView = ({ summaryRequest }) => {
         }
     }, [ summaryRequest ])
 
-    const renderUnserContentState = (contentState) => {
+    const renderContentForState = (contentState) => {
         switch(contentState) {
             case ContentStates.unset:
                 return (<SummaryContentUnset />)
@@ -79,22 +79,11 @@ const SummaryView = ({ summaryRequest }) => {
                     <h1>Summary View</h1>
                 </div>
 
-                {/* For loading content or no content available */}
-                {  ( contentState !== ContentStates.set) && renderUnserContentState(contentState) }
-
-                {/* Errorneous request */}
-                { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
-
-                {/* For rendedering returned data */}
-                { (contentState === ContentStates.set && summarySuccess ) && 
-                <div>
-                    <SummaryParagraph chatPackage={summaryChatPackage} characterLimit={characterLimit}/>
-                    <ChatPane chatPackage={summaryChatPackage}/>
-                </div>
-                }
+                <SummaryContentLoading />
             </div>
         </div>
     )
 }
+
 
 export default SummaryView
