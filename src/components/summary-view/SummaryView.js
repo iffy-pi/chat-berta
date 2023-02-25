@@ -79,7 +79,7 @@ const SummaryView = ({ summaryRequest }) => {
                     <h1>Summary View</h1>
                 </div>
 
-                <SummaryContentLoading />
+                <SummaryContentError />
             </div>
         </div>
     )

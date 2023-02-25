@@ -567,3 +567,46 @@ smalltitle {
   font-size: 25px;
   font-weight: bold;
 }
+
+/* Error Page (SummaryContentError component) ------------------------------------------------------------------- */
+/* CSS for the overall loading page to align items vertically and horizontally */
+.error-page {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+  background-color: #FCDCDC;
+}
+
+/* CSS for the loading gif */
+.error-image {
+  display: block;
+  width: 100px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.error-inner-div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.error-words-div {
+  display: flex;
+  align-items: center;
+}
+
+/* CSS for title and errors */
+.error-title {
+  /* text-align: center; */
+  font-size: 25px;
+  color: #990000;
+  font-weight: bold;
+}
+
+.error-message {
+  font-size: 17px;
+  color: #990000;
+}
