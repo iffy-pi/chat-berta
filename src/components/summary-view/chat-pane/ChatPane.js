@@ -1,4 +1,6 @@
 import Message from "./Message"
+import { useState } from "react"
+import DropDownSelector from "../../common/DropDownSelector"
 
 const ChatPane = ({ chatPackage }) => {
     
@@ -8,14 +10,24 @@ const ChatPane = ({ chatPackage }) => {
 
     // Using first pid as the primary party but could not be the case
     // Will implement user input for it
-    const primaryPartyID = chatPackage.messages[0].pid
+    // const primaryPartyID = chatPackage.messages[0].pid
+
+    const [ partyOpts, setPartyOpts ] = useState( chatPackage.config.parties.map( (party) => party.name))
+    const [ primaryPartyID , setPrimaryPartyID ] = useState(0)
+
+    const onPartySelect = (selectedPartyID) => {
+        // Set the primary party to the selected party from the drop down
+        setPrimaryPartyID( selectedPartyID )
+    }
 
     return (
         <div className="">
             <div className="chatpane-header">
                 <h2>Chat Pane</h2>
                 {/* Place primary party here */}
-                <p>Messages are rendered in primary party's point of view.</p>
+                <label>Messages are rendered from </label>
+                <DropDownSelector options={partyOpts} name="primary_party_selector" onSelect={onPartySelect}/>
+                <label> 's point of view.</label>
             </div>
             <div className="chatpane-texts-parent">
                 <div className="chatpane-texts">

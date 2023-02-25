@@ -29,6 +29,7 @@ body {
 
 .bcontainer {
   border: 2px dashed blue;
+  background-color: white;
 }
 .thick-container {
   border: 2px solid black;
@@ -526,3 +527,10 @@ smalltitle {
   background-color: #FC9308;
   border-color: #C55A11;
 }
+
+/* Dropdown ------------------------------------------------------------------- */
+ .dropdown {
+    display: inline;
+    font-size: 16px;
+    padding: 2px;
+ }
