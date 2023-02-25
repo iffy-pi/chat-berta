@@ -1,5 +1,8 @@
 {
-    "summary_options": [ "strictSummarize", "treatAsMonologue"],
+    "summary_options": {
+        "basic_options": [ "strictSummarize", "treatAsMonologue"],
+        "summarize_only_for": -1 // -1 for no party, otherwise set to the party id for what we would like to summarize
+    },
     "chat_package": {
         "config": {
             "parties": [

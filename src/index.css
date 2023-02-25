@@ -391,7 +391,7 @@ smalltitle {
 /* Used in styling the "Summarizer Options" title */
 .sum-opts subtitle {
   padding: 1px 0;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: bold;
   display: block;
 }
@@ -516,12 +516,6 @@ smalltitle {
   max-width: 300px;
 }
 
-/* Message styling for a self messsage (i.e user sent it and POV of scroll pane is user) */
-.self-message {
-  /* border-color: #105090;
-  background-color: #1488FE; */
-}
-
 /* Used to style messages that are included in the summary */
 .special-message {
   background-color: #FC9308;
@@ -529,8 +523,10 @@ smalltitle {
 }
 
 /* Dropdown ------------------------------------------------------------------- */
- .dropdown {
+ /* Styling our drop down component!  */
+.dropdown {
     display: inline;
     font-size: 16px;
     padding: 2px;
+    cursor: pointer;
  }

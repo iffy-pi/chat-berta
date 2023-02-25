@@ -23,7 +23,7 @@ const SummaryView = ({ summaryRequest }) => {
 
     const handleSummaryRequest = async (request) => {
         const req = {
-            summary_options: request.options,
+            summary_options: request.summary_options,
             chat_package: request.chat_package
         }
 

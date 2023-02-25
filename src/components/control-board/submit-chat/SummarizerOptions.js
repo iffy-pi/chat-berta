@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import DropDownSelector from '../../common/DropDownSelector'
 
 const SummarizerOptions = ({ options, returnOptions }) => {
     
@@ -36,6 +37,8 @@ const SummarizerOptions = ({ options, returnOptions }) => {
                         </div>
                     ))
                 }
+                <label>Summarize only for </label>
+                <DropDownSelector options={['Jane', 'John']} />
             </div>
         </div>
     )

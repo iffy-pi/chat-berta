@@ -62,7 +62,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
     }
 
     const onSubmit = async () => {
-        const request = {}
+        const request = {
+            summary_options: {}
+        }
 
         try {
             if ( selectedInput === InputOptions.file ) {
@@ -98,9 +100,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
             return
         }
 
-        request.options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
+        request.summary_options.basic_options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
 
-        //console.log(request)
+        // console.log(request)
         setSummaryRequest(request)
     }
 
