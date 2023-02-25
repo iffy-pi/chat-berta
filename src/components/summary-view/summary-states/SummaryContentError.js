@@ -9,7 +9,8 @@ const SummaryContentError = ({ message }) => {
                 <div>
                     <p className="error-title">Something went wrong.</p>
                     <p className="error-message">Please try again.</p>
-                    <p className="error-message">Error: {message}</p>
+                    <p className="error-message">Error:</p>
+                    <p className="error-message">{message}</p>
                 </div>
             </div>
         </div>

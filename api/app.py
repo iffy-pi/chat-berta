@@ -250,7 +250,7 @@ def route_api_submit_chat():
         'chat_package': summary_chat_package
     }
 
-    time.sleep(0.5) # to simulate server latency when in development
+    time.sleep(1) # to simulate server latency when in development
 
     resp = make_json_response(js)
     return resp

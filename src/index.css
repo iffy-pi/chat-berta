@@ -575,6 +575,7 @@ smalltitle {
   align-items: center;
   padding: 20px 20px;
   background-color: #FCDCDC;
+  border: 1px solid #990000;
 }
 
 /* CSS for the loading gif */
@@ -609,4 +610,19 @@ smalltitle {
 .error-message {
   font-size: 17px;
   color: #990000;
+}
+
+/* Error Page (SummaryContentUnset component) ------------------------------------------------------------------- */
+/* Uses a lot of the CSS defined for loading with small changes */
+.unset-title {
+  text-align: center;
+  font-size: 25px;
+}
+
+.unset-image {
+  display: block;
+  width: 350px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
