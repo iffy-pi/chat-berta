@@ -240,18 +240,17 @@ def route_api_submit_chat():
     # then retrieve the items
     summary_options = request.json['summary_options']
 
-    # retrieve the sample summary chat
-    with open( os.path.join( os.path.abspath(os.path.split(__file__)[0]), '..', 'apiutils', 'samples', 'sample_summary_report.json' ) , 'r' ) as file:
-        chat_package = json.loads(file.read())
+    # use random summarizer
+    summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
 
 
     # for now craft a simple relay message
     js = {
         'summary_options': summary_options,
-        'chat_package': chat_package
+        'chat_package': summary_chat_package
     }
 
-    time.sleep(0.5)
+    time.sleep(1) # to simulate server latency when in development
 
     resp = make_json_response(js)
     return resp

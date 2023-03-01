@@ -12,9 +12,11 @@ function App() {
 
 
   return (
-    <div>
-      <ControlBoard setSummaryRequest={setSummaryRequest}/>
-      <SummaryView summaryRequest={summaryRequest}/>
+    <div className="">
+      <div className="app-container">
+        <ControlBoard setSummaryRequest={setSummaryRequest}/>
+        <SummaryView summaryRequest={summaryRequest}/>
+      </div>
     </div>
   );
 }

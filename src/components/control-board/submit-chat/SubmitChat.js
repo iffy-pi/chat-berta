@@ -62,7 +62,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
     }
 
     const onSubmit = async () => {
-        const request = {}
+        const request = {
+            summary_options: {}
+        }
 
         try {
             if ( selectedInput === InputOptions.file ) {
@@ -98,9 +100,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
             return
         }
 
-        request.options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
+        request.summary_options.basic_options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
 
-        //console.log(request)
+        // console.log(request)
         setSummaryRequest(request)
     }
 
@@ -108,16 +110,25 @@ const SubmitChat = ({ setSummaryRequest }) => {
 
     return (
         <div className="submit-chat-component">
-            <h2 className="header">Submit A Chat Request</h2>
-            <ChatInputOptions options={inputOptionsRendered} returnSelected={updateSelectedInput}/>
-            {/* <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
-            <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/> */}
-            <ExpectedTranscriptFormat />
+            <div className="submit-chat-section">
+                <div className="submit-chat-header">
+                    <h2>Submit A</h2>
+                    <h2>Chat Request</h2>
+                </div>
+                <div className="chat-input-options">
+                    <p>Select a source:</p>
+                    <Button className={"opt-btn" + ((selectedInput === InputOptions.text) ? " opt-btn-clicked": "")}  buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
+                    <Button className={"opt-btn" + ((selectedInput === InputOptions.file) ? " opt-btn-clicked" : "")} buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+                </div>
+            </div>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
+            <ExpectedTranscriptFormat />
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
-            <Button buttonText="Summarize!" onClick={onSubmit}/>
+            <div className="center-div">
+                <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
+            </div>
         </div>
     )
 }
