@@ -2,8 +2,8 @@ import FileUploader from "../../common/FileUploader"
 
 const UploadChatFile = ({ goodFileUpload, failedFileUpload}) => {
     return (
-        <div className="basic-container">
-            <label htmlFor="chatfile">Upload chat log file: </label>
+        <div className="chat-src-panel">
+            <smalltitle>Upload chat log file: </smalltitle>
             <FileUploader onFileSelectSuccess={goodFileUpload} onFileSelectError={failedFileUpload}/>
         </div>
     )

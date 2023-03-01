@@ -1,0 +1,101 @@
+{
+   "config":{
+      "parties":[
+         {
+            "id":0,
+            "name":"John"
+         },
+         {
+            "id":1,
+            "name":"Jane"
+         }
+      ]
+   },
+   "messages":[
+      {
+         "id":0,
+         "pid":0,
+         "text":"Hey! How are you doing?"
+      },
+      {
+         "id":1,
+         "pid":1,
+         "text":"Hi there! I'm good, thanks for asking. How about you?"
+      },
+      {
+         "id":2,
+         "pid":0,
+         "text":"I'm doing alright, thanks. Just getting ready for a big presentation at work tomorrow."
+      },
+      {
+         "id":3,
+         "pid":1,
+         "text":"Oh, that sounds stressful. Do you feel prepared?"
+      },
+      {
+         "id":4,
+         "pid":0,
+         "text":"Yeah, I think so. I've been practicing my slides and notes all week. I just hope I don't get too nervous during the actual presentation."
+      },
+      {
+         "id":5,
+         "pid":1,
+         "text":"I'm sure you'll do great! Just remember to take deep breaths and speak slowly."
+      },
+      {
+         "id":6,
+         "pid":0,
+         "text":"Thanks for the advice. How's your week been going?"
+      },
+      {
+         "id":7,
+         "pid":1,
+         "text":"It's been pretty busy, but good overall. I've been working on a new project at work and it's been really interesting so far."
+      },
+      {
+         "id":8,
+         "pid":0,
+         "text":"That sounds exciting. What's the project about?"
+      },
+      {
+         "id":9,
+         "pid":1,
+         "text":"It's actually a marketing campaign for a new product launch. I'm in charge of creating the social media strategy."
+      },
+      {
+         "id":10,
+         "pid":0,
+         "text":"Wow, that's a big responsibility. I'm sure you'll do an amazing job."
+      },
+      {
+         "id":11,
+         "pid":1,
+         "text":"Thanks! I'm excited to see how it turns out. Do you want to catch up and grab some coffee this weekend?"
+      },
+      {
+         "id":12,
+         "pid":0,
+         "text":"Definitely! How about Saturday afternoon?"
+      },
+      {
+         "id":13,
+         "pid":1,
+         "text":"Sounds good to me. How about we meet at that new cafe downtown?"
+      },
+      {
+         "id":14,
+         "pid":0,
+         "text":"Perfect, I've been wanting to try that place out."
+      },
+      {
+         "id":15,
+         "pid":1,
+         "text":"Great, it's a date then! See you on Saturday."
+      },
+      {
+         "id":16,
+         "pid":0,
+         "text":"See you then!"
+      }
+   ]
+}

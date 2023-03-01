@@ -34,17 +34,11 @@ The remaining files would be:
 ```
 root
 |  server-void/
+|  docs/
 |  git-pr.bat
 |  promote.bat
 ```
 server-void/ contains files that are not relevant for the entire application. This includes simple READMEs and notes, as well as prototype models and such. **All files required by the server can NEVER be put in server-void/**
-
-### Sharing files between frontend and backend
-If you want a given file to be shared by the frontend and backend, do the following:
-1. Save the file under shared-linked/
-2. Add the file path (relative to shared-linked) to shared-linked/shared_files.txt
-3. Run the script make_shared_links.py and commit your changes.
-
 
 # The Deployment Configuration
 The entire web server is split into the React frontend (APP) and the Flask Backend (API). These are deployed **separately** into different vercel productions.

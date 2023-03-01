@@ -1,10 +1,19 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Button from "../common/Button"
 
 const SummaryParagraph = ({ chatPackage, characterLimit }) => {
     // Compile all the sentences in the summary messages into one paragraph
+    
+    // Holds the summary messages made into a paragraph
+    const [ fullParagraph, setFullParagraph ] = useState('')
+    
+    // Indicates if the paragraph will need truncation
+    const [ needsTruncation, setNeedsTruncation ] = useState(false)
 
-    const [ paragraphLimited, setParagraphLimited ] = useState(true)
+    // Indicates if the display paragraph is truncated
+    // Truncated by default
+    const [ truncateParagraph, setTruncateParagraph ] = useState(true)
+    
 
 
     const endsWithPunctuation = ( sentence ) => {
@@ -30,31 +39,40 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
         return summaryParagraph
     }
 
-    const truncateParagraph = ( paragraph ) => {
-        // truncate the paragraph based on our specified character limit
-        // if paragraph is not limited, then dont do truncate
-        if ( !paragraphLimited || characterLimit <= 0 ) return paragraph
-
-        // No truncation required if paragraph is less than limit
-        if ( paragraph.length <= characterLimit ) return paragraph
-
-        // Truncate the paragraph to also have space to include elipses
-        return (paragraph.substring(0, characterLimit-3) + '...')
-        
-
-    }
-
     const toggleParagraphTruncation = ( ) => {
-        setParagraphLimited( !paragraphLimited )
+        setTruncateParagraph( !truncateParagraph)
     }
+
+    const getDisplayParagraph = () => {
+        if ( !needsTruncation ) return fullParagraph;
+
+        // Needs truncation and should be truncated
+        if ( truncateParagraph ) return (fullParagraph.substring(0, characterLimit-3) + '...')
+
+        // needs truncation but should not be truncated
+        return fullParagraph;
+    }
+
+    useEffect(  () => {
+        // on receiving the chat package we want to rerender our display information
+        if ( chatPackage !== null ) {
+            setFullParagraph(collateMessages(chatPackage.summary_messages))
+            setNeedsTruncation( fullParagraph.length > characterLimit )
+        }
+    }, [ chatPackage ])
 
     return (
-        <div className="basic-container">
-            <h3>Summary Paragraph</h3>
-            <div className="basic-container">
-                <p>{truncateParagraph(collateMessages(chatPackage.summary_messages)) }</p>
+        <div className="summary-paragraph">
+            <h2>Summary Paragraph</h2>
+            <div className="">
+                <p>{getDisplayParagraph()}</p>
             </div>
-            <Button buttonText={ (paragraphLimited) ? "See Full Paragraph" : "Show Less" } onClick={ toggleParagraphTruncation }/>
+            {
+                ( needsTruncation ) &&
+                <div className="sp-btn-div">
+                    <Button buttonText={ (truncateParagraph) ? "See More" : "Show Less" } onClick={ toggleParagraphTruncation }/>
+                </div>   
+            }
         </div>
     )
 }
