@@ -10,16 +10,6 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-.container {
-  max-width: 500px;
-  margin: 30px auto;
-  /* overflow: auto; */
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px;
-  border-radius: 5px;
-}
-
 .higherordercontainer {
   /* max-width: 500px; */
   margin: 30px auto;
@@ -37,6 +27,10 @@ body {
   padding: 10px;
 }
 
+.bcontainer {
+  border: 2px dashed blue;
+  background-color: white;
+}
 .thick-container {
   border: 2px solid black;
   margin: 10px;
@@ -48,10 +42,15 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  background-color: steelblue; /* Changed header background color */
+  color: #fff; /* Changed text color in header */
+  padding: 20px; /* Added padding to header */
+  border-radius: 5px 5px 0 0; /* Added rounded corners to header */
 }
 
 .btn {
   display: inline-block;
+  background: steelblue;
   background: #000;
   color: #fff;
   border: none;
@@ -82,10 +81,12 @@ body {
   margin: 5px;
   padding: 10px 20px;
   cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Added box shadow to task */
 }
 
 .task.reminder {
   border-left: 5px solid green;
+  background-color: #e6ffed; /* Changed reminder task background color */
 }
 
 .task h3 {
@@ -107,11 +108,12 @@ body {
 }
 
 .form-control input {
-  width: 100%;
+  width: 60%; /* Reduced input width */
   height: 40px;
-  margin: 5px;
+  margin: 5px 20%; /* Changed margin value */
   padding: 3px 7px;
   font-size: 17px;
+  border: 1px solid steelblue; /* Added border to input field */
 }
 
 .form-control-check {
@@ -132,6 +134,7 @@ body {
 footer {
   margin-top: 30px;
   text-align: center;
+  color: steelblue; /* Changed text color in footer */
 }
 
 .App-logo {
@@ -139,8 +142,487 @@ footer {
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* .basic-container button{
+  background: rgb(0 126 57);
+  font-family: 'Poppins';
+  width: 100%;
+  color: #fff;
+  height: 50px;
+  font-size: 25px;
+  border: 3px solid #000;
+} */
+
+/* .submit-chat-component {
+  border: 1px solid red;
+  margin: 10px;
+  padding: 10px;
+} */
+
+/* code {
+  font-size: 120%;
+} */
+      
+      
+/* pre code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 1px;
+  white-space: pre-wrap;
+} */
+
+/* New CSS Begins here ------------------------------------------------------------------ */
+/* Used to horizontally centre a div's components, usually used to centre buttons */
+.center-div {
+  text-align: center;
+}
+
+/* App JS Main Flexbox ---------------------------------------------------------------------- */
+
+/* Pokadot background used in App.js */
+html {
+  /* width: 240px; */
+  /* height: 240px; */
+  background-color: white;
+  background-image: radial-gradient(#385723 1px, transparent 0%), radial-gradient(#385723 1px, transparent 0%);
+  background-size: 20px 20px;
+  background-position: 0 0, 30px 30px;
+  background-repeat: repeat;
+  display: block;
+}
+
+
+/* Style for the topmost component in the application, i.e. application window itself */
+/* Set to flex so that components can fall under each other with changing window size */
+.app-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* border: 6px solid black; */
+  justify-content: space-between;
+  min-width: 850px;
+}
+
+/* Parent components for summary view and control board and implements flex item styles for the components*/
+/* Used in App.js */
+.summary-view-parent {
+  padding: 16px;
+  flex-basis: 800px;
+}
+
+.control-board-parent {
+  padding: 16px;
+  flex-basis: 560px;
+}
+
+/* Control Board Items ---------------------------------------------------------------------- */
+/* Style for the actual control board component that houses the control items */
+/* Used in ControlBoard component */
+.control-board {
+  background-color: white;
+  width: 480px;
+  padding: 10px;
+  border: 2px solid black;
+}
+
+/* "Chat-Berta!" header and subtitle controls in ControlBoard*/
+.control-board-header {
+  border-bottom: 2px solid rgb(126, 126, 126);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.control-board-subtitle {
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Submit Chat ---------------------------------------------------------------------- */
+/* "Submit A Chat Request and Select A Source COmponent parent */
+/* Makes them flex so that the source options and header are on the same line */
+/* Used for the SubmitChat component */
+.submit-chat-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgb(126, 126, 126);
+}
+
+/* Specific configuration for the header "Submit A Cjhat Request" to fit to design specifications */
+.submit-chat-header {
+  width: 170px;
+}
+
+/* Chat Input Option Selector ---------------------------------------------------------------------- */
+/* CSS for input options flex item, (child of submit-chat-section) */
+/* Used in SUbmitChat component for styling input options */
+.chat-input-options {
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Button style for the input options button, including highlighting and other information*/
+
+.opt-btn {
+  background: white;
+  color: black;
+  border: 2.5px solid black;
+  padding: 3px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.opt-btn:focus {
+  background: #00B050;
+  color: white;
+}
+
+.opt-btn:hover {
+  background: #80b598;
+  color: white;
+}
+
+.opt-btn-clicked {
+  background: #00B050;
+  color: white;
+}
+
+/* Expected Transcript Format ---------------------------------------------------------------------- */
+/* CSS Styles for the expected transcrip[t format infomation */
+/* Used in ExpectedTranscriptFormat */
+.transcript-format {
+  margin: 10px;
+  padding-top: 5px;
+}
+
+.transcript-format subtitle {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+/* CSS style for the code block that contains the sample transcript */
+.code-block {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 1%;
+  white-space: pre;
+  font-size: 120%;
+  overflow: auto;
+  /* width: 650px; */
+}
+
+/* Style the see expected format button */
+.tfp button {
+  width: 85%;
+  color: #fff;
+  background: rgb(0, 76, 126);
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 15px;
+  border: 3px solid #000;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.tfp button:hover {
+  background: rgb(0, 112, 186);
+}
+
+.clicked {
+  margin-top: 0px;
+}
+
+/* Chat input sources ---------------------------------------------------------------------- */
+
+
+/* Applied to div for each chat source input (UploadChatText and UploadChatFile) */
+.chat-src-panel {
+  /* border: 3px solid #005f2b; */
+  /* margin: 10px; */
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: 1px solid rgb(126, 126, 126);
+  text-align:center;
+}
+
+/* Used for the tags in the chat input source panels */
+smalltitle {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+
+/* Summarizer options  ---------------------------------------------------------------------- */
+
+/* Styling main div of SummarizerOptions component */
+/* Set to flex to have the same inline feature as the submit chat */
+.summarizer-options {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 6px;
+  margin-bottom: 13px;
+  /* border: 1px solid rgb(126, 126, 126);
+  border-radius: 8px; */
+}
+
+/* Used to vertically centre the summarizer option checkboxes */
+.sum-opts-checks {
+  padding: 5px 0;
+}
+
+/* Used in styling the "Summarizer Options" title */
+.sum-opts subtitle {
+  padding: 1px 0;
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+}
+
+/* Summarize Button ---------------------------------------------------------------------- */
+/* Styling the summarize button found in SubmitChat component */
+.summarize-btn {
+  background: rgb(0 126 57);
+  font-family: 'Poppins';
+  width: 96%;
+  color: #fff;
+  height: 50px;
+  font-size: 25px;
+  cursor: pointer;
+  border: 3px solid #000;
+  font-weight: bold;
+}
+
+.summarize-btn:hover {
+  background: rgb(0, 229, 103);
+  color: #fff;
+}
+
+/* Summary View ---------------------------------------------------------------------- */
+/* Styling the topmost div of SummaryView component*/
+.summary-view {
+  background-color: white;
+  margin: auto;
+  padding: 20px 30px;
+  width: 720px;
+  border: 2px solid black;
+}
+
+/* Handles the summary view header and description, adds padding before actual sumamry content */
+.sum-view-header {
+  margin-bottom: 15px;
+}
+
+/* Summary Paragraph ------------------------------------------------------------------- */
+/* Handles the CSS for the SummaryParagraph component */
+/* The topmost div of the SummaryParagraph component */
+.summary-paragraph {
+  border-bottom: 1px solid rgb(126, 126, 126);
+  /* margin: 0px 25px; */
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* See More / Show Less paragraph button */
+/* Used to right align the see more button */
+.sp-btn-div {
+  text-align: right;
+}
+
+.sp-btn-div button {
+  color: #fff;
+  background: rgb(0, 76, 126);
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 15px;
+  border: 3px solid #000;
+  margin-top: 7px;
+}
+
+.sp-btn-div button:hover {
+  background: rgb(0, 112, 186);
+}
+
+/* ChatPane ------------------------------------------------------------------- */
+/* The ChatPane header and pagraph in the ChatPane component */
+.chatpane-header {
+  margin-bottom: 15px;
+}
+
+/* The "Summary messages are hgihglighed in ...." text in the panel styling */
+.chatpane-text-info {
+  text-align: center;
+  font-style: italic;
+}
+
+/* Used to allow for inline o tag */
+.chatpane-text-info o {
+  color: orange;
+}
+
+
+/* Styling for the scrollable text panel in ChatPane */
+/* chatpane-texts-parent is added to allow the curving of the scroll bar */
+
+.chatpane-texts {
+  background-color: rgb(242, 242, 242);
+  max-height: 400px;
+  overflow: auto;
+}
+
+.chatpane-texts-parent {
+  border: 1px solid grey;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+
+/* Used to handle messages that need to be right aligned */
+/* Set on message parent div so message bubble is right aligned */
+.right-align-div {
+  text-align: right;
+}
+
+/* Styling for each message bubble */
+/* The default styling is for non-self messages */
+.chatpane-message {
+  border: 2px solid #013d1c;
+  background-color: #007E39;
+  color: white;
+  border-radius: 10px;
+  text-align: left;
+  display: inline-block;
+  margin: 8px;
+  padding: 10px;
+  max-width: 300px;
+}
+
+/* Used to style messages that are included in the summary */
+.special-message {
+  background-color: #FC9308;
+  border-color: #C55A11;
+}
+
+/* Dropdown ------------------------------------------------------------------- */
+ /* Styling our drop down component!  */
+.dropdown {
+    display: inline;
+    font-size: 16px;
+    padding: 2px;
+    cursor: pointer;
+ }
+
+ /* Loading Page (SummaryContentLoading component) ------------------------------------------------------------------- */
+ /* React Spinning Logo is done by creating animation and then using media */
+ @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* CSS for the loading gif */
+.loading-image {
+  display: block;
+  width: 400px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CSS for the overall loading page to align items vertically and horizontally */
+.loading-page {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.loading-inner-div{
+  flex-grow: 1
+}
+
+/* For the making summary title */
+.loading-title {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+/* Error Page (SummaryContentError component) ------------------------------------------------------------------- */
+/* CSS for the overall loading page to align items vertically and horizontally */
+.error-page {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+  background-color: #FCDCDC;
+  border: 1px solid #990000;
+}
+
+/* CSS for the loading gif */
+.error-image {
+  display: block;
+  width: 100px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.error-inner-div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.error-words-div {
+  display: flex;
+  align-items: center;
+}
+
+/* CSS for title and errors */
+.error-title {
+  /* text-align: center; */
+  font-size: 25px;
+  color: #990000;
+  font-weight: bold;
+}
+
+.error-message {
+  font-size: 17px;
+  color: #990000;
+}
+
+/* Error Page (SummaryContentUnset component) ------------------------------------------------------------------- */
+/* Uses a lot of the CSS defined for loading with small changes */
+.unset-title {
+  text-align: center;
+  font-size: 25px;
+}
+
+.unset-image {
+  display: block;
+  width: 350px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
 }

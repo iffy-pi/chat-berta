@@ -5,12 +5,27 @@ import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
 import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
+import ChatInputOptions from "./ChatInputOptions";
+import ExpectedTranscriptFormat from "./ExpectedTranscriptFormat";
 
 const InputOptions = {
     def: 0,
     file: 1,
     text: 2
 }
+
+const inputOptionsRendered = [
+    {
+        'label': 'Paste Transcript',
+        'id': InputOptions.text,
+        selected: false,
+    },
+    {
+        'label': 'Upload File',
+        'id': InputOptions.file,
+        selected: false,
+    }
+]
 
 const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
     { ...opt, id:index, selected:false}
@@ -33,6 +48,10 @@ const SubmitChat = ({ setSummaryRequest }) => {
         summaryOptions.current = options
     }
 
+    const updateSelectedInput = (inputOption) => {
+        setSelectedInput(inputOption)
+    } 
+
     const failedFileUpload = ( error ) => {
         alert('File upload failed!\nError: '+error)
     }
@@ -43,7 +62,9 @@ const SubmitChat = ({ setSummaryRequest }) => {
     }
 
     const onSubmit = async () => {
-        const request = {}
+        const request = {
+            summary_options: {}
+        }
 
         try {
             if ( selectedInput === InputOptions.file ) {
@@ -52,41 +73,62 @@ const SubmitChat = ({ setSummaryRequest }) => {
                 if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
 
                 request.type = 'file'
-                request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+
+                try{ 
+                    request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+                } catch ( error ) {
+                    throw new Error('File Parsing Error: '+String(error.message))
+                }
             }
 
             else if ( selectedInput === InputOptions.text ) {
                 if ( transcriptText.current === "" ) throw new Error('No transcript text!')
                 request.type = 'text'
-                request.chat_package = chatTextToChatJSON( transcriptText.current )
+
+                try{ 
+                    request.chat_package = chatTextToChatJSON( transcriptText.current )
+                } catch ( error ) {
+                    throw new Error('File Parsing Error: '+String(error.message))
+                }
 
             } else {
                 throw new Error('No chat input selected!')
             }
 
         } catch(error){
-            alert('Submission Failed!\nReason: '+error)
+            alert('Submission Failed!\nError: '+error.message)
             return
         }
 
-        request.options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
+        request.summary_options.basic_options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
 
-        //console.log(request)
+        // console.log(request)
         setSummaryRequest(request)
     }
 
     
 
     return (
-        <div className="basic-container">
-            <h2>Submit A Chat Request</h2>
-            <Button buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
-            <Button buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+        <div className="submit-chat-component">
+            <div className="submit-chat-section">
+                <div className="submit-chat-header">
+                    <h2>Submit A</h2>
+                    <h2>Chat Request</h2>
+                </div>
+                <div className="chat-input-options">
+                    <p>Select a source:</p>
+                    <Button className={"opt-btn" + ((selectedInput === InputOptions.text) ? " opt-btn-clicked": "")}  buttonText="Transcript" onClick={() => setSelectedInput(InputOptions.text)}/>
+                    <Button className={"opt-btn" + ((selectedInput === InputOptions.file) ? " opt-btn-clicked" : "")} buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
+                </div>
+            </div>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
-            { (selectedInput === InputOptions.def) && <br />}
+            {/* { (selectedInput !== InputOptions.def) && <br />}  */}
+            <ExpectedTranscriptFormat />
             <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
-            <Button buttonText="Summarize!" onClick={onSubmit}/>
+            <div className="center-div">
+                <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
+            </div>
         </div>
     )
 }

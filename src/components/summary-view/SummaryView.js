@@ -5,6 +5,7 @@ import SummaryContentUnset from './summary-states/SummaryContentUnset'
 import SummaryContentLoading from './summary-states/SummaryContentLoading'
 import SummaryContentError from './summary-states/SummaryContentError'
 import SummaryParagraph from './SummaryParagraph'
+import configdata from '../../shared/config.json'
 
 const ContentStates = {
     unset: 0,
@@ -18,10 +19,11 @@ const SummaryView = ({ summaryRequest }) => {
     const [ summarySuccess, setSummarySuccess ] = useState(false)
     const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
     const [ requestError, setRequestError ] = useState('')
+    const [ characterLimit, setCharacterLimit ] = useState(50)//useState(configdata.PARAGRAPH_CHAR_LIMIT)
 
     const handleSummaryRequest = async (request) => {
         const req = {
-            summary_options: request.options,
+            summary_options: request.summary_options,
             chat_package: request.chat_package
         }
 
@@ -59,7 +61,7 @@ const SummaryView = ({ summaryRequest }) => {
         }
     }, [ summaryRequest ])
 
-    const renderContentState = (contentState) => {
+    const renderContentForState = (contentState) => {
         switch(contentState) {
             case ContentStates.unset:
                 return (<SummaryContentUnset />)
@@ -71,23 +73,29 @@ const SummaryView = ({ summaryRequest }) => {
     }
 
     return (
-        <div className="basic-container">
-            <h1>Summary View</h1>
-            <p>This will contain the information about the rendered summary</p>
-            {  ( contentState !== ContentStates.set) && renderContentState(contentState) }
+        <div className="summary-view-parent">
+            <div className="summary-view">
+                <div className='sum-view-header'>
+                    <h1>Summary View</h1>
+                </div>
 
-            {/* Errorneous request */}
-            { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
+                {/* For loading content or no content available */}
+                {  ( contentState !== ContentStates.set) && renderContentForState(contentState) }
+                
+                {/* Errorneous request */}
+                { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
 
-            {/* For loading the actual data */}
-            { (contentState === ContentStates.set && summarySuccess ) && 
-            <div>
-                <SummaryParagraph chatPackage={summaryChatPackage}/>
-                <ChatPane chatPackage={summaryChatPackage}/>
+                {/* For rendedering returned data */}
+                { (contentState === ContentStates.set && summarySuccess ) && 
+                    <div>
+                        <SummaryParagraph chatPackage={summaryChatPackage} characterLimit={characterLimit}/>
+                        <ChatPane chatPackage={summaryChatPackage}/>
+                    </div>
+                }
             </div>
-            }
         </div>
     )
 }
+
 
 export default SummaryView

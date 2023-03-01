@@ -1,7 +1,8 @@
-const Button = ({buttonText, onClick}) => {
+const Button = ({buttonText, onClick, className}) => {
     return (
         <button
-        onClick={onClick}>
+        onClick={onClick}
+        className={className}>
             {buttonText}
         </button>
     )
@@ -9,7 +10,8 @@ const Button = ({buttonText, onClick}) => {
 
 Button.defaultProps = {
     buttonText: "Click Me!",
-    onClick: () => alert("I've been clicked!")
+    onClick: () => alert("I've been clicked!"),
+    className: ""
 }
 
 export default Button
