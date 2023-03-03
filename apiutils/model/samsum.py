@@ -1,13 +1,15 @@
 import torch
 
 class SamSumDataset(torch.utils.data.Dataset):
-    def __init__(self, encodings, labels):
-        self.encodings = encodings
+    def __init__(self, input_ids, attention_mask, labels):
+        self.attention_mask = attention_mask
+        self.input_ids = input_ids
         self.labels = labels
 
     def __getitem__(self, idx):
-        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-        item['labels'] = torch.tensor(self.labels[idx])
+        item = {"input_ids": self.input_ids[idx]}
+        item["attention_mask"] = self.attention_mask[idx]
+        item["labels"] = self.labels[idx]
         return item
 
     def __len__(self):
