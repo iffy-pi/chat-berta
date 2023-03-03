@@ -53,7 +53,7 @@ const SubmitChat = ({ setSummaryRequest }) => {
 
     const updateSelectedOptions = ( options ) => {
         summaryOptions.current = options
-        console.log(summaryOptions)
+        // console.log(summaryOptions)
     }
 
     const updateSelectedInput = (inputOption) => {
