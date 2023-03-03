@@ -1,6 +1,6 @@
 import SubmitChat from "./submit-chat/SubmitChat"
 
-const ControlBoard = ({ summaryRequest, setSummaryRequest }) => {
+const ControlBoard = ({ summaryRequest, setSummaryRequest, setSummaryResponse }) => {
     return (
         <div className="control-board-parent">
             <div className="control-board">
@@ -8,7 +8,7 @@ const ControlBoard = ({ summaryRequest, setSummaryRequest }) => {
                     <h1>Chat-Berta!</h1>
                     <p className="control-board-subtitle">The web chat summarization tool!</p>
                 </div>
-                <SubmitChat summaryRequest={summaryRequest} setSummaryRequest={setSummaryRequest}/>
+                <SubmitChat summaryRequest={summaryRequest} setSummaryRequest={setSummaryRequest} setSummaryResponse={setSummaryResponse}/>
             </div>
         </div>
     )
