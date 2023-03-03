@@ -12,7 +12,7 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
 
     // Indicates if the display paragraph is truncated
     // Truncated by default
-    const [ truncateParagraph, setTruncateParagraph ] = useState(true)
+    const [ displayPargTruncated, setDisplayPargTruncated ] = useState(true)
     
 
 
@@ -40,14 +40,14 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
     }
 
     const toggleParagraphTruncation = ( ) => {
-        setTruncateParagraph( !truncateParagraph)
+        setDisplayPargTruncated( !displayPargTruncated)
     }
 
     const getDisplayParagraph = () => {
         if ( !needsTruncation ) return fullParagraph;
 
         // Needs truncation and should be truncated
-        if ( truncateParagraph ) return (fullParagraph.substring(0, characterLimit-3) + '...')
+        if ( displayPargTruncated ) return (fullParagraph.substring(0, characterLimit-3) + '...')
 
         // needs truncation but should not be truncated
         return fullParagraph;
@@ -56,10 +56,17 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
     useEffect(  () => {
         // on receiving the chat package we want to rerender our display information
         if ( chatPackage !== null ) {
+            console.log('Chat package change!')
             setFullParagraph(collateMessages(chatPackage.summary_messages))
-            setNeedsTruncation( fullParagraph.length > characterLimit )
         }
     }, [ chatPackage ])
+
+    // determine truncation of full paragraph when it is set
+    useEffect( () => {
+        console.log('On full paragraph change')
+        console.log('Length', fullParagraph.length)
+        setNeedsTruncation( fullParagraph.length > characterLimit )
+    }, [ fullParagraph ])
 
     return (
         <div className="summary-paragraph">
@@ -70,7 +77,7 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
             {
                 ( needsTruncation ) &&
                 <div className="sp-btn-div">
-                    <Button buttonText={ (truncateParagraph) ? "See More" : "Show Less" } onClick={ toggleParagraphTruncation }/>
+                    <Button buttonText={ (displayPargTruncated) ? "Show All" : "Show Less" } onClick={ toggleParagraphTruncation }/>
                 </div>   
             }
         </div>
