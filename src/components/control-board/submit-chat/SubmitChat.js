@@ -5,7 +5,6 @@ import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
 import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
-import ChatInputOptions from "./ChatInputOptions";
 import ExpectedTranscriptFormat from "./ExpectedTranscriptFormat";
 
 const InputOptions = {
@@ -13,19 +12,6 @@ const InputOptions = {
     file: 1,
     text: 2
 }
-
-const inputOptionsRendered = [
-    {
-        'label': 'Paste Transcript',
-        'id': InputOptions.text,
-        selected: false,
-    },
-    {
-        'label': 'Upload File',
-        'id': InputOptions.file,
-        selected: false,
-    }
-]
 
 const defaultSummarizerOptions = {
     basic_options: data.SUMMARIZER_OPTIONS.map( (opt, index) => (
@@ -39,15 +25,14 @@ const SubmitChat = ({ setSummaryRequest }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
-    const transcriptText = useRef('')
     // Switching transcript text to state
-    const [ stateTranscriptText, setStateTranscriptText ] = useState('')
+    const [ transcriptText, setTranscriptText ] = useState('')
     const summaryOptions = useRef(defaultSummarizerOptions)
     const selectedFile = useRef(null)
     const fileUploaded = useRef(false)
 
     const saveTranscriptText = (textboxText) => {
-       setStateTranscriptText(textboxText)
+       setTranscriptText(textboxText)
 
     }
 
@@ -55,10 +40,6 @@ const SubmitChat = ({ setSummaryRequest }) => {
         summaryOptions.current = options
         // console.log(summaryOptions)
     }
-
-    const updateSelectedInput = (inputOption) => {
-        setSelectedInput(inputOption)
-    } 
 
     const failedFileUpload = ( error ) => {
         alert('File upload failed!\nError: '+error)
@@ -89,11 +70,11 @@ const SubmitChat = ({ setSummaryRequest }) => {
             }
 
             else if ( selectedInput === InputOptions.text ) {
-                if ( stateTranscriptText === "" ) throw new Error('No transcript text!')
+                if ( transcriptText === "" ) throw new Error('No transcript text!')
                 request.type = 'text'
 
                 try{ 
-                    request.chat_package = chatTextToChatJSON( stateTranscriptText )
+                    request.chat_package = chatTextToChatJSON( transcriptText )
                 } catch ( error ) {
                     throw new Error('File Parsing Error: '+String(error.message))
                 }
@@ -132,10 +113,10 @@ const SubmitChat = ({ setSummaryRequest }) => {
                 </div>
             </div>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
-            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={stateTranscriptText}/>}
+            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />
-            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions} transcriptText={stateTranscriptText}/>
+            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions} transcriptText={transcriptText}/>
             <div className="center-div">
                 <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
             </div>
