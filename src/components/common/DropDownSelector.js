@@ -12,12 +12,14 @@ const DropDownSelector = ( {options, onSelect, name, id, className} ) => {
             setSelectedOptId(e.target.selectedIndex)
             onSelect(e.target.selectedIndex)
         }}
+        defaultValue={options[selectedOptId]}
         >
             {
                 options.map( (opt, i) => (
-                    ( i == selectedOptId ) ?
-                    <option value={opt} selected="selected">{opt}</option> :
-                    <option value={opt}>{opt}</option>
+                    // ( i == selectedOptId ) ?
+                    // <option value={opt} selected="selected">{opt}</option> :
+                    // <option value={opt}>{opt}</option>
+                    <option value={opt} key={i}>{opt}</option>
                 ))
             }
         </select>
