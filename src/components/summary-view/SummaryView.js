@@ -19,7 +19,8 @@ const SummaryView = ({ summaryRequest }) => {
     const [ summarySuccess, setSummarySuccess ] = useState(false)
     const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
     const [ requestError, setRequestError ] = useState('')
-    const [ characterLimit, setCharacterLimit ] = useState(50)//useState(configdata.PARAGRAPH_CHAR_LIMIT)
+
+    const characterLimit = useState(configdata.PARAGRAPH_CHAR_LIMIT)
 
     const handleSummaryRequest = async (request) => {
         const req = {
