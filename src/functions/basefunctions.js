@@ -122,16 +122,9 @@ const chatTextToChatJSON = ( transcriptText ) => {
 
 }
 
-const ContentStates = {
-    unset: 0,
-    loading: 1,
-    set: 2
-}
-
 export {
     goodChatFileUpload,
     readFileToText,
     apiJSONFetch,
-    chatTextToChatJSON,
-    ContentStates
+    chatTextToChatJSON
 }

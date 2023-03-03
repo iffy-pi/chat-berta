@@ -56,12 +56,15 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
     useEffect(  () => {
         // on receiving the chat package we want to rerender our display information
         if ( chatPackage !== null ) {
+            console.log('Chat package change!')
             setFullParagraph(collateMessages(chatPackage.summary_messages))
         }
     }, [ chatPackage ])
 
     // determine truncation of full paragraph when it is set
     useEffect( () => {
+        console.log('On full paragraph change')
+        console.log('Length', fullParagraph.length)
         setNeedsTruncation( fullParagraph.length > characterLimit )
     }, [ fullParagraph ])
 

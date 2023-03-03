@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { apiJSONFetch, ContentStates } from '../../functions/basefunctions'
+import { apiJSONFetch } from '../../functions/basefunctions'
 import ChatPane from './chat-pane/ChatPane'
 import SummaryContentUnset from './summary-states/SummaryContentUnset'
 import SummaryContentLoading from './summary-states/SummaryContentLoading'
@@ -7,19 +7,18 @@ import SummaryContentError from './summary-states/SummaryContentError'
 import SummaryParagraph from './SummaryParagraph'
 import configdata from '../../shared/config.json'
 
-const SummaryView = ({ summaryRequest, summaryResponse }) => {
+const ContentStates = {
+    unset: 0,
+    loading: 1,
+    set: 2
+}
+
+const SummaryView = ({ summaryRequest }) => {
 
     const [ contentState, setContentState ] = useState(ContentStates.unset)
     const [ summarySuccess, setSummarySuccess ] = useState(false)
     const [ summaryChatPackage, setSummaryChatPackage ] = useState(null)
     const [ requestError, setRequestError ] = useState('')
-
-    const [ intSummaryResponse, setIntSummaryResponse ] = useState({
-        contentState: ContentStates.unset,
-        success: false, // Whether the response worked
-        body: null, // actual server response
-        error: '' // Used if there are any errors
-    })
 
     const characterLimit = useState(configdata.PARAGRAPH_CHAR_LIMIT)
 
@@ -55,37 +54,15 @@ const SummaryView = ({ summaryRequest, summaryResponse }) => {
         setContentState(ContentStates.set)
     }
 
-    // useEffect(  () => {
-    //     // on change we handle the summary request by making the api call
-    //     if ( summaryRequest !== null ) {
-    //         setContentState(ContentStates.loading)
-    //         handleSummaryRequest({ ...summaryRequest})
-    //     }
-    // }, [ summaryRequest ])
-
-    useEffect( () => {
-        if ( summaryResponse !== null ){
-
-            console.log('Summary response change!', summaryResponse)
-            console.log('====')
-            // if ( summaryResponse.state === ContentStates.set ){
-            //     // If it is set then we can read content
-            //     if ( summaryResponse.success ) {
-            //         setSummaryChatPackage(summaryResponse.body.chat_package)
-            //     } else { 
-            //         setRequestError(summaryResponse.error)
-            //     }
-    
-            //     setSummarySuccess( summaryResponse.success )
-            // }
-            // setContentState(summaryResponse.state)
-
-            setIntSummaryResponse( summaryResponse )
+    useEffect(  () => {
+        // on change we handle the summary request by making the api call
+        if ( summaryRequest !== null ) {
+            setContentState(ContentStates.loading)
+            handleSummaryRequest({ ...summaryRequest})
         }
-    }, [ summaryResponse ] )
+    }, [ summaryRequest ])
 
     const renderContentForState = (contentState) => {
-        console.log(intSummaryResponse)
         switch(contentState) {
             case ContentStates.unset:
                 return (<SummaryContentUnset />)
@@ -104,16 +81,16 @@ const SummaryView = ({ summaryRequest, summaryResponse }) => {
                 </div>
 
                 {/* For loading content or no content available */}
-                {  ( intSummaryResponse.contentState !== ContentStates.set) && renderContentForState(intSummaryResponse.contentState) }
+                {  ( contentState !== ContentStates.set) && renderContentForState(contentState) }
                 
                 {/* Errorneous request */}
-                { (intSummaryResponse.contentState === ContentStates.set && !intSummaryResponse.success) && <SummaryContentError message={intSummaryResponse.error} />}
+                { (contentState === ContentStates.set && !summarySuccess) && <SummaryContentError message={requestError} />}
 
                 {/* For rendedering returned data */}
-                { (intSummaryResponse.contentState === ContentStates.set && intSummaryResponse.success ) && 
+                { (contentState === ContentStates.set && summarySuccess ) && 
                     <div>
-                        <SummaryParagraph chatPackage={intSummaryResponse.body.chat_package} characterLimit={characterLimit}/>
-                        <ChatPane chatPackage={intSummaryResponse.body.chat_package}/>
+                        <SummaryParagraph chatPackage={summaryChatPackage} characterLimit={characterLimit}/>
+                        <ChatPane chatPackage={summaryChatPackage}/>
                     </div>
                 }
             </div>
