@@ -27,25 +27,33 @@ const inputOptionsRendered = [
     }
 ]
 
-const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
-    { ...opt, id:index, selected:false}
-))
+const defaultSummarizerOptions = {
+    basic_options: data.SUMMARIZER_OPTIONS.map( (opt, index) => (
+        { ...opt, id:index, selected:false}
+    )),
+    summarize_only_for: -1
+}
+
 
 const SubmitChat = ({ setSummaryRequest }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
     const transcriptText = useRef('')
+    // Switching transcript text to state
+    const [ stateTranscriptText, setStateTranscriptText ] = useState('')
     const summaryOptions = useRef(defaultSummarizerOptions)
     const selectedFile = useRef(null)
     const fileUploaded = useRef(false)
 
     const saveTranscriptText = (textboxText) => {
-       transcriptText.current = textboxText 
+       setStateTranscriptText(textboxText)
+
     }
 
     const updateSelectedOptions = ( options ) => {
         summaryOptions.current = options
+        console.log(summaryOptions)
     }
 
     const updateSelectedInput = (inputOption) => {
@@ -63,7 +71,6 @@ const SubmitChat = ({ setSummaryRequest }) => {
 
     const onSubmit = async () => {
         const request = {
-            summary_options: {}
         }
 
         try {
@@ -82,11 +89,11 @@ const SubmitChat = ({ setSummaryRequest }) => {
             }
 
             else if ( selectedInput === InputOptions.text ) {
-                if ( transcriptText.current === "" ) throw new Error('No transcript text!')
+                if ( stateTranscriptText === "" ) throw new Error('No transcript text!')
                 request.type = 'text'
 
                 try{ 
-                    request.chat_package = chatTextToChatJSON( transcriptText.current )
+                    request.chat_package = chatTextToChatJSON( stateTranscriptText )
                 } catch ( error ) {
                     throw new Error('File Parsing Error: '+String(error.message))
                 }
@@ -100,7 +107,10 @@ const SubmitChat = ({ setSummaryRequest }) => {
             return
         }
 
-        request.summary_options.basic_options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
+        // Populate request summary options
+        // basic options field is updated to be a list of only the selected options
+        request.summary_options = { ...summaryOptions.current, basic_options: summaryOptions.current.basic_options.filter( opt => opt.selected).map( (opt) => opt.tag) }
+
 
         // console.log(request)
         setSummaryRequest(request)
@@ -122,10 +132,10 @@ const SubmitChat = ({ setSummaryRequest }) => {
                 </div>
             </div>
             { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
-            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
+            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={stateTranscriptText}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />
-            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
+            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions} transcriptText={stateTranscriptText}/>
             <div className="center-div">
                 <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
             </div>
