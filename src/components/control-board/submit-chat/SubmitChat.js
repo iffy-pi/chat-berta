@@ -21,7 +21,7 @@ const defaultSummarizerOptions = {
 }
 
 
-const SubmitChat = ({ setSummaryRequest, setSummaryResponse }) => {
+const SubmitChat = ({ setSummaryRequest, setSummaryResponse, summaryResponse }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
@@ -53,42 +53,39 @@ const SubmitChat = ({ setSummaryRequest, setSummaryResponse }) => {
 
     const makeSummaryRequest = async (request) => {
 
-        // This is the response set back to summary view
-        const summaryResponse = {
-            contentState: ContentStates.unset,
-            success: false, // Whether the response worked
-            body: null, // actual server response
-            error: '' // Used if there are any errors
-        }
-
         const req = {
             summary_options: request.summary_options,
             chat_package: request.chat_package
         }
 
-        // Tell summary view that the content is loading now while we make the request
-        summaryResponse.contentState = ContentStates.loading
-        // setSummaryResponse(summaryResponse)
-        console.log('Before call!!!')
+        const resp = {
+            success: false,
+            error: '',
+            body:  null,
+        }
+
+        // Tell summary view that the content is loading now while we make the request        
+        setSummaryResponse({ ...summaryResponse ,  contentState: ContentStates.loading})
         try {
             const res = await apiJSONFetch('submit-chat', 'POST', {}, req)
             
             if ( !res.success ) throw new Error('Invalid response: '+res)
 
             // On success, return the server response to the system
-            summaryResponse.success = true
-            summaryResponse.body = res.content
+            resp.success = true
+            resp.body = res.content
         } catch ( error ){
             // On error, then we can set the response fields
-            summaryResponse.success = false
-            summaryResponse.error = String(error)
+            resp.success = false
+            resp.error = String(error)
         }
-        console.log('After call!!')
 
-        // return content to the summary view
-        summaryResponse.contentState = ContentStates.set
-        setSummaryResponse( summaryResponse )
-        console.log('After set')
+        setSummaryResponse({ ...summaryResponse ,  
+                contentState: ContentStates.set,
+                success: resp.success,
+                body: resp.body,
+                error: resp.error
+            })
     }
 
     const onSubmit = async () => {

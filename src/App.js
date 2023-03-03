@@ -1,10 +1,16 @@
 import { useState } from 'react'
 import ControlBoard from './components/control-board/ControlBoard';
 import SummaryView from './components/summary-view/SummaryView';
+import { ContentStates } from './functions/basefunctions';
 
 function App() {  
   const [ summaryRequest, setSummaryRequest ] = useState(null)
-  const [ summaryResponse , setSummaryResponse ] = useState(null)
+  const [ summaryResponse , setSummaryResponse ] = useState({
+        contentState: ContentStates.unset,
+        success: false, // Whether the response worked
+        body: null, // actual server response
+        error: '' // Used if there are any errors
+  })
 
   /*
     summaryRequest is object of properties to make a summary with
@@ -19,7 +25,7 @@ function App() {
   return (
     <div className="">
       <div className="app-container">
-        <ControlBoard setSummaryRequest={setSummaryRequest} setSummaryResponse={setSummaryResponse}/>
+        <ControlBoard setSummaryRequest={setSummaryRequest} summaryResponse={summaryResponse} setSummaryResponse={setSummaryResponse}/>
         <SummaryView summaryRequest={summaryRequest} summaryResponse={summaryResponse}/>
       </div>
     </div>
