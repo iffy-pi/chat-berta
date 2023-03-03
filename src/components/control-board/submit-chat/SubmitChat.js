@@ -21,7 +21,7 @@ const defaultSummarizerOptions = {
 }
 
 
-const SubmitChat = ({ setSummaryRequest, setSummaryResponse, summaryResponse }) => {
+const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 

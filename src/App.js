@@ -4,7 +4,6 @@ import SummaryView from './components/summary-view/SummaryView';
 import { ContentStates } from './functions/basefunctions';
 
 function App() {  
-  const [ summaryRequest, setSummaryRequest ] = useState(null)
   const [ summaryResponse , setSummaryResponse ] = useState({
         contentState: ContentStates.unset,
         success: false, // Whether the response worked
@@ -25,8 +24,8 @@ function App() {
   return (
     <div className="">
       <div className="app-container">
-        <ControlBoard setSummaryRequest={setSummaryRequest} summaryResponse={summaryResponse} setSummaryResponse={setSummaryResponse}/>
-        <SummaryView summaryRequest={summaryRequest} summaryResponse={summaryResponse}/>
+        <ControlBoard summaryResponse={summaryResponse} setSummaryResponse={setSummaryResponse}/>
+        <SummaryView summaryResponse={summaryResponse}/>
       </div>
     </div>
   );

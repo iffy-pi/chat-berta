@@ -7,7 +7,7 @@ import SummaryContentError from './summary-states/SummaryContentError'
 import SummaryParagraph from './SummaryParagraph'
 import configdata from '../../shared/config.json'
 
-const SummaryView = ({ summaryRequest, summaryResponse }) => {
+const SummaryView = ({ summaryResponse }) => {
 
     const characterLimit = useState(configdata.PARAGRAPH_CHAR_LIMIT)
 
