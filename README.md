@@ -179,7 +179,7 @@ git push
 ```
 Note: You can make more commits and push as usual until you are ready to merge with the main branch.
 
-## Merge With Main (if you created a developmens
+## Merge With Main (if you created a development branch)
 Merge your branch with the mainline by initiating a pull request, this can be done using the added utility git-pr.bat:
 ```
 git-pr.bat
