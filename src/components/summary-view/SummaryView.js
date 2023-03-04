@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { apiJSONFetch, ContentStates } from '../../functions/basefunctions'
+import { useState } from 'react'
+import { ContentStates } from '../../functions/basefunctions'
 import ChatPane from './chat-pane/ChatPane'
 import SummaryContentUnset from './summary-states/SummaryContentUnset'
 import SummaryContentLoading from './summary-states/SummaryContentLoading'
