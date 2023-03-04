@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
+import { goodChatFileUpload, chatTextToChatJSON, readFileToText, ContentStates, apiJSONFetch } from "../../../functions/basefunctions";
 import ExpectedTranscriptFormat from "./ExpectedTranscriptFormat";
 
 const InputOptions = {
@@ -21,7 +21,7 @@ const defaultSummarizerOptions = {
 }
 
 
-const SubmitChat = ({ setSummaryRequest }) => {
+const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
@@ -48,6 +48,44 @@ const SubmitChat = ({ setSummaryRequest }) => {
     const goodFileUpload = ( file ) => {
         selectedFile.current = file
         fileUploaded.current = true
+    }
+
+
+    const makeSummaryRequest = async (request) => {
+
+        const req = {
+            summary_options: request.summary_options,
+            chat_package: request.chat_package
+        }
+
+        const resp = {
+            success: false,
+            error: '',
+            body:  null,
+        }
+
+        // Tell summary view that the content is loading now while we make the request        
+        setSummaryResponse({ ...summaryResponse ,  contentState: ContentStates.loading})
+        try {
+            const res = await apiJSONFetch('submit-chat', 'POST', {}, req)
+            
+            if ( !res.success ) throw new Error('Invalid response: '+res)
+
+            // On success, return the server response to the system
+            resp.success = true
+            resp.body = res.content
+        } catch ( error ){
+            // On error, then we can set the response fields
+            resp.success = false
+            resp.error = String(error)
+        }
+
+        setSummaryResponse({ ...summaryResponse ,  
+                contentState: ContentStates.set,
+                success: resp.success,
+                body: resp.body,
+                error: resp.error
+            })
     }
 
     const onSubmit = async () => {
@@ -94,7 +132,8 @@ const SubmitChat = ({ setSummaryRequest }) => {
 
 
         // console.log(request)
-        setSummaryRequest(request)
+        // Make the summary request call
+        await makeSummaryRequest(request)
     }
 
     
