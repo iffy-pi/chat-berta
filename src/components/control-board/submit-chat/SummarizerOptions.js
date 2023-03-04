@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import DropDownSelector from '../../common/DropDownSelector'
-import {chatTextToChatJSON } from "../../../functions/basefunctions";
+import {chatTextToChatJSON, readFileToText, goodChatFileUpload, InputOptions } from "../../../functions/basefunctions";
 
 function useDebounceValue( value, time) {
     // value is what we are debouncing
@@ -30,13 +30,13 @@ function useDebounceValue( value, time) {
     return debounceValue
 }
 
-const SummarizerOptions = ({ options, returnOptions, transcriptText }) => {
+const SummarizerOptions = ({ options, returnOptions, selectedInput, transcriptText, uploadedFile  }) => {
     
     // initializing the component state to default options to the state
     const [ _options, _setOptions ] = useState(options)
     const [ partyDropDown, setPartyDropDown ] = useState([])
     // Debouncing to allow for user to finish typing
-    const debouncedText = useDebounceValue(transcriptText, 300) 
+    const debouncedText = useDebounceValue(transcriptText, 300)
 
     const _toggleOption = (id) => {
         // use map to set the selected tag to the opposite of whatever it is currently on change
@@ -50,6 +50,10 @@ const SummarizerOptions = ({ options, returnOptions, transcriptText }) => {
         _setOptions( newopts )
     }
 
+    const getPartiesList = (chat_package) => {
+        return chat_package.config.parties.map( (party) => party.name)
+    }
+
     // Used to fill in the summarize_only_for field in the API request
     const onDropDownSelect = (selectedIndx) => {
         // 0 will be for none/both, so party id will be -1
@@ -60,21 +64,43 @@ const SummarizerOptions = ({ options, returnOptions, transcriptText }) => {
         _setOptions( newopts )
     }
 
-    useEffect(  () => {
-        // on change of debounced transcript text we attempt to parse and get party information
-        // let chat_package = null
-        try{ 
-            const chat_package = chatTextToChatJSON( debouncedText )
-
-            // successfully parsed, so get the parties and use those in the dropdown
-            // add both for none
-            setPartyDropDown(chat_package.config.parties.map( (party) => party.name))
+    const parsePartiesForFile = async (uploadedFile) => {
+        try {
+            if ( uploadedFile === null ) throw new Error('No file uploaded')
+            if ( !goodChatFileUpload(uploadedFile) ) throw new Error('Bad file format')
+            const chat_package = chatTextToChatJSON( await readFileToText(uploadedFile) )
+            setPartyDropDown(getPartiesList(chat_package))
         } catch ( error ) {
-            // Could not parse, so just set the dropdown to default
+            // parsing failed for some reason, set empty parties
+            setPartyDropDown([])
+        }
+    }
+
+    useEffect( () => {
+        // Parse parties every time the transcript changes (debounced), uploaded file changes, or input option changes
+        try {
+            if ( selectedInput === InputOptions.def) throw new Error('No selection')
+
+            if( selectedInput === InputOptions.text ){
+                // on change of debounced transcript text we attempt to parse and get party information
+                // Only parsing if we are on transcript option
+                const chat_package = chatTextToChatJSON( debouncedText )
+                setPartyDropDown( getPartiesList(chat_package) )
+            }
+
+            else if ( selectedInput === InputOptions.file ){
+                // file handled asynchronously
+                parsePartiesForFile(uploadedFile)
+            }
+
+        } catch (error) {
+            // parsing failed for some reason, set empty parties
             setPartyDropDown([])
         }
 
-    }, [ debouncedText ])
+    }, [ debouncedText, uploadedFile, selectedInput])
+
+
 
     return (
         <div className="summarizer-options">

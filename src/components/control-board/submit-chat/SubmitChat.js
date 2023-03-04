@@ -4,14 +4,9 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, chatTextToChatJSON, readFileToText, ContentStates, apiJSONFetch } from "../../../functions/basefunctions";
+import { goodChatFileUpload, chatTextToChatJSON, readFileToText, ContentStates, apiJSONFetch, InputOptions } from "../../../functions/basefunctions";
 import ExpectedTranscriptFormat from "./ExpectedTranscriptFormat";
 
-const InputOptions = {
-    def: 0,
-    file: 1,
-    text: 2
-}
 
 const defaultSummarizerOptions = {
     basic_options: data.SUMMARIZER_OPTIONS.map( (opt, index) => (
@@ -27,9 +22,9 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
     // Switching transcript text to state
     const [ transcriptText, setTranscriptText ] = useState('')
+    const [ selectedFile, setSelectedFile ] = useState(null)
+    const [ fileUploaded, setFileUploaded ] = useState(false)
     const summaryOptions = useRef(defaultSummarizerOptions)
-    const selectedFile = useRef(null)
-    const fileUploaded = useRef(false)
 
     const saveTranscriptText = (textboxText) => {
        setTranscriptText(textboxText)
@@ -46,8 +41,8 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
     }
 
     const goodFileUpload = ( file ) => {
-        selectedFile.current = file
-        fileUploaded.current = true
+        setSelectedFile(file)
+        setFileUploaded(true)
     }
 
 
@@ -95,13 +90,13 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
         try {
             if ( selectedInput === InputOptions.file ) {
                 
-                if ( !fileUploaded.current ) throw new Error('No file or invalid file uploaded!')
-                if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
+                if ( !fileUploaded ) throw new Error('No file or invalid file uploaded!')
+                if ( !goodChatFileUpload(selectedFile) ) throw new Error('Invalid file type. Only text based files are allowed.')
 
                 request.type = 'file'
 
                 try{ 
-                    request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+                    request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile) )
                 } catch ( error ) {
                     throw new Error('File Parsing Error: '+String(error.message))
                 }
@@ -155,7 +150,7 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />
-            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions} transcriptText={transcriptText}/>
+            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions} selectedInput={selectedInput} transcriptText={transcriptText} uploadedFile={selectedFile}/>
             <div className="center-div">
                 <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
             </div>

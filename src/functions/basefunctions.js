@@ -128,10 +128,18 @@ const ContentStates = {
     set: 2
 }
 
+const InputOptions = {
+    def: 0,
+    file: 1,
+    text: 2
+}
+
+
 export {
     goodChatFileUpload,
     readFileToText,
     apiJSONFetch,
     chatTextToChatJSON,
-    ContentStates
+    ContentStates,
+    InputOptions
 }
