@@ -75,7 +75,7 @@ const chatTextToChatJSON = ( transcriptText ) => {
     let curPartyID = -1
 
     for ( let i=0; i < lines.length; i++ ) {
-        const line = lines[i]
+        const line = lines[i].trim()
         if ( line === '' ) continue;
 
         // get the party that sent the message if it is a party identifier line
