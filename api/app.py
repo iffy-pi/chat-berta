@@ -162,7 +162,8 @@ def route_api_submit_chat():
         return error_response(400, message='Invalid HTTP method!')
 
     # Expecting the following keys
-    # summary options and transcript
+    # summary options and chat package
+    # request.json should be in format of apiutils/samples/sample_api_request_1.json
     if request.json is None:
         return error_response(400, message='No JSON content included!')
 
