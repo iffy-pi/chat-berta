@@ -26,16 +26,20 @@ def preprocess_function(dataset):
     for index, example in enumerate(dataset):
         if index % 100 ==0:
             print(f"Finished example {index+1} of {len(dataset)}")
-        sentences = example['dialogue'].split("\n") # split the sentences
+        dialogue = example['dialogue']
+        sentences = dialogue.split("\n") # split the sentences
         abstractive_label =  example['summary']
 
         for sentence in sentences:
             if sentence == "":
                 continue
+            #concatenate sentence with full conversation separated by token
+            input_text = sentence + '[SEP]' + dialogue
+
             # rouge score comparing sentence and abstractive label
-            label = rouge_score(sentence, abstractive_label)
+            label = rouge_score(input_text, abstractive_label)
             # tokenize the sentence
-            encoded_sentence = tokenizer(sentence, max_length=MAX_LENGTH, padding="max_length", truncation=True, return_tensors='pt')
+            encoded_sentence = tokenizer(input_text, max_length=MAX_LENGTH, padding="max_length", truncation=True, return_tensors='pt')
 
             #add to lists
             input_ids.append(encoded_sentence["input_ids"].squeeze(0))
