@@ -15,7 +15,7 @@ class NetworkComponent:
         # check summmarize_only_for_field and filter out messages that arent the party id
 
         # convert message JSON objects into whatever format the model needs
-        # HAILING TODO: How does the model receive input? You will need to track an id for every sentence the model takes in
+        # HAILING TODO: How does the model receive input? You will need to track the message id for every sentence the model takes in
 
         # convert model ouput into the summary messages format, will need the model output to have 
         # the message ids so that we can map the party info
