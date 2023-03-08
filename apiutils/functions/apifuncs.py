@@ -122,14 +122,17 @@ def random_summarizer( chat_package: dict, fraction: float = 0.10 ):
 
     summary_msg_ids = random.sample(range(0, num_msgs ), num_summary_msgs)
 
-    summary_messages = []
+    # for id in summary_msg_ids:
+    #     summary_messages.append(chat_package['messages'][id])
 
-    for id in summary_msg_ids:
-        summary_messages.append(chat_package['messages'][id])
+    summary_paragaph = ' '.join([ chat_package['messages'][id]['text'] for id in summary_msg_ids ])
 
     # configure summary package
     summary_chat_package = dict(chat_package)
 
-    summary_chat_package['summary_messages'] = summary_messages
+    summary_chat_package['summary'] = {
+        'paragraph': summary_paragaph,
+        'message_ids': summary_msg_ids,
+    }
 
     return summary_chat_package

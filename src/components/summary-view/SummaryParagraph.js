@@ -56,7 +56,8 @@ const SummaryParagraph = ({ chatPackage, characterLimit }) => {
     useEffect(  () => {
         // on receiving the chat package we want to rerender our display information
         if ( chatPackage !== null ) {
-            setFullParagraph(collateMessages(chatPackage.summary_messages))
+            // Paragraph is now included in the summary package
+            setFullParagraph(chatPackage.summary.paragraph)
         }
     }, [ chatPackage ])
 
