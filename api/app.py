@@ -44,58 +44,11 @@ if PBFS_ACCESS_TOKEN is None:
 
 pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, create_server=True)
 
-
+# UTILITIES --------------------------------------------------------------------------------------------------------
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
     return render_template('console.html', content=app.config['ALLOWED_EXTENSIONS'])
 
-
-@app.route('/testPage', methods=['GET', 'POST'])
-def route_console_2():
-    if request.method == 'POST':
-        # st = ''
-        # for key in request.form:
-        #     st = '{},{}'.format(st, request.form[key])
-        return render_template('console.html', content=str(request.form))
-
-# page when the chat dialog (transcript or file) is submitted
-@app.route('/dialogSubmitted', methods=['POST', 'GET'])
-def route_dialog_submitted():
-    if request.method == 'POST':
-        if request.args['source'] == 'transcript':
-            # handle chat transcript form
-            # using the name attribute of the text input tag in index.html
-            transcript_text = request.form['dialog_text_box']
-            return render_template('console.html', content='The text: {}'.format(transcript_text))
-
-        elif request.args['source'] == 'file':
-            # check if the request has the file part
-            if 'file' not in request.files:
-                return render_template('console.html', content='No file provided!')
-            
-            res, filename = save_file_from_request(pbfs, request.files['file'], pbfs_file_path='/sample-chat.txt')
-            
-            if res != 0:
-                return render_template('console.html', content='Something went wrong saving the file!')
-
-            # with open( get_file_path(app, filename), 'r' ) as file:
-            #     cont = str(file.read())
-            return render_template('console.html', content=filename)
-        else:
-            return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
-    else:
-        return render_template('console.html', content='Invalid, should not get here!')
-
-# submit chat transcript text
-@app.route('/ChatFile', methods=['POST', 'GET'])
-def route_chat_file():
-    return render_template('chat_file.html')
-
-# submit chat transcript text
-@app.route('/ChatTranscript', methods=['POST', 'GET'])
-def route_chat_transcript():
-    options = SUMMARIZER_OPTIONS
-    return render_template('chat_transcript.html', opts=options)
 
 # to download a file submitted to the server
 # you can use url_for('route_download_file', filename=<filename>) to get url for specific file
@@ -116,6 +69,7 @@ def route_download_file(filepath):
         as_attachment=True
     )
 
+# DEPRECATED FLASK BASED FRONT END CALLS ----------------------------------------------------------------------------------------------------
 # receives parameters from the chat submitted page and calls the summarizer on it
 @app.route('/summarize/<source>/<tag>/<options>')
 def route_summarize(source, tag, options):
@@ -127,6 +81,8 @@ def route_summarize(source, tag, options):
     
     return render_template('summarizer_results.html', source=source, text=text, options=options)
 
+
+# page that we go to when summarize button is clicked
 @app.route('/chatSubmitted', methods=['POST', 'GET'])
 def route_chat_submitted():
     # handles the multiple submission sources as well as the submission options
@@ -191,36 +147,15 @@ def route_chat_submitted():
     else:
         return render_template('console.html', content='Invalid, should not get here!')
 
-# submit a chat
+# flask submit a chat page
 @app.route('/submitChat', methods=['POST', 'GET'])
 def route_submit_chat():
     options = SUMMARIZER_OPTIONS
     return render_template('submit_chat.html', opts=options)
 
-# for the root of the website, we would just pass in "/" for the url
-@app.route('/')
-def index():
-    # render index html which contains the form
-    # form submission will route to /submitForm
-    return render_template('index.html')
 
-@app.route('/api/react-testing')
-def route_react_testing():
-    sample = {
-        'message': 'Hello From Flask Back End!!'
-    }
-
-    resp = Response(
-        response=json.dumps(sample), status=201, mimetype="text/plain"
-    )
-
-    # stupid change to deploy
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Content-type'] = 'application/json'
-    return resp
-    
-    #return render_template('console.html', content='Serving')
-
+# REACT API CALLS ----------------------------------------------------------------------------------------------------
+# called by react frontend with populated JSON fields
 @app.route('/api/submit-chat', methods=['POST', 'GET'])
 def route_api_submit_chat():
     if request.method != 'POST':
@@ -259,7 +194,13 @@ def route_api_submit_chat():
     resp = make_json_response(js)
     return resp
 
-
+# ----------------------------------------------------------------------------------------------------
+# for the root of the website, we would just pass in "/" for the url
+@app.route('/')
+def index():
+    # render index html which contains the form
+    # form submission will route to /submitForm
+    return render_template('index.html')
 
 # running the code
 if __name__ == '__main__':
