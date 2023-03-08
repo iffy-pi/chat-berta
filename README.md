@@ -65,15 +65,15 @@ The vercel projects are under Iffy's Vercel account:
 
 Sign in is with Git.
 
-## Deployment To Production
+## Deployment To Production Website (Promotion)
 As said before, we only deploy from `main`. We do deployments by merging main to `app-vercel-production` and `api-vercel-production`. This will mean 2 pull requests: one for the app, and one for the api.
 
 You can use the below links to quickly initiate a pull request:
 
 | Deployment Type |Pull Request URL |
 |------------------------|----------------------------------------------------------------------------|
-| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/app-vercel-production...main |
-| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/api-vercel-production...main |
+| APP (React) deployment | https://github.com/iffy-pi/chat-Berta/compare/app-vercel-production...main |
+| API (Flask) deployment | https://github.com/iffy-pi/chat-Berta/compare/api-vercel-production...main |
 
 Alternatively, you can also use promote.bat to quickly launch either of these pages from the command line.
 
@@ -120,7 +120,7 @@ venv\Scripts\activate
 set FLASK_DEBUG=1
 ```
 
-2. Go into the api/ directory and run `flask run`
+3. Go into the api/ directory and run `flask run`
 ```
 cd api
 flask run
@@ -138,7 +138,7 @@ Note: The frontend is expecting the API to be at http://localhost:5000. This is 
 npm start
 ```
 
-# Standard Commits (No Web App Deployments)
+# Development Workflow
 **Make sure you have fulfilled all the requirements for a development workbench**
 
 This is the case where there are no deployments to the Vercel web app, i.e. standard changes to the repository. This can be handled by making pushes to the main branch of the repo (i.e. `main`), however as there are multiple people working on things, extensive changes should be handled in separate branches and then merged with the main branch.
@@ -179,7 +179,7 @@ git push
 ```
 Note: You can make more commits and push as usual until you are ready to merge with the main branch.
 
-## Merge With Main (if you created a developmental branch)
+## Merge With Main (if you created a development branch)
 Merge your branch with the mainline by initiating a pull request, this can be done using the added utility git-pr.bat:
 ```
 git-pr.bat

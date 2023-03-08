@@ -14,16 +14,20 @@ const ExpectedTranscriptFormat = () => {
     
 
     return (
-        <div className='basic-container'>
-            <h2>Expected Chat Format</h2>
+        <div>
             {
-                ( showExample ) && 
-                <div>
-                    <p>Chats include the party names indicated with a colon, and the messages sent by each party. Party messages are indented (either by spaces or tabs) from the beginning of the line to differentiate them from the party sender lines. An example is shown below:</p>
-                    <code className="code-block">{chatExample}</code>
+                ( showExample ) &&
+                <div className='transcript-format'>
+                    <div>
+                        <subtitle>Expected Chat Format</subtitle>
+                        <p>Chats include the party names indicated with a colon, and the messages sent by each party. Party messages are indented (either by spaces or tabs) from the beginning of the line to differentiate them from the party sender lines. An example is shown below:</p>
+                        <code className="code-block">{chatExample}</code>
+                    </div>
                 </div>
             }
-            <Button buttonText={ (showExample) ? "Hide Transcript Format" : "Show Transcript Format" } onClick={toggleShowExample}/>
+            <div className="tfp center-div">
+                <Button className={(showExample) ? "clicked" : "" } buttonText={ (showExample) ? "Hide" : "See Expected Format" } onClick={toggleShowExample}/>
+            </div>
         </div>
     )
 }
