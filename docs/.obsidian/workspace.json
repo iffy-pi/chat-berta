@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "c63e263143ba9f59",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "misc/Hailing_Model_Desc.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -86,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Front-End Design Specifications.md",
+                "file": "misc/Hailing_Model_Desc.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Front-End Design Specifications.md",
+                "file": "misc/Hailing_Model_Desc.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Front-End Design Specifications.md"
+                "file": "misc/Hailing_Model_Desc.md"
               }
             }
           }
@@ -147,9 +160,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fd2084c2b55e8116",
+  "active": "c63e263143ba9f59",
   "lastOpenFiles": [
-    "attachments/Pasted image 20230126005750.png",
-    "Front-End Design Specifications.md"
+    "Front-End Design Specifications.md",
+    "misc/Hailing_Model_Desc.md",
+    "attachments/Pasted image 20230126005750.png"
   ]
 }
