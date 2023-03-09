@@ -1,4 +1,9 @@
-from apiutils.model.ChatBerta import ChatBerta
+from apiutils.configs.summarizer import USE_MODEL
+if USE_MODEL:
+    from apiutils.model.ChatBerta import ChatBerta
+
+from apiutils.functions.apifuncs import random_summarizer
+
 
 # Network Component that bridges gap between model and chat package format
 class NetworkComponent:
@@ -7,6 +12,10 @@ class NetworkComponent:
 
     # runs the summarization and returns the chat_package, and any other metrics
     def summarize(chat_package, summary_options):
+        if not USE_MODEL:
+            # just use the random summarizer
+            return 0, random_summarizer( chat_package, fraction=0.25 )
+
         model = ChatBerta()
 
         # call ChatBerta and do summary
