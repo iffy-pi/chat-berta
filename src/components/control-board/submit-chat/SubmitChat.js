@@ -63,12 +63,18 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
         setSummaryResponse({ ...summaryResponse ,  contentState: ContentStates.loading})
         try {
             const res = await apiJSONFetch('submit-chat', 'POST', {}, req)
+
+            if (!res.success ) {
+                if ( res.reachedServer ) throw (res.content.message)
+                else throw (`Unknown Error: ${res.content}`)
+            }
             
-            if ( !res.success ) throw new Error('Invalid response: '+res)
+            if ( !res.success ) throw ('Invalid response: '+res)
 
             // On success, return the server response to the system
             resp.success = true
             resp.body = res.content
+
         } catch ( error ){
             // On error, then we can set the response fields
             resp.success = false
