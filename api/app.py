@@ -185,7 +185,7 @@ def route_api_submit_chat():
     res, summary_chat_package = NetworkComponent.summarize( chat_package, summary_options )
 
     if res != 0:
-        return error_response(500, message="Summarization process failed!")
+        return error_response(500, message="Summarization process failed on server")
 
     # use random summarizer
     # summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
