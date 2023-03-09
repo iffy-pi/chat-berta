@@ -179,9 +179,13 @@ def route_api_submit_chat():
 
     # then retrieve the items
     summary_options = request.json['summary_options']
+    chat_package = request.json['chat_package']
 
     # use random summarizer
-    summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
+    res, summary_chat_package = NetworkComponent.summarize( chat_package, summary_options )
+
+    # use random summarizer
+    # summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
 
 
     # for now craft a simple relay message

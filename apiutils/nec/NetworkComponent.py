@@ -1,30 +1,38 @@
-# network component with the expected classes
-# contains
+from apiutils.model.ChatBerta import ChatBerta
+
+# Network Component that bridges gap between model and chat package format
 class NetworkComponent:
     def __init__(self):
-        self.chat_package = {}
-        self.summarizer_options = {}
-
-    # loads the nc with the chat package and summarizer options
-    def load(self, chat_package, summarizer_options):
-        self.chat_package = chat_package
-        self.summarizer_options = summarizer_options
+        pass
 
     # runs the summarization and returns the chat_package, and any other metrics
-    def summarize(self):
-        # check summmarize_only_for_field and filter out messages that arent the party id
+    def summarize(chat_package, summary_options):
+        model = ChatBerta()
 
-        # convert message JSON objects into whatever format the model needs
-        # HAILING TODO: How does the model receive input? You will need to track the message id for every sentence the model takes in
+        # call ChatBerta and do summary
+        try:
+            chosen_message_ids, summary = model.summarize(
+                messages = chat_package['messages'],
+                summary_options = summary_options
+            )
 
-        # convert model ouput into the summary messages format, will need the model output to have 
-        # the message ids so that we can map the party info
-        # HAILING TODO: Give model outputs and we need the message ids
+        except:
+            # it failed for some reason, return -1 and no chat package
+            # tells API to return with server error
+            return -1, None
+        
+        # remove duplicate message ids
+        chosen_message_ids = list(dict.fromkeys(chosen_message_ids))
 
-        # complete the chat package by adding summary chat messages field
+        # then use the message ids to populate the summary chat package
+        summary_chat_package = dict(chat_package)
 
-        # return along with metrics
-        pass
+        summary_chat_package['summary'] = {
+            'paragraph' : summary,
+            'message_ids': chosen_message_ids
+        }
+
+        return 0, summary_chat_package
 
 
 
