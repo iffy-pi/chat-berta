@@ -1,0 +1,3 @@
+MAX_LENGTH = 512
+BATCH_SIZE = 6
+DEVICE = "cuda"

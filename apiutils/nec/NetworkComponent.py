@@ -1,32 +1,48 @@
-import json
-# network component with the expected classes
-# contains
+from apiutils.configs.summarizer import USE_MODEL
+if USE_MODEL:
+    from apiutils.model.ChatBerta import ChatBerta
+
+from apiutils.functions.apifuncs import random_summarizer
+
+
+# Network Component that bridges gap between model and chat package format
 class NetworkComponent:
     def __init__(self):
-        self.parties=[]
-        self.messages=[]
-    def json_packet_to_summarizer(self, json_packet):
+        pass
+
+    # runs the summarization and returns the chat_package, and any other metrics
+    def summarize(chat_package, summary_options):
+        if not USE_MODEL:
+            # just use the random summarizer
+            return 0, random_summarizer( chat_package, fraction=0.25 )
+
+        # call ChatBerta and do summary
+        try:
+            model = ChatBerta()
+
+            chosen_message_ids, summary = model.summarize(
+                messages = chat_package['messages'],
+                summary_options = summary_options
+            )
+
+        except:
+            # it failed for some reason, return -1 and no chat package
+            # tells API to return with server error
+            return -1, None
         
-        # Load JSON data to be stored
-        data = json.loads(json_packet)
-        # Store packet values
-        for party in data['config']['parties']:
-            self.parties.append({'id': party['id'], 'name': party['name']})
-        for message in data['messages']:
-            self.messages.append({'id': message['id'], 'pid': message['pid'], 'text': message['text']})
+        # remove duplicate message ids
+        chosen_message_ids = list(dict.fromkeys(chosen_message_ids))
 
-    def generate_summary(self, json_packet):
-        self.json_packet_to_summarizer(json_packet)
-        # TODO: link output ids to summarizer NN output
-        self.output_ids = self.messages[0]['id']
-        self.create_json_packet()
+        # then use the message ids to populate the summary chat package
+        summary_chat_package = dict(chat_package)
 
-    def create_json_packet(self):
-        # Create a packet containing the input/output string pair
-        packet = {
-            'config': {'parties': self.parties},
-            'messages': self.messages,
-            'output_messages': list(filter(lambda x: x['id'] == self.output_ids, self.messages))
+        summary_chat_package['summary'] = {
+            'paragraph' : summary,
+            'message_ids': chosen_message_ids
         }
 
-        self.json = json.dumps(packet)
+        return 0, summary_chat_package
+
+
+
+    

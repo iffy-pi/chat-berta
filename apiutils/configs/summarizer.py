@@ -16,6 +16,7 @@ def load_options():
         ]
 
 SUMMARIZER_OPTIONS = load_options()
+USE_MODEL = False
 
 # SUMMARIZER_OPTIONS = [
 #     ('UseStrict', 'Strict summary'),

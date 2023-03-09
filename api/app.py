@@ -162,7 +162,8 @@ def route_api_submit_chat():
         return error_response(400, message='Invalid HTTP method!')
 
     # Expecting the following keys
-    # summary options and transcript
+    # summary options and chat package
+    # request.json should be in format of apiutils/samples/sample_api_request_1.json
     if request.json is None:
         return error_response(400, message='No JSON content included!')
 
@@ -178,9 +179,16 @@ def route_api_submit_chat():
 
     # then retrieve the items
     summary_options = request.json['summary_options']
+    chat_package = request.json['chat_package']
 
     # use random summarizer
-    summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
+    res, summary_chat_package = NetworkComponent.summarize( chat_package, summary_options )
+
+    if res != 0:
+        return error_response(500, message="Summarization process failed on server")
+
+    # use random summarizer
+    # summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
 
 
     # for now craft a simple relay message
