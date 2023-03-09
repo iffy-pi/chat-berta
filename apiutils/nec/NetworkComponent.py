@@ -16,10 +16,10 @@ class NetworkComponent:
             # just use the random summarizer
             return 0, random_summarizer( chat_package, fraction=0.25 )
 
-        model = ChatBerta()
-
         # call ChatBerta and do summary
         try:
+            model = ChatBerta()
+
             chosen_message_ids, summary = model.summarize(
                 messages = chat_package['messages'],
                 summary_options = summary_options
