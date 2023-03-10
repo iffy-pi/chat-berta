@@ -1,33 +1,61 @@
-import { goodChatFileUpload } from '../../functions/basefunctions'
+import { useEffect, useState } from 'react'
 
-const FileUploader = ({onFileSelectSuccess, onFileSelectError}) => {
+const dt = new DataTransfer();
+const emptyFileList = dt.files
+
+const FileUploader = ({onFileSelectSuccess, onFileSelectError, id, validFile, fileList}) => {
+
+    const [ _fileList, _setFileList ] = useState(fileList)
+
+    useEffect( () => {
+        // Update the actual tag in the DOM
+        const fileInput = document.querySelector(`#${id}`)
+        fileInput.files = _fileList
+        console.log('File list: ', _fileList)
+    }, [_fileList])
+
     const handleFileInput = (e) => {
         // handle validations
         try {
             // check if we actually do have any files
-            if ( e.target.files.length === 0) {
-                throw new Error('No file selected!')
+            if ( e.target.files.length < 1) {
+                throw new Error('No file selected')
             }
 
-            // check the file extensions, only expecting text
-            const file = e.target.files[0]
-            
-            if ( !goodChatFileUpload(file) ) throw new Error('Invalid file type. Only text based files are allowed.')
+            // validate file list
+            for ( let i=0; i < e.target.files.length; i++){
+                if ( !validFile(e.target.files[i]) ) throw new Error('Invalid file type') 
+            }
+
+            // set the file list for the state
+            _setFileList(e.target.files)
 
             // all good
-            onFileSelectSuccess(file)
+            onFileSelectSuccess(e.target.files)
+        
         } catch ( error ){
+            
+            // reset file uploaded
+            _setFileList(emptyFileList)
+
             // if error occured, return onFileFailure
-            onFileSelectError(String(error))
+            onFileSelectError(error)
         }
     }
 
     return (
         <div className="file-uploader">
-            <input type="file" onChange={handleFileInput} />
-            {/* <button onClick={e => fileInput.current && fileInput.current.click()} >Me!</button> */}
+            <input type="file" id={id} onChange={handleFileInput}/>
         </div>
     )
+}
+
+FileUploader.defaultProps = {
+    onFileSelectError: (err) => { }, // receives exception thrown
+    onFileSelectSuccess: (fileList) => { }, // receives a fileList object that contains the files
+    fileList: emptyFileList,
+    validFile: (file) => { return true}, // function to run on each file to validate files
+    id: "file-uploader"
 }
 
 export default FileUploader

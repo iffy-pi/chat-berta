@@ -15,6 +15,8 @@ const defaultSummarizerOptions = {
     summarize_only_for: -1
 }
 
+const dt = new DataTransfer();
+const emptyFileList = dt.files
 
 const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
@@ -22,6 +24,7 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
     // Switching transcript text to state
     const [ transcriptText, setTranscriptText ] = useState('')
+    const [ fileList, setFileList ] = useState(emptyFileList)
     const [ selectedFile, setSelectedFile ] = useState(null)
     const [ fileUploaded, setFileUploaded ] = useState(false)
     const summaryOptions = useRef(defaultSummarizerOptions)
@@ -37,11 +40,26 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
     }
 
     const failedFileUpload = ( error ) => {
-        alert('File upload failed!\nError: '+error)
+        let msg = error.message
+
+        if ( msg === 'Invalid file type' ) msg = "Invalid file type. Only .txt files are allowed"
+
+        alert(`File upload failed.\nError: ${msg}.`)
+
+        // clear the file field
+        setSelectedFile(null)
+        setFileUploaded(false)
+        setFileList(emptyFileList)
     }
 
-    const goodFileUpload = ( file ) => {
-        setSelectedFile(file)
+    const goodFileUpload = ( fileList ) => {
+        // receives file list from UploadChatFile
+        
+        // takes the first one
+        setSelectedFile(fileList[0])
+
+        // keeps track of file list to maintain component during toggles
+        setFileList(fileList)
         setFileUploaded(true)
     }
 
@@ -152,7 +170,7 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
                     <Button className={"opt-btn" + ((selectedInput === InputOptions.file) ? " opt-btn-clicked" : "")} buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
                 </div>
             </div>
-            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
+            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload} fileList={fileList}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />
