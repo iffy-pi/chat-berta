@@ -1,5 +1,5 @@
 import sys
-from apiutils.model.ChatBerta import ChatBerta
+from ChatBerta import ChatBerta
 
 def main():
     messages = {
