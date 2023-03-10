@@ -9,10 +9,9 @@ from constants import DEVICE
 def main():
     model = ChatBerta()
     datasets = load_dataset("samsum")
-    # REMOVE .select()
     test_dataset = datasets["test"]
-    eval_dialogues = preprocess_dialogues(test_dataset.select(range(1)))
-    dataset_len = 1 #len(test_dataset)
+    eval_dialogues = preprocess_dialogues(test_dataset)
+    dataset_len = len(test_dataset)
     summary_options = {
         "basic_options": [],
         "summarize_only_for": -1 
