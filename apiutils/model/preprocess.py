@@ -12,7 +12,6 @@ def preprocess_single_dialogue(dialogue):
         split_message = message.split(': ')
         party = split_message[0].strip()
         text = split_message[1].strip()
-        print(message)
         if party not in party_to_id:
             party_to_id[party] = len(party_to_id)
         pid = party_to_id[party]
@@ -20,7 +19,10 @@ def preprocess_single_dialogue(dialogue):
         preprocessed_dialogue.append({'id': message_id, 'pid': pid, 'text': text})
         message_id += 1
 
-    return preprocessed_dialogue
+    messages = {
+        "messages": preprocessed_dialogue
+    }
+    return messages['messages']
 
 def preprocess_dialogues(dataset):
     dialogues = dataset["dialogue"]
