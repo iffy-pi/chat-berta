@@ -9,7 +9,7 @@ def preprocess_single_dialogue(dialogue):
     preprocessed_dialogue = []
     
     for message in messages:
-        split_message = message.split(': ')
+        split_message = message.split(':')
         party = split_message[0].strip()
         text = split_message[1].strip()
         if party not in party_to_id:
