@@ -11,7 +11,6 @@ const FileUploader = ({onFileSelectSuccess, onFileSelectError, id, validFile, fi
         // Update the actual tag in the DOM
         const fileInput = document.querySelector(`#${id}`)
         fileInput.files = _fileList
-        console.log('File list: ', _fileList)
     }, [_fileList])
 
     const handleFileInput = (e) => {
