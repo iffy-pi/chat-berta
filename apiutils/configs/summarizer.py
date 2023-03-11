@@ -16,7 +16,8 @@ def load_options():
         ]
 
 SUMMARIZER_OPTIONS = load_options()
-USE_MODEL = False
+# Flag to use actual pytorch model or just a random summarizer
+USE_ACTUAL_MODEL = False
 
 # SUMMARIZER_OPTIONS = [
 #     ('UseStrict', 'Strict summary'),
