@@ -1,19 +1,15 @@
 import FileUploader from "../../common/FileUploader"
+import { goodChatFileUpload } from '../../../functions/basefunctions'
 
-const UploadChatFile = ({ goodFileUpload, failedFileUpload}) => {
+const UploadChatFile = ({ goodFileUpload, failedFileUpload, fileList}) => {
+
     return (
         <div className="chat-src-panel">
             <smalltitle>Upload chat log file: </smalltitle>
-            <FileUploader onFileSelectSuccess={goodFileUpload} onFileSelectError={failedFileUpload}/>
+            <FileUploader onFileSelectSuccess={goodFileUpload} onFileSelectError={failedFileUpload} 
+            validFile={goodChatFileUpload} fileList={fileList} id="upload-chat-file"/>
         </div>
     )
 }
 
 export default UploadChatFile
-/*
-<form action="/chatSubmitted" method="POST" id="chat_source_form" enctype="multipart/form-data">
-            <input type="checkbox" id="0" name="UseStrict" value="UseStrict" />
-            <label for="0">UseStrict</label><br />
-            <input type="submit" value="Summarize!" />
-        </form>
-*/

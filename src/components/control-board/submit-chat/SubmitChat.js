@@ -15,6 +15,8 @@ const defaultSummarizerOptions = {
     summarize_only_for: -1
 }
 
+const dt = new DataTransfer();
+const emptyFileList = dt.files
 
 const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
@@ -22,6 +24,7 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
     // Switching transcript text to state
     const [ transcriptText, setTranscriptText ] = useState('')
+    const [ fileList, setFileList ] = useState(emptyFileList)
     const [ selectedFile, setSelectedFile ] = useState(null)
     const [ fileUploaded, setFileUploaded ] = useState(false)
     const summaryOptions = useRef(defaultSummarizerOptions)
@@ -37,11 +40,26 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
     }
 
     const failedFileUpload = ( error ) => {
-        alert('File upload failed!\nError: '+error)
+        let msg = error.message
+
+        if ( msg === 'Invalid file type' ) msg = "Invalid file type. Only .txt files are allowed"
+
+        alert(`File upload failed.\nError: ${msg}.`)
+
+        // clear the file field
+        setSelectedFile(null)
+        setFileUploaded(false)
+        setFileList(emptyFileList)
     }
 
-    const goodFileUpload = ( file ) => {
-        setSelectedFile(file)
+    const goodFileUpload = ( fileList ) => {
+        // receives file list from UploadChatFile
+        
+        // takes the first one
+        setSelectedFile(fileList[0])
+
+        // keeps track of file list to maintain component during toggles
+        setFileList(fileList)
         setFileUploaded(true)
     }
 
@@ -65,11 +83,11 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
             const res = await apiJSONFetch('submit-chat', 'POST', {}, req)
 
             if (!res.success ) {
-                if ( res.reachedServer ) throw (res.content.message)
-                else throw (`Unknown Error: ${res.content}`)
+                if ( res.reachedServer ) throw new Error(res.content.message)
+                else throw new Error(`Unknown Error: ${res.content}`)
             }
             
-            if ( !res.success ) throw ('Invalid response: '+res)
+            if ( !res.success ) throw new Error('Invalid response: '+res)
 
             // On success, return the server response to the system
             resp.success = true
@@ -78,7 +96,7 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
         } catch ( error ){
             // On error, then we can set the response fields
             resp.success = false
-            resp.error = String(error)
+            resp.error = error.message
         }
 
         setSummaryResponse({ ...summaryResponse ,  
@@ -96,34 +114,34 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
         try {
             if ( selectedInput === InputOptions.file ) {
                 
-                if ( !fileUploaded ) throw new Error('No file or invalid file uploaded!')
-                if ( !goodChatFileUpload(selectedFile) ) throw new Error('Invalid file type. Only text based files are allowed.')
+                if ( !fileUploaded ) throw new Error('No transcript file has been uploaded.')
+                if ( !goodChatFileUpload(selectedFile) ) throw new Error('Invalid file type. Only .txt files are allowed.')
 
                 request.type = 'file'
 
                 try{ 
                     request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile) )
                 } catch ( error ) {
-                    throw new Error('File Parsing Error: '+String(error.message))
+                    throw new Error('Transcript Parsing Error:\n'+String(error.message))
                 }
             }
 
             else if ( selectedInput === InputOptions.text ) {
-                if ( transcriptText === "" ) throw new Error('No transcript text!')
+                if ( transcriptText === "" ) throw new Error('Transcript text box is empty.')
                 request.type = 'text'
 
                 try{ 
                     request.chat_package = chatTextToChatJSON( transcriptText )
                 } catch ( error ) {
-                    throw new Error('File Parsing Error: '+String(error.message))
+                    throw new Error('Transcript Parsing Error:\n'+String(error.message))
                 }
 
             } else {
-                throw new Error('No chat input selected!')
+                throw new Error('No chat input provided.')
             }
 
         } catch(error){
-            alert('Submission Failed!\nError: '+error.message)
+            alert('Submission failed.\n'+error.message)
             return
         }
 
@@ -152,7 +170,7 @@ const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
                     <Button className={"opt-btn" + ((selectedInput === InputOptions.file) ? " opt-btn-clicked" : "")} buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
                 </div>
             </div>
-            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
+            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload} fileList={fileList}/>}
             { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />

@@ -9,8 +9,6 @@ import configdata from '../../shared/config.json'
 
 const SummaryView = ({ summaryResponse }) => {
 
-    const characterLimit = useState(configdata.PARAGRAPH_CHAR_LIMIT)
-
     const renderContentForState = (contentState) => {
         switch(contentState) {
             case ContentStates.unset:
@@ -38,7 +36,7 @@ const SummaryView = ({ summaryResponse }) => {
                 {/* For rendedering returned data */}
                 { (summaryResponse.contentState === ContentStates.set && summaryResponse.success ) && 
                     <div>
-                        <SummaryParagraph chatPackage={summaryResponse.body.chat_package} characterLimit={characterLimit}/>
+                        <SummaryParagraph chatPackage={summaryResponse.body.chat_package} characterLimit={configdata.PARAGRAPH_CHAR_LIMIT}/>
                         <ChatPane chatPackage={summaryResponse.body.chat_package}/>
                     </div>
                 }
