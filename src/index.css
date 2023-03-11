@@ -1,175 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-.higherordercontainer {
-  /* max-width: 500px; */
-  margin: 30px auto;
-  /* overflow: auto; */
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px;
-  border-radius: 5px;
-  display: flex;
-}
-
-.basic-container {
-  border: 1px solid black;
-  margin: 10px;
-  padding: 10px;
-}
-
-.bcontainer {
-  border: 2px dashed blue;
-  background-color: white;
-}
-.thick-container {
-  border: 2px solid black;
-  margin: 10px;
-  padding: 10px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  background-color: steelblue; /* Changed header background color */
-  color: #fff; /* Changed text color in header */
-  padding: 20px; /* Added padding to header */
-  border-radius: 5px 5px 0 0; /* Added rounded corners to header */
-}
-
-.btn {
-  display: inline-block;
-  background: steelblue;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: inherit;
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn-block {
-  display: block;
-  width: 100%;
-}
-
-.task {
-  background: #f4f4f4;
-  margin: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Added box shadow to task */
-}
-
-.task.reminder {
-  border-left: 5px solid green;
-  background-color: #e6ffed; /* Changed reminder task background color */
-}
-
-.task h3 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.add-form {
-  margin-bottom: 40px;
-}
-
-.form-control {
-  margin: 20px 0;
-}
-
-.form-control label {
-  display: block;
-}
-
-.form-control input {
-  width: 60%; /* Reduced input width */
-  height: 40px;
-  margin: 5px 20%; /* Changed margin value */
-  padding: 3px 7px;
-  font-size: 17px;
-  border: 1px solid steelblue; /* Added border to input field */
-}
-
-.form-control-check {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.form-control-check label {
-  flex: 1;
-}
-
-.form-control-check input {
-  flex: 2;
-  height: 20px;
-}
-
-footer {
-  margin-top: 30px;
-  text-align: center;
-  color: steelblue; /* Changed text color in footer */
-}
-
-.App-logo {
-  height: 15vmin;
-  pointer-events: none;
-}
-
-/* .basic-container button{
-  background: rgb(0 126 57);
-  font-family: 'Poppins';
-  width: 100%;
-  color: #fff;
-  height: 50px;
-  font-size: 25px;
-  border: 3px solid #000;
-} */
-
-/* .submit-chat-component {
-  border: 1px solid red;
-  margin: 10px;
-  padding: 10px;
-} */
-
-/* code {
-  font-size: 120%;
-} */
-      
-      
-/* pre code {
-  background-color: #eee;
-  border: 1px solid #999;
-  display: block;
-  padding: 1px;
-  white-space: pre-wrap;
-} */
 
 /* New CSS Begins here ------------------------------------------------------------------ */
 /* Used to horizontally centre a div's components, usually used to centre buttons */
@@ -178,7 +8,6 @@ footer {
 }
 
 /* App JS Main Flexbox ---------------------------------------------------------------------- */
-
 /* Pokadot background used in App.js */
 html {
   /* width: 240px; */
@@ -191,6 +20,16 @@ html {
   display: block;
 }
 
+/* Configure box and font */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
 
 /* Style for the topmost component in the application, i.e. application window itself */
 /* Set to flex so that components can fall under each other with changing window size */
