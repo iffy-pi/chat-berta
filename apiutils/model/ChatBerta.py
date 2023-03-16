@@ -1,7 +1,7 @@
 from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
-from chat_bert_trainer import CustomTrainer
+from apiutils.model.chat_bert_trainer import CustomTrainer
 import torch
-from constants import BATCH_SIZE, MAX_LENGTH
+from apiutils.model.constants import BATCH_SIZE, MAX_LENGTH
 PATH = r"C:\Users\rao_h\Documents\GitHub\Chat-Berta\apiutils\model\temp\checkpoint-61000"
 
 class ChatBerta:

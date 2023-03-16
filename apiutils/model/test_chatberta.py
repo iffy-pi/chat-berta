@@ -1,5 +1,6 @@
 import sys
-from apiutils.model.ChatBerta import ChatBerta
+import time
+from ChatBerta import ChatBerta
 
 def main():
     messages = {
@@ -74,11 +75,18 @@ def main():
         "summarize_only_for": -1 
     }
 
+    start1 = time.time()
     chat_berta = ChatBerta()
-    chosen_message_ids, summary = chat_berta.summarize(messages=messages, summary_options = summary_options)
+    end1 = time.time()
 
-    print(summary)
+    start = time.time()
+    chosen_message_ids, summary = chat_berta.summarize(messages=messages, summary_options = summary_options)
+    end = time.time()
+
+    print(' '.join(summary.split('\n')))
     print(chosen_message_ids)
+    print(f'Model loading took: {end1-start1} seconds')
+    print(f'Model summarization took {end-start} seconds')
 
     return 0
 

@@ -15,6 +15,7 @@ from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
 from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 from apiutils.functions.HTTPResponses import *
 from apiutils.nec.NetworkComponent import NetworkComponent
+from apiutils.configs.summarizer import USE_ACTUAL_MODEL
 
 # initialize app flask object
 # intializing to the name of the file
@@ -43,6 +44,7 @@ if PBFS_ACCESS_TOKEN is None:
     raise Exception('PushBullet File Server Access Token')
 
 pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, create_server=True)
+nec = NetworkComponent(USE_ACTUAL_MODEL)
 
 # UTILITIES --------------------------------------------------------------------------------------------------------
 @app.route('/myConsole', methods=['GET', 'POST'])
@@ -182,14 +184,10 @@ def route_api_submit_chat():
     chat_package = request.json['chat_package']
 
     # use random summarizer
-    res, summary_chat_package = NetworkComponent.summarize( chat_package, summary_options )
+    res, summary_chat_package = nec.summarize( chat_package, summary_options )
 
     if res != 0:
         return error_response(500, message="Summarization process failed on server")
-
-    # use random summarizer
-    # summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
-
 
     # for now craft a simple relay message
     js = {

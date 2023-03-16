@@ -2,7 +2,6 @@
 import hashlib
 import os
 import time
-import random
 from apiutils.configs.apiconfig import ALLOWED_EXTENSIONS
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
 from werkzeug.utils import secure_filename
@@ -110,29 +109,3 @@ def save_chatlog_json(pbfs:PushBulletFileServer, chatlog_json:str ):
 
 def get_chatlog_json(pbfs:PushBulletFileServer, tag:str) -> str:
     return get_text_for_file(pbfs, '{}/{}.json'.format(JSON_CHATLOGS_DIR, tag))
-
-def random_summarizer( chat_package: dict, fraction: float = 0.10 ):
-    # takes a chat package and selects random messages to be in the summary
-
-    # including 10% of messages as summary
-    num_msgs = len(chat_package['messages'])
-    num_summary_msgs = round(num_msgs * fraction)
-    print('Num total: ', num_msgs)
-    print('Number of summaries: ', num_summary_msgs)
-
-    summary_msg_ids = random.sample(range(0, num_msgs ), num_summary_msgs)
-
-    # for id in summary_msg_ids:
-    #     summary_messages.append(chat_package['messages'][id])
-
-    summary_paragaph = ' '.join([ chat_package['messages'][id]['text'] for id in summary_msg_ids ])
-
-    # configure summary package
-    summary_chat_package = dict(chat_package)
-
-    summary_chat_package['summary'] = {
-        'paragraph': summary_paragaph,
-        'message_ids': summary_msg_ids,
-    }
-
-    return summary_chat_package
