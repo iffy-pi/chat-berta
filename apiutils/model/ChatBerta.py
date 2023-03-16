@@ -1,13 +1,14 @@
 from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
-from apiutils.model.chat_bert_trainer import CustomTrainer
-import torch
-from apiutils.model.constants import BATCH_SIZE, MAX_LENGTH
+from chat_bert_trainer import CustomTrainer
+import sys
+import time
+from constants import MAX_LENGTH, DEVICE
 PATH = r"C:\Users\rao_h\Documents\GitHub\Chat-Berta\apiutils\model\temp\checkpoint-61000"
 
 class ChatBerta:
     def __init__(self):
         ## only for initial, replace with actual directory path
-        self.model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=1)
+        self.model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=1).to(DEVICE)
         self.tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 
     def _select_messages_for_input(self, messages, summary_options):# returns list of message 'id' to use in input
@@ -26,7 +27,7 @@ class ChatBerta:
 
     def _choose_messages(self, encoded_sentences, message_ids, min_dialogue_len = 4):
         chosen_message_ids = []
-        output = self.model(**encoded_sentences)
+        output = self.model(**encoded_sentences.to(DEVICE))
         logits = output.logits
         sentence_scores = logits.tolist()
         input_len = len(sentence_scores)
