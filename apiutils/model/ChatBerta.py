@@ -1,7 +1,8 @@
 from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
-from chat_bert_trainer import CustomTrainer
+import sys
+from apiutils.model.chat_bert_trainer import CustomTrainer
 import spacy
-from constants import MAX_LENGTH, DEVICE, BATCH_SIZE
+from apiutils.model.constants import MAX_LENGTH, DEVICE, BATCH_SIZE
 PATH = r"C:\Users\rao_h\Documents\GitHub\Chat-Berta\apiutils\model\temp\checkpoint-61000"
 
 class ChatBerta:
@@ -65,6 +66,7 @@ class ChatBerta:
         messages: a list of message objects(pid, id, text)
         summary_options: current one we have is "summarize_only_for"
         """
+        print("Summarizing")
         sentences = self._select_sentences_for_input(messages, summary_options)
         
         chosen_message_ids, chosen_message_texts = self._choose_messages(sentences)
