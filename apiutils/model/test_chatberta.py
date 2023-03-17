@@ -72,7 +72,7 @@ def main():
 
     summary_options = {
         "basic_options": [],
-        "summarize_only_for": -1 
+        "summarize_only_for": -1
     }
 
     start1 = time.time()
