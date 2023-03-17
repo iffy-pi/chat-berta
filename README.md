@@ -133,9 +133,15 @@ pip install -r requirements.txt
 Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
 
 ### Using the PyTorch Model
-The PyTorch model takes a lot of processing power and package dependencies, as a result there is a flag that is designed to use the actual ML model vs a random summarizer package.
+The PyTorch model takes a lot of processing power and package dependencies, so  to faciliate independent frontend development the flag `USE_ACTUAL_MODEL` has been added. If the value is true, then the actual ML model is imported and used. If false, the random summarizer in the network component is used instead.
 
-To use the model, set `USE_ACTUAL_MODEL` to `True` in apiutils/configs/summarizer.py
+The flag is configured in apiutils/configs/summarizer.py, and can be hardcoded to a specific value. However, it is also designed to look for the environment variable `CHATBERTA_NO_MODEL`. If the environment variable exists and its value is `1`, then `USE_ACTUAL_MODEL` will be false. Otherwise, it will be true.
+
+You can set the environment variable on Windows with:
+
+```batch
+set CHATBERTA_NO_MODEL=1
+```
 
 ## Running the frontend (React)
 1. Open the root directory of the repo and run `npm start`. (`npm` is from Node.js).

@@ -14,10 +14,16 @@ def load_options():
         return [
             ('Failed', 'Failed: {}'.format(e))
         ]
-
+    
+def dont_use_model():
+    # true means to not use the actual ml model and instead the random summarizer
+    # must exist and must be set to 1
+    ev = os.environ.get('CHATBERTA_NO_MODEL') 
+    return (ev is not None and str(ev) == '1' ) 
+ 
 SUMMARIZER_OPTIONS = load_options()
 # Flag to use actual pytorch model or just a random summarizer
-USE_ACTUAL_MODEL = False
+USE_ACTUAL_MODEL = not dont_use_model()
 
 # SUMMARIZER_OPTIONS = [
 #     ('UseStrict', 'Strict summary'),
