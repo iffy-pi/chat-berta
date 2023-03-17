@@ -132,6 +132,11 @@ pip install -r requirements.txt
 
 Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
 
+### Using the PyTorch Model
+The PyTorch model takes a lot of processing power and package dependencies, as a result there is a flag that is designed to use the actual ML model vs a random summarizer package.
+
+To use the model, set `USE_ACTUAL_MODEL` to `True` in apiutils/configs/summarizer.py
+
 ## Running the frontend (React)
 1. Open the root directory of the repo and run `npm start`. (`npm` is from Node.js).
 ```
