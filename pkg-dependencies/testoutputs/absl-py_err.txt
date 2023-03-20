@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\transformers\configuration_utils.py", line 614, in _get_config_dict
+    resolved_config_file = cached_file(
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\transformers\utils\hub.py", line 409, in cached_file
+    resolved_file = hf_hub_download(
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    validate_repo_id(arg_value)
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\huggingface_hub\utils\_validators.py", line 172, in validate_repo_id
+    raise HFValidationError(
+huggingface_hub.utils._validators.HFValidationError: Repo id must use alphanumeric chars or '-', '_', '.', '--' and '..' are forbidden, '-' and '.' cannot start or end the name, max length is 96: 'C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\temp\checkpoint-61000'.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 59, in test_model_usage
+    nec = NetworkComponent(use_model=use_model, propagate_errors=True)
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 29, in __init__
+    self.model = self.get_actual_model() if self.use_model else RandomSummarizer()
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 34, in get_actual_model
+    return ChatBerta()
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 12, in __init__
+    self.model = RobertaForSequenceClassification.from_pretrained(PATH, num_labels=1).to(DEVICE)
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\transformers\modeling_utils.py", line 2012, in from_pretrained
+    config, model_kwargs = cls.config_class.from_pretrained(
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\transformers\configuration_utils.py", line 532, in from_pretrained
+    config_dict, kwargs = cls.get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\transformers\configuration_utils.py", line 559, in get_config_dict
+    config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "C:\Users\omnic\local\GitRepos\Chat-Berta\venv\lib\site-packages\transformers\configuration_utils.py", line 635, in _get_config_dict
+    raise EnvironmentError(
+OSError: Can't load the configuration of 'C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\temp\checkpoint-61000'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\temp\checkpoint-61000' is the correct path to a directory containing a config.json file
