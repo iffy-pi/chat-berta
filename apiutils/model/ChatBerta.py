@@ -1,9 +1,10 @@
-from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
 import sys
+import os
+from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
 from apiutils.model.chat_bert_trainer import CustomTrainer
 import spacy
 from apiutils.model.constants import MAX_LENGTH, DEVICE, BATCH_SIZE
-PATH = r"C:\Users\rao_h\Documents\GitHub\Chat-Berta\apiutils\model\temp\checkpoint-61000"
+PATH = os.path.join( os.path.abspath(os.path.split(__file__)[0]), 'temp', 'checkpoint-61000' )
 
 class ChatBerta:
     def __init__(self):
