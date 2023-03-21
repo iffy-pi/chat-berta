@@ -200,6 +200,35 @@ def route_api_submit_chat():
     resp = make_json_response(js)
     return resp
 
+@app.route('/api/sample', methods=['POST', 'GET'])
+def route_sample_resp():
+    faddr = os.path.join ( os.path.split(__file__)[0], '..',  'apiutils', 'samples', 'sample_raw_chat_1.txt')
+    with open(faddr) as file:
+            chat_package = json.loads(create_chatlog_json( str(file.read())))
+
+
+    summary_options = {
+        "basic_options": [ "strictSummarize", "treatAsMonologue"],
+        "summarize_only_for": -1 
+    }
+
+    # use random summarizer
+    res, summary_chat_package = nec.summarize( chat_package, summary_options )
+
+    if res != 0:
+        return error_response(500, message="Summarization process failed on server")
+
+    # for now craft a simple relay message
+    js = {
+        'summary_options': summary_options,
+        'chat_package': summary_chat_package
+    }
+
+    time.sleep(1) # to simulate server latency when in development
+
+    resp = make_json_response(js)
+    return resp
+
 # ----------------------------------------------------------------------------------------------------
 # for the root of the website, we would just pass in "/" for the url
 @app.route('/')
