@@ -96,9 +96,9 @@ This file is not present on the app-vercel-production branch since we want Verce
 ## vercelignore for requirements.txt
 The frontend is React and therefore does not need the Python packages specified in requirements.txt. This is achieved by adding requirements.txt to the .vercelignore as a specific commmit in the frontend promotion branch (app-vercel-production).
 
-The specific commit is: [TODO](https://github.com/iffy-pi/chat-berta/commit/TODO)
+The specific commit is: [af7290d](https://github.com/iffy-pi/chat-berta/commit/af7290d)
 
-**Note that commit TODO only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+**Note that commit af7290d only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
 
 ## Previous Deployments
 January 25 2022: Iffy deployed bare bones React frontend
