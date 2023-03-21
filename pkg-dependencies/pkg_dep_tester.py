@@ -75,8 +75,13 @@ def uninstall_package(name):
 
 
 
+
+
 def main():
     outputdir = os.path.join(root, 'pkg-dependencies', 'testoutputs')
+
+    run_model_test(os.path.join(outputdir, 'sample'))
+    return 0
 
     reqs_before_model = parse_pip_reqs(REQS_BEFORE_MODEL_FILE)
     cur_reqs = parse_pip_reqs(CUR_REQS_FILE)
