@@ -1,4 +1,7 @@
 requirements.txt
+api/
+apiutils/
+vercel.json
 server-void/
 docs/
 pkg-dependencies/
