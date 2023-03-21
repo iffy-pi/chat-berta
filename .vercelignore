@@ -1,6 +1,4 @@
 public/
-src/
-!src/shared/
 package-lock.json
 package.json
 server-void/
