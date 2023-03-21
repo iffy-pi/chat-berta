@@ -83,11 +83,25 @@ def main():
     reqs_before_model = parse_pip_reqs(REQS_BEFORE_MODEL_FILE)
     cur_reqs = parse_pip_reqs(CUR_REQS_FILE)
 
+    known_needed_pkgs = [
+        'spacy',
+        'spacy-legacy',
+        'spacy-loggers',
+        'torch',
+        'transformers'
+    ]
+
+    known_pkgs_to_discard = [
+        'zstd',
+        'pycosat',
+        'sklearn'
+    ]
+
     # get packages that were added because of the model
     bmk = reqs_before_model.keys()
     ck = cur_reqs.keys()
     new_pkgs = list(filter(
-        lambda pkg: pkg not in bmk, # add the package if it wasnt used before
+        lambda pkg: pkg not in bmk,
         ck
     ))
 
@@ -100,30 +114,48 @@ def main():
         # will be doing some AB testing
         cur_output = os.path.join(outputdir, pkg)
 
-        # uninstall the package
-        print(f'Uninstalling "{pkg}"...')
-        print('===========>')
-        uninstall_package(pkg)
-        print('===========>')
+        reinstall = True
+        
+        known_keep = pkg in known_needed_pkgs
+        known_discard = pkg in known_pkgs_to_discard
 
-        # do the model test
-        print('\nRunning model test')
-        print('===========>')
-        out, err, rc = run_model_test(cur_output)
-        print(f'Model Result: {rc}')
-        print('===========>')
-        print('')
+        if (known_keep or known_discard):
+            if known_keep:
+                print(f'Known Keep for {pkg}')
+                rc = 1
+                reinstall = False
+            else:
+                print(f'Known discard for {pkg}')
+                rc = 0
+
+        else:
+            # uninstall the package
+            print(f'Uninstalling "{pkg}"...')
+            print('===========>')
+            uninstall_package(pkg)
+            print('===========>')
+
+            # do the model test
+            print('\nRunning model test')
+            print('===========>')
+            out, err, rc = run_model_test(cur_output)
+            print(f'Model Result: {rc}')
+            print('===========>')
+            print('')
+
         if rc != 0:
             # if return code is not 0, then this package is dependent
             # we should keep the package
 
             print(f'"{pkg}" is needed!')
             pkgs_to_keep.append(pkg)
-            # install the package again
-            print('Resinstalling...')
-            print('===========>')
-            install_package( pkg, ver=cur_reqs[pkg]['ver'] )
-            print('===========>')
+            
+            if reinstall:
+                # install the package again
+                print('Resinstalling...')
+                print('===========>')
+                install_package( pkg, ver=cur_reqs[pkg]['ver'] )
+                print('===========>')
 
         else:
             print(f'"{pkg}" is NOT needed!')
