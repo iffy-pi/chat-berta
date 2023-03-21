@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 5, in <module>
+    import spacy
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\__init__.py", line 14, in <module>
+    from . import pipeline  # noqa: F401
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\pipeline\__init__.py", line 1, in <module>
+    from .attributeruler import AttributeRuler
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\pipeline\attributeruler.py", line 6, in <module>
+    from .pipe import Pipe
+  File "spacy\pipeline\pipe.pyx", line 1, in init spacy.pipeline.pipe
+  File "spacy\strings.pyx", line 15, in init spacy.strings
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\util.py", line 19, in <module>
+    import langcodes
+ModuleNotFoundError: No module named 'langcodes'

@@ -3,3 +3,5 @@ package-lock.json
 package.json
 server-void/
 docs/
+pkg-dependencies/
+make_model_reqs.py

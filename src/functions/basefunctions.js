@@ -46,15 +46,29 @@ async function apiJSONFetch(apiPath, method, headers, body ) {
 
     const response = {
         success: true,
+        reachedServer: true,
         status: res.status
     }
 
-    if ( res.status !== 200 ){
-        // check if it is a client side error, api always returns 400,
-        // if it is then we can return the JSON message
+    // grpStatus to check status range
+    const statusGrp = Math.floor( res.status / 100)
+
+    if ( statusGrp !== 2 ){
+
+        // something happened
         response.success = false
 
-        response.content = ( res.status === 400) ? await res.json() : await res.text()
+        if ( statusGrp === 4 || statusGrp === 5 ) {
+            // Client side and server side errors mean the server gave us a response
+            // Server always responds in specific JSON error format, so we can accurately pull the information
+
+            response.content = await res.json()
+
+        } else {
+            // We dont know what happened, just pull the text if we can
+            response.reachedServer = false
+            response.content = await res.text() 
+        }
         return response
     }
 
@@ -75,7 +89,7 @@ const chatTextToChatJSON = ( transcriptText ) => {
     let curPartyID = -1
 
     for ( let i=0; i < lines.length; i++ ) {
-        const line = lines[i]
+        const line = lines[i].trim()
         if ( line === '' ) continue;
 
         // get the party that sent the message if it is a party identifier line
@@ -93,7 +107,7 @@ const chatTextToChatJSON = ( transcriptText ) => {
             continue;
         }
 
-        if ( curPartyID === -1) throw new Error('No party labels found!')
+        if ( curPartyID === -1) throw new Error('No sender labels found. See expected format.')
 
         // Add to messages if it is not already present
         messages.push({
@@ -104,9 +118,9 @@ const chatTextToChatJSON = ( transcriptText ) => {
         
     }
 
-    if ( messages.length === 0 ) throw new Error('No messages found in the transcript!')
+    if ( messages.length === 0 ) throw new Error('No messages found in the transcript')
 
-    if ( parties.length > 2 ) throw new Error('Chat summarization is only supported for two parties!')
+    // if ( parties.length > 2 ) throw new Error('Chat summarization is only supported for two parties!')
 
     const partiesObj = []
     parties.forEach((p, i) => { partiesObj.push({ id: i, name: p })})
@@ -122,9 +136,24 @@ const chatTextToChatJSON = ( transcriptText ) => {
 
 }
 
+const ContentStates = {
+    unset: 0,
+    loading: 1,
+    set: 2
+}
+
+const InputOptions = {
+    def: 0,
+    file: 1,
+    text: 2
+}
+
+
 export {
     goodChatFileUpload,
     readFileToText,
     apiJSONFetch,
-    chatTextToChatJSON
+    chatTextToChatJSON,
+    ContentStates,
+    InputOptions
 }

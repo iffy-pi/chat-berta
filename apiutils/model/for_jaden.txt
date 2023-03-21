@@ -1,0 +1,8 @@
+you need to install spacy first
+
+pip install spacy
+
+then go to psh/cmd and execute:
+python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_trf
+

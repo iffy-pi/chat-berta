@@ -26,7 +26,7 @@ const ExpectedTranscriptFormat = () => {
                 </div>
             }
             <div className="tfp center-div">
-                <Button className={(showExample) && " clicked" } buttonText={ (showExample) ? "Hide" : "See Expected Format" } onClick={toggleShowExample}/>
+                <Button className={(showExample) ? "clicked" : "" } buttonText={ (showExample) ? "Hide" : "See Expected Format" } onClick={toggleShowExample}/>
             </div>
         </div>
     )

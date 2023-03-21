@@ -65,15 +65,15 @@ The vercel projects are under Iffy's Vercel account:
 
 Sign in is with Git.
 
-## Deployment To Production
+## Deployment To Production Website (Promotion)
 As said before, we only deploy from `main`. We do deployments by merging main to `app-vercel-production` and `api-vercel-production`. This will mean 2 pull requests: one for the app, and one for the api.
 
 You can use the below links to quickly initiate a pull request:
 
 | Deployment Type |Pull Request URL |
 |------------------------|----------------------------------------------------------------------------|
-| APP (React) deployment | https://github.com/iffy-pi/Chat-Berta/compare/app-vercel-production...main |
-| API (Flask) deployment | https://github.com/iffy-pi/Chat-Berta/compare/api-vercel-production...main |
+| APP (React) deployment | https://github.com/iffy-pi/chat-Berta/compare/app-vercel-production...main |
+| API (Flask) deployment | https://github.com/iffy-pi/chat-Berta/compare/api-vercel-production...main |
 
 Alternatively, you can also use promote.bat to quickly launch either of these pages from the command line.
 
@@ -85,13 +85,23 @@ Deploy Flask backend:
 ```
 promote api
 ```
-
-## About vercel.json
+## Specific Frontend/Backend Deployment Settings
+### vercel.json
 vercel.json is used in the API deployment to override the default React build process vercel uses and instead build the Flask backend.
 
 This file is not present on the app-vercel-production branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [afa86ea21db05f4f819323b642f6dfc0ea3a5c56](https://github.com/iffy-pi/chat-berta/commit/afa86ea21db05f4f819323b642f6dfc0ea3a5c56).
 
 **Note that commit afa86ea21db05f4f819323b642f6dfc0ea3a5c56 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+
+### FrontEnd vercelignore for requirements.txt
+The frontend is React and therefore does not need the Python packages specified in requirements.txt. This is achieved by adding requirements.txt to the .vercelignore as a specific commmit in the frontend promotion branch (app-vercel-production).
+
+The specific commit is: [af7290d](https://github.com/iffy-pi/chat-berta/commit/af7290d)
+
+**Note that commit af7290d only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+
+### Backend vercelignore for requirements.txt
+The backend is just the Flask API and does not need to use the React files. Were added to gitignore in 8397f3b
 
 ## Previous Deployments
 January 25 2022: Iffy deployed bare bones React frontend
@@ -120,7 +130,7 @@ venv\Scripts\activate
 set FLASK_DEBUG=1
 ```
 
-2. Go into the api/ directory and run `flask run`
+3. Go into the api/ directory and run `flask run`
 ```
 cd api
 flask run
@@ -132,13 +142,24 @@ pip install -r requirements.txt
 
 Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
 
+### Using the PyTorch Model
+The PyTorch model takes a lot of processing power and package dependencies, so  to faciliate independent frontend development the flag `USE_ACTUAL_MODEL` has been added. If the value is true, then the actual ML model is imported and used. If false, the random summarizer in the network component is used instead.
+
+The flag is configured in apiutils/configs/summarizer.py, and can be hardcoded to a specific value. However, it is also designed to look for the environment variable `CHATBERTA_NO_MODEL`. If the environment variable exists and its value is `1`, then `USE_ACTUAL_MODEL` will be false. Otherwise, it will be true.
+
+You can set the environment variable on Windows with:
+
+```batch
+set CHATBERTA_NO_MODEL=1
+```
+
 ## Running the frontend (React)
 1. Open the root directory of the repo and run `npm start`. (`npm` is from Node.js).
 ```
 npm start
 ```
 
-# Standard Commits (No Web App Deployments)
+# Development Workflow
 **Make sure you have fulfilled all the requirements for a development workbench**
 
 This is the case where there are no deployments to the Vercel web app, i.e. standard changes to the repository. This can be handled by making pushes to the main branch of the repo (i.e. `main`), however as there are multiple people working on things, extensive changes should be handled in separate branches and then merged with the main branch.
@@ -179,7 +200,7 @@ git push
 ```
 Note: You can make more commits and push as usual until you are ready to merge with the main branch.
 
-## Merge With Main (if you created a developmental branch)
+## Merge With Main (if you created a development branch)
 Merge your branch with the mainline by initiating a pull request, this can be done using the added utility git-pr.bat:
 ```
 git-pr.bat

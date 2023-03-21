@@ -10,10 +10,12 @@ from flask import (Flask, flash, redirect, render_template, request, send_file,
 from flask_cors import CORS 
 from apiutils.functions.apifuncs import *
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
-from apiutils.functions.ChatParser import create_chatlog_xml
+from apiutils.functions.ChatParser import create_chatlog_json
 from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
 from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 from apiutils.functions.HTTPResponses import *
+from apiutils.nec.NetworkComponent import NetworkComponent
+from apiutils.configs.summarizer import USE_ACTUAL_MODEL
 
 # initialize app flask object
 # intializing to the name of the file
@@ -42,59 +44,13 @@ if PBFS_ACCESS_TOKEN is None:
     raise Exception('PushBullet File Server Access Token')
 
 pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, create_server=True)
+nec = NetworkComponent(USE_ACTUAL_MODEL)
 
-
+# UTILITIES --------------------------------------------------------------------------------------------------------
 @app.route('/myConsole', methods=['GET', 'POST'])
 def route_console():
     return render_template('console.html', content=app.config['ALLOWED_EXTENSIONS'])
 
-
-@app.route('/testPage', methods=['GET', 'POST'])
-def route_console_2():
-    if request.method == 'POST':
-        # st = ''
-        # for key in request.form:
-        #     st = '{},{}'.format(st, request.form[key])
-        return render_template('console.html', content=str(request.form))
-
-# page when the chat dialog (transcript or file) is submitted
-@app.route('/dialogSubmitted', methods=['POST', 'GET'])
-def route_dialog_submitted():
-    if request.method == 'POST':
-        if request.args['source'] == 'transcript':
-            # handle chat transcript form
-            # using the name attribute of the text input tag in index.html
-            transcript_text = request.form['dialog_text_box']
-            return render_template('console.html', content='The text: {}'.format(transcript_text))
-
-        elif request.args['source'] == 'file':
-            # check if the request has the file part
-            if 'file' not in request.files:
-                return render_template('console.html', content='No file provided!')
-            
-            res, filename = save_file_from_request(pbfs, request.files['file'], pbfs_file_path='/sample-chat.txt')
-            
-            if res != 0:
-                return render_template('console.html', content='Something went wrong saving the file!')
-
-            # with open( get_file_path(app, filename), 'r' ) as file:
-            #     cont = str(file.read())
-            return render_template('console.html', content=filename)
-        else:
-            return render_template('console.html', content='{}-{}'.format(request.args, request.mimetype))
-    else:
-        return render_template('console.html', content='Invalid, should not get here!')
-
-# submit chat transcript text
-@app.route('/ChatFile', methods=['POST', 'GET'])
-def route_chat_file():
-    return render_template('chat_file.html')
-
-# submit chat transcript text
-@app.route('/ChatTranscript', methods=['POST', 'GET'])
-def route_chat_transcript():
-    options = SUMMARIZER_OPTIONS
-    return render_template('chat_transcript.html', opts=options)
 
 # to download a file submitted to the server
 # you can use url_for('route_download_file', filename=<filename>) to get url for specific file
@@ -115,17 +71,20 @@ def route_download_file(filepath):
         as_attachment=True
     )
 
+# DEPRECATED FLASK BASED FRONT END CALLS ----------------------------------------------------------------------------------------------------
 # receives parameters from the chat submitted page and calls the summarizer on it
 @app.route('/summarize/<source>/<tag>/<options>')
 def route_summarize(source, tag, options):
     # get the text
-    text = get_chatlog_xml(pbfs, tag)
+    text = get_chatlog_json(pbfs, tag)
     
     if text is None:
         return render_template('console.html', content='No valid source found!, {}'.format(pbfs.get_file_index()))
     
     return render_template('summarizer_results.html', source=source, text=text, options=options)
 
+
+# page that we go to when summarize button is clicked
 @app.route('/chatSubmitted', methods=['POST', 'GET'])
 def route_chat_submitted():
     # handles the multiple submission sources as well as the submission options
@@ -142,7 +101,7 @@ def route_chat_submitted():
 
         source = None
         tag = None
-        chatlog_xml = None
+        chatlog_json = None
         # check for the transcript file
         transcript_text = request.form.get('transcript_text')
         if transcript_text:
@@ -150,7 +109,7 @@ def route_chat_submitted():
             # save the file
             source = 'text'
             try:
-                chatlog_xml = create_chatlog_xml(transcript_text)
+                chatlog_json = create_chatlog_json(transcript_text)
             
             except Exception as e:
                 return render_template('console.html', content="Transcript Parsing Error: {}".format(e))
@@ -169,13 +128,16 @@ def route_chat_submitted():
             chatfile_str = chatfile.read().decode('utf-8')
 
             try:
-                chatlog_xml = create_chatlog_xml(chatfile_str)
+                chatlog_json = create_chatlog_json(chatfile_str)
             except Exception as e:
                 return render_template('console.html', content="Parsing Error: {}".format(e))
 
         if source is not None:
-            # save the xml file in the right location
-            res, tag = save_chatlog_xml(pbfs, chatlog_xml)
+            # create Network Component object to process summarization
+            nec = NetworkComponent()
+            nec.generate_summary(chatlog_json)
+            # save the json file to specified folder
+            res, tag = save_chatlog_json(pbfs, nec.json)
             if res != 0:
                  return render_template('console.html', content='Something went wrong saving the file!')
 
@@ -187,43 +149,23 @@ def route_chat_submitted():
     else:
         return render_template('console.html', content='Invalid, should not get here!')
 
-# submit a chat
+# flask submit a chat page
 @app.route('/submitChat', methods=['POST', 'GET'])
 def route_submit_chat():
     options = SUMMARIZER_OPTIONS
     return render_template('submit_chat.html', opts=options)
 
-# for the root of the website, we would just pass in "/" for the url
-@app.route('/')
-def index():
-    # render index html which contains the form
-    # form submission will route to /submitForm
-    return render_template('index.html')
 
-@app.route('/api/react-testing')
-def route_react_testing():
-    sample = {
-        'message': 'Hello From Flask Back End!!'
-    }
-
-    resp = Response(
-        response=json.dumps(sample), status=201, mimetype="text/plain"
-    )
-
-    # stupid change to deploy
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Content-type'] = 'application/json'
-    return resp
-    
-    #return render_template('console.html', content='Serving')
-
+# REACT API CALLS ----------------------------------------------------------------------------------------------------
+# called by react frontend with populated JSON fields
 @app.route('/api/submit-chat', methods=['POST', 'GET'])
 def route_api_submit_chat():
     if request.method != 'POST':
         return error_response(400, message='Invalid HTTP method!')
 
     # Expecting the following keys
-    # summary options and transcript
+    # summary options and chat package
+    # request.json should be in format of apiutils/samples/sample_api_request_1.json
     if request.json is None:
         return error_response(400, message='No JSON content included!')
 
@@ -239,10 +181,13 @@ def route_api_submit_chat():
 
     # then retrieve the items
     summary_options = request.json['summary_options']
+    chat_package = request.json['chat_package']
 
     # use random summarizer
-    summary_chat_package = random_summarizer( request.json['chat_package'], fraction=0.25 )
+    res, summary_chat_package = nec.summarize( chat_package, summary_options )
 
+    if res != 0:
+        return error_response(500, message="Summarization process failed on server")
 
     # for now craft a simple relay message
     js = {
@@ -255,7 +200,42 @@ def route_api_submit_chat():
     resp = make_json_response(js)
     return resp
 
+@app.route('/api/sample', methods=['POST', 'GET'])
+def route_sample_resp():
+    faddr = os.path.join ( os.path.split(__file__)[0], '..',  'apiutils', 'samples', 'sample_raw_chat_1.txt')
+    with open(faddr) as file:
+            chat_package = json.loads(create_chatlog_json( str(file.read())))
 
+
+    summary_options = {
+        "basic_options": [ "strictSummarize", "treatAsMonologue"],
+        "summarize_only_for": -1 
+    }
+
+    # use random summarizer
+    res, summary_chat_package = nec.summarize( chat_package, summary_options )
+
+    if res != 0:
+        return error_response(500, message="Summarization process failed on server")
+
+    # for now craft a simple relay message
+    js = {
+        'summary_options': summary_options,
+        'chat_package': summary_chat_package
+    }
+
+    time.sleep(1) # to simulate server latency when in development
+
+    resp = make_json_response(js)
+    return resp
+
+# ----------------------------------------------------------------------------------------------------
+# for the root of the website, we would just pass in "/" for the url
+@app.route('/')
+def index():
+    # render index html which contains the form
+    # form submission will route to /submitForm
+    return render_template('index.html')
 
 # running the code
 if __name__ == '__main__':

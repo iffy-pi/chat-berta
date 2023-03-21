@@ -4,106 +4,155 @@ import { useState, useRef } from "react"
 import Button from "../../common/Button";
 import SummarizerOptions from "./SummarizerOptions";
 import data from "../../../shared/config.json"
-import { goodChatFileUpload, chatTextToChatJSON, readFileToText } from "../../../functions/basefunctions";
-import ChatInputOptions from "./ChatInputOptions";
+import { goodChatFileUpload, chatTextToChatJSON, readFileToText, ContentStates, apiJSONFetch, InputOptions } from "../../../functions/basefunctions";
 import ExpectedTranscriptFormat from "./ExpectedTranscriptFormat";
 
-const InputOptions = {
-    def: 0,
-    file: 1,
-    text: 2
+
+const defaultSummarizerOptions = {
+    basic_options: data.SUMMARIZER_OPTIONS.map( (opt, index) => (
+        { ...opt, id:index, selected:false}
+    )),
+    summarize_only_for: -1
 }
 
-const inputOptionsRendered = [
-    {
-        'label': 'Paste Transcript',
-        'id': InputOptions.text,
-        selected: false,
-    },
-    {
-        'label': 'Upload File',
-        'id': InputOptions.file,
-        selected: false,
-    }
-]
+const dt = new DataTransfer();
+const emptyFileList = dt.files
 
-const defaultSummarizerOptions = data.SUMMARIZER_OPTIONS.map( (opt, index) => (
-    { ...opt, id:index, selected:false}
-))
-
-const SubmitChat = ({ setSummaryRequest }) => {
+const SubmitChat = ({ setSummaryResponse, summaryResponse }) => {
 
     const [ selectedInput, setSelectedInput ] = useState(InputOptions.def)
 
-    const transcriptText = useRef('')
+    // Switching transcript text to state
+    const [ transcriptText, setTranscriptText ] = useState('')
+    const [ fileList, setFileList ] = useState(emptyFileList)
+    const [ selectedFile, setSelectedFile ] = useState(null)
+    const [ fileUploaded, setFileUploaded ] = useState(false)
     const summaryOptions = useRef(defaultSummarizerOptions)
-    const selectedFile = useRef(null)
-    const fileUploaded = useRef(false)
 
     const saveTranscriptText = (textboxText) => {
-       transcriptText.current = textboxText 
+       setTranscriptText(textboxText)
+
     }
 
     const updateSelectedOptions = ( options ) => {
         summaryOptions.current = options
+        // console.log(summaryOptions)
     }
-
-    const updateSelectedInput = (inputOption) => {
-        setSelectedInput(inputOption)
-    } 
 
     const failedFileUpload = ( error ) => {
-        alert('File upload failed!\nError: '+error)
+        let msg = error.message
+
+        if ( msg === 'Invalid file type' ) msg = "Invalid file type. Only .txt files are allowed"
+
+        alert(`File upload failed.\nError: ${msg}.`)
+
+        // clear the file field
+        setSelectedFile(null)
+        setFileUploaded(false)
+        setFileList(emptyFileList)
     }
 
-    const goodFileUpload = ( file ) => {
-        selectedFile.current = file
-        fileUploaded.current = true
+    const goodFileUpload = ( fileList ) => {
+        // receives file list from UploadChatFile
+        
+        // takes the first one
+        setSelectedFile(fileList[0])
+
+        // keeps track of file list to maintain component during toggles
+        setFileList(fileList)
+        setFileUploaded(true)
+    }
+
+
+    const makeSummaryRequest = async (request) => {
+
+        const req = {
+            summary_options: request.summary_options,
+            chat_package: request.chat_package
+        }
+
+        const resp = {
+            success: false,
+            error: '',
+            body:  null,
+        }
+
+        // Tell summary view that the content is loading now while we make the request        
+        setSummaryResponse({ ...summaryResponse ,  contentState: ContentStates.loading})
+        try {
+            const res = await apiJSONFetch('submit-chat', 'POST', {}, req)
+
+            if (!res.success ) {
+                if ( res.reachedServer ) throw new Error(res.content.message)
+                else throw new Error(`Unknown Error: ${res.content}`)
+            }
+            
+            if ( !res.success ) throw new Error('Invalid response: '+res)
+
+            // On success, return the server response to the system
+            resp.success = true
+            resp.body = res.content
+
+        } catch ( error ){
+            // On error, then we can set the response fields
+            resp.success = false
+            resp.error = error.message
+        }
+
+        setSummaryResponse({ ...summaryResponse ,  
+                contentState: ContentStates.set,
+                success: resp.success,
+                body: resp.body,
+                error: resp.error
+            })
     }
 
     const onSubmit = async () => {
         const request = {
-            summary_options: {}
         }
 
         try {
             if ( selectedInput === InputOptions.file ) {
                 
-                if ( !fileUploaded.current ) throw new Error('No file or invalid file uploaded!')
-                if ( !goodChatFileUpload(selectedFile.current) ) throw new Error('Invalid file type. Only text based files are allowed.')
+                if ( !fileUploaded ) throw new Error('No transcript file has been uploaded.')
+                if ( !goodChatFileUpload(selectedFile) ) throw new Error('Invalid file type. Only .txt files are allowed.')
 
                 request.type = 'file'
 
                 try{ 
-                    request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile.current) )
+                    request.chat_package = chatTextToChatJSON( await readFileToText(selectedFile) )
                 } catch ( error ) {
-                    throw new Error('File Parsing Error: '+String(error.message))
+                    throw new Error('Transcript Parsing Error:\n'+String(error.message))
                 }
             }
 
             else if ( selectedInput === InputOptions.text ) {
-                if ( transcriptText.current === "" ) throw new Error('No transcript text!')
+                if ( transcriptText === "" ) throw new Error('Transcript text box is empty.')
                 request.type = 'text'
 
                 try{ 
-                    request.chat_package = chatTextToChatJSON( transcriptText.current )
+                    request.chat_package = chatTextToChatJSON( transcriptText )
                 } catch ( error ) {
-                    throw new Error('File Parsing Error: '+String(error.message))
+                    throw new Error('Transcript Parsing Error:\n'+String(error.message))
                 }
 
             } else {
-                throw new Error('No chat input selected!')
+                throw new Error('No chat input provided.')
             }
 
         } catch(error){
-            alert('Submission Failed!\nError: '+error.message)
+            alert('Submission failed.\n'+error.message)
             return
         }
 
-        request.summary_options.basic_options = summaryOptions.current.filter( opt => opt.selected).map( (opt) => opt.tag)
+        // Populate request summary options
+        // basic options field is updated to be a list of only the selected options
+        request.summary_options = { ...summaryOptions.current, basic_options: summaryOptions.current.basic_options.filter( opt => opt.selected).map( (opt) => opt.tag) }
+
 
         // console.log(request)
-        setSummaryRequest(request)
+        // Make the summary request call
+        await makeSummaryRequest(request)
     }
 
     
@@ -121,11 +170,11 @@ const SubmitChat = ({ setSummaryRequest }) => {
                     <Button className={"opt-btn" + ((selectedInput === InputOptions.file) ? " opt-btn-clicked" : "")} buttonText="Upload File" onClick={() => setSelectedInput(InputOptions.file)}/>
                 </div>
             </div>
-            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload}/>}
-            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText.current}/>}
+            { (selectedInput === InputOptions.file) && <UploadChatFile goodFileUpload={goodFileUpload} failedFileUpload={failedFileUpload} fileList={fileList}/>}
+            { (selectedInput === InputOptions.text) && <UploadChatText returnText={saveTranscriptText} transcriptText={transcriptText}/>}
             {/* { (selectedInput !== InputOptions.def) && <br />}  */}
             <ExpectedTranscriptFormat />
-            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions}/>
+            <SummarizerOptions options={summaryOptions.current} returnOptions={updateSelectedOptions} selectedInput={selectedInput} transcriptText={transcriptText} uploadedFile={selectedFile}/>
             <div className="center-div">
                 <Button className="summarize-btn" buttonText="Summarize!" onClick={onSubmit}/>
             </div>

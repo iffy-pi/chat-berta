@@ -6,11 +6,7 @@ const ChatPane = ({ chatPackage }) => {
     
     const messages = chatPackage.messages
 
-    const summaryMessageIDs = chatPackage.summary_messages.map( (message) => message.id)
-
-    // Using first pid as the primary party but could not be the case
-    // Will implement user input for it
-    // const primaryPartyID = chatPackage.messages[0].pid
+    const summaryMessageIDs =  chatPackage.summary.message_ids //chatPackage.summary_messages.map( (message) => message.id)
 
     const [ partyOpts, setPartyOpts ] = useState( chatPackage.config.parties.map( (party) => party.name))
     const [ primaryPartyID , setPrimaryPartyID ] = useState(0)

@@ -2,11 +2,10 @@
 import hashlib
 import os
 import time
-import random
 from apiutils.configs.apiconfig import ALLOWED_EXTENSIONS
 from apiutils.functions.PushBulletFileServer import PushBulletFileServer
 from werkzeug.utils import secure_filename
-from apiutils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR
+from apiutils.configs.serverstorage import UPLOADED_TRANSCRIPTS_DIR, UPLOADED_CHATS_DIR, XML_CHATLOGS_DIR, JSON_CHATLOGS_DIR
 
 def make_summarizer_opt_str(opt:list) -> str:
     if len(opt) < 1: return 'NoOpts'
@@ -98,39 +97,15 @@ def get_source_text(pbfs:PushBulletFileServer, source:str, tag:str) -> str:
 
     return get_text_for_file(pbfs, '{}/{}.txt'.format(possible_source_dirs[source], tag))
 
-def save_chatlog_xml(pbfs:PushBulletFileServer, chatlog_xml:str ):
+def save_chatlog_json(pbfs:PushBulletFileServer, chatlog_json:str ):
     file_tag = gen_unique_tag()
-    pbfs_file_path = '{}/{}.xml'.format(XML_CHATLOGS_DIR ,file_tag)
+    pbfs_file_path = '{}/{}.json'.format(JSON_CHATLOGS_DIR ,file_tag)
 
     # save the text to file
-    fpath = pbfs.upload_binary_to_path(pbfs_file_path, chatlog_xml.encode())
+    fpath = pbfs.upload_binary_to_path(pbfs_file_path, chatlog_json.encode())
     res = 1 if fpath is None else 0
 
     return ( res, file_tag )
 
-def get_chatlog_xml(pbfs:PushBulletFileServer, tag:str) -> str:
-    return get_text_for_file(pbfs, '{}/{}.xml'.format(XML_CHATLOGS_DIR, tag))
-
-def random_summarizer( chat_package: dict, fraction: float = 0.10 ):
-    # takes a chat package and selects random messages to be in the summary
-
-    # including 10% of messages as summary
-    num_msgs = len(chat_package['messages'])
-    num_summary_msgs = round(num_msgs * fraction)
-    print('Num total: ', num_msgs)
-    print('Number of summaries: ', num_summary_msgs)
-
-    summary_msg_ids = random.sample(range(0, num_msgs ), num_summary_msgs)
-
-    summary_messages = []
-
-    for id in summary_msg_ids:
-        summary_messages.append(chat_package['messages'][id])
-
-    # configure summary package
-    summary_chat_package = dict(chat_package)
-
-    summary_chat_package['summary_messages'] = summary_messages
-
-    return summary_chat_package
-
+def get_chatlog_json(pbfs:PushBulletFileServer, tag:str) -> str:
+    return get_text_for_file(pbfs, '{}/{}.json'.format(JSON_CHATLOGS_DIR, tag))
