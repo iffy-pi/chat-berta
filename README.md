@@ -89,9 +89,9 @@ promote api
 ### vercel.json
 vercel.json is used in the API deployment to override the default React build process vercel uses and instead build the Flask backend.
 
-This file is not present on the app-vercel-production branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [afa86ea21db05f4f819323b642f6dfc0ea3a5c56](https://github.com/iffy-pi/chat-berta/commit/afa86ea21db05f4f819323b642f6dfc0ea3a5c56).
+This file is not present on the app-vercel-production branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [8a0c81b4c9b0c9722f4447f237ab5e486678c687](https://github.com/iffy-pi/chat-berta/commit/8a0c81b4c9b0c9722f4447f237ab5e486678c687).
 
-**Note that commit afa86ea21db05f4f819323b642f6dfc0ea3a5c56 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+**Note that commit 8a0c81b4c9b0c9722f4447f237ab5e486678c687 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
 
 ### FrontEnd vercelignore for requirements.txt
 The frontend is React and therefore does not need the Python packages specified in requirements.txt. This is achieved by adding requirements.txt to the .vercelignore as a specific commmit in the frontend promotion branch (app-vercel-production).
@@ -101,7 +101,9 @@ The specific commit is: [af7290d](https://github.com/iffy-pi/chat-berta/commit/a
 **Note that commit af7290d only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
 
 ### Backend vercelignore for requirements.txt
-The backend is just the Flask API and does not need to use the React files. Were added to gitignore in 8397f3b
+The backend is just the Flask API and does not need to use the React files. Therefore React files and folders were added to vercelignore on commit [8397f3b](https://github.com/iffy-pi/chat-berta/commit/8397f3b).
+
+**Note that commit 8397f3b only exists on `api-vercel-production` as it is the specific requirement for that production branch.**
 
 ## Previous Deployments
 January 25 2022: Iffy deployed bare bones React frontend
