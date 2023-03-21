@@ -114,11 +114,21 @@ You will need the following to work on the repository and use the development se
 ## Programs and Applications
 1. Python (https://www.python.org/downloads/)
 2. Node.js (https://nodejs.org/en/download/)
+3. Python virtual environment with install packages:
+    ```bash
+    # install virtual enviornment with pip
+    pip install virtualenv
+
+    # create the virtual environment at project root
+    virtualenv venv
+    ```
 
 ## Environment Variables
 1. The environment variable `CHATBERTA_PBFS_ACCESS_TOKEN`, used for accessing the pushbullet file server (contact Iffy for environment variable value)
 2. The environment variable `CHATBERTA_SECRET_KEY`, used for setting the server session key, (contact Iffy for environment variable value)
 3. The environment variable set `CHATBERTA_PBFS_DEV_SVR` to `ChatBerta-PBFS-Dev-Server`
+
+
 
 # Running The Development Application
 ## Running the backend (Flask)
