@@ -23,49 +23,65 @@ class RandomSummarizer():
 
 # Network Component that bridges gap between model and chat package format
 class NetworkComponent:
-    def __init__(self, use_model):
+    def __init__(self, use_model, propagate_errors=False):
         self.use_model = use_model
-        self.model = NetworkComponent.get_actual_model() if self.use_model else RandomSummarizer()
+        self.propagate_errors = propagate_errors
+        self.model = self.get_actual_model() if self.use_model else RandomSummarizer()
 
-    def get_actual_model():
+    def get_actual_model(self):
         # gets the actual chat berta model
-        try:
+        if self.propagate_errors:
             return ChatBerta()
-        except:
-            # if module loading or importation failed, keep web API up and just set model to None
-            return None
+        
+        else:
+            try:
+                return ChatBerta()
+            except:
+                # if module loading or importation failed, keep web API up and just set model to None
+                return None
 
     def use_model(self, use_model:bool):
         # figure out if we need to reset model
         if (not self.use_model) == use_model:
             # if they are opposites we know we have to instantiate a new model
-            self.model = NetworkComponent.get_actual_model() if use_model else RandomSummarizer()
+            self.model = self.get_actual_model() if use_model else RandomSummarizer()
 
         # set the model usage
         self.use_model = use_model
 
-
     # runs the summarization and returns the chat_package, and any other metrics
     def summarize(self, chat_package, summary_options):
         # call ChatBerta and do summary
-        try:
 
-            if self.model is None:
+        if self.model is None:
                 # if no model and we are meant to use it return -1
                 return -1, None
 
+        if self.propagate_errors:
+            # do without try catch to propagate exception upwards
             chosen_message_ids, summary = self.model.summarize(
-                messages = chat_package['messages'],
-                summary_options = summary_options
-            )
+                    messages = chat_package['messages'],
+                    summary_options = summary_options
+                )
 
             # combine into a paragraph
             summary = (' '.join(summary.split('\n'))).strip()
+        
+        else:
+            try:
 
-        except:
-            # it failed for some reason, return -1 and no chat package
-            # tells API to return with server error
-            return -1, None
+                chosen_message_ids, summary = self.model.summarize(
+                    messages = chat_package['messages'],
+                    summary_options = summary_options
+                )
+
+                # combine into a paragraph
+                summary = (' '.join(summary.split('\n'))).strip()
+
+            except:
+                # it failed for some reason, return -1 and no chat package
+                # tells API to return with server error
+                return -1, None
         
         # remove duplicate message ids
         chosen_message_ids = list(dict.fromkeys(chosen_message_ids))

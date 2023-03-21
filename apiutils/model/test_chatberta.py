@@ -1,6 +1,8 @@
 import sys
 import time
-from ChatBerta import ChatBerta
+import sys
+sys.path.append(r"C:\Users\rao_h\Documents\GitHub\Chat-Berta")
+from apiutils.model.ChatBerta import ChatBerta
 
 def main():
     messages = {
@@ -72,7 +74,7 @@ def main():
 
     summary_options = {
         "basic_options": [],
-        "summarize_only_for": -1 
+        "summarize_only_for": 0
     }
 
     start1 = time.time()

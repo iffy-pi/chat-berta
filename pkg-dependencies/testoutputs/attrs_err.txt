@@ -1,0 +1,47 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1093, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+  File "C:\Python310\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\trainer.py", line 168, in <module>
+    import datasets
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\datasets\__init__.py", line 43, in <module>
+    from .arrow_dataset import Dataset
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\datasets\arrow_dataset.py", line 65, in <module>
+    from .arrow_reader import ArrowReader
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\datasets\arrow_reader.py", line 30, in <module>
+    from .download.download_config import DownloadConfig
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\datasets\download\__init__.py", line 10, in <module>
+    from .streaming_download_manager import StreamingDownloadManager
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\datasets\download\streaming_download_manager.py", line 17, in <module>
+    from aiohttp.client_exceptions import ClientError
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\aiohttp\__init__.py", line 6, in <module>
+    from .client import (
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\aiohttp\client.py", line 32, in <module>
+    import attr
+ModuleNotFoundError: No module named 'attr'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 4, in <module>
+    from apiutils.model.chat_bert_trainer import CustomTrainer
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\chat_bert_trainer.py", line 2, in <module>
+    from transformers import Trainer
+  File "<frozen importlib._bootstrap>", line 1075, in _handle_fromlist
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1083, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1095, in _get_module
+    raise RuntimeError(
+RuntimeError: Failed to import transformers.trainer because of the following error (look up to see its traceback):
+No module named 'attr'
