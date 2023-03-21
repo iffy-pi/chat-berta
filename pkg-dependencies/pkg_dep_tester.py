@@ -100,6 +100,10 @@ def main():
         'torch',
         'transformers',
         'aiohttp',
+        'aiosignal',
+        "async-timeout",
+        "attrs",
+        "blis"
     ]
 
     known_pkgs_to_discard = [
@@ -107,6 +111,10 @@ def main():
         'pycosat',
         'sklearn',
         'absl-py',
+        "absl-py",
+        "asgiref",
+        "blinker",
+        "Brotli"
     ]
 
     # get packages that were added because of the model
@@ -122,7 +130,7 @@ def main():
 
     checkfile = os.path.join(outputdir, 'check')
 
-    for pkg in new_pkgs[:9]:
+    for pkg in new_pkgs:
         print('=====================================================================')
         print(f'Testing: {pkg}')
         # will be doing some AB testing

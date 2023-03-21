@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 3, in <module>
+    from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\__init__.py", line 30, in <module>
+    from . import dependency_versions_check
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\dependency_versions_check.py", line 17, in <module>
+    from .utils.versions import require_version, require_version_core
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\__init__.py", line 59, in <module>
+    from .hub import (
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\hub.py", line 32, in <module>
+    from huggingface_hub import (
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\huggingface_hub\__init__.py", line 254, in __getattr__
+    submod = importlib.import_module(submod_path)
+  File "C:\Python310\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\huggingface_hub\file_download.py", line 21, in <module>
+    from filelock import FileLock
+ModuleNotFoundError: No module named 'filelock'
