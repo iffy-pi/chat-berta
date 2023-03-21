@@ -80,9 +80,6 @@ def uninstall_package(name):
 def main():
     outputdir = os.path.join(root, 'pkg-dependencies', 'testoutputs')
 
-    run_model_test(os.path.join(outputdir, 'sample'))
-    return 0
-
     reqs_before_model = parse_pip_reqs(REQS_BEFORE_MODEL_FILE)
     cur_reqs = parse_pip_reqs(CUR_REQS_FILE)
 
@@ -97,8 +94,7 @@ def main():
     pkgs_to_keep = []
     pkgs_to_discard = []
 
-
-    for pkg in new_pkgs[:1]:
+    for pkg in new_pkgs:
         print('=====================================================================')
         print(f'Testing: {pkg}')
         # will be doing some AB testing
