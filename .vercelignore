@@ -1,2 +1,6 @@
+public/
+src/
+package-lock.json
+package.json
 server-void/
 docs/
