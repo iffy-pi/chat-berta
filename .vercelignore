@@ -1,3 +1,5 @@
 requirements.txt
 server-void/
 docs/
+pkg-dependencies/
+make_model_reqs.py

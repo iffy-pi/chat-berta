@@ -185,9 +185,6 @@ def parse_chatlog_json( chatlog_json_str: str):
 
     print(cur_paragraph)
 
-    
-        
-
 def main():
     sample_xml_chat = os.path.join( os.path.split(__name__)[0], '..', 'samples', 'test.json' )
     sample_raw_chat = os.path.join( os.path.split(__name__)[0], '..', 'samples', 'sample_raw_chat.txt' )

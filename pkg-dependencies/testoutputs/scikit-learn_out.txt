@@ -1,0 +1,55 @@
+Importing network component...
+Done importing network component: 2.273681402206421 seconds
+In main!
+Loading network component
+Model loading took: 3.628995656967163 seconds
+Doing summary
+Summarizing
+Selected: sentence = I like oranges better, apples be gross sometime id = 1
+Selected: sentence = Oh really, I think apples are superior id = 2
+Selected: sentence = Interesting id = 3
+Model summarization took: 6.236994028091431 seconds
+{
+    "config": {
+        "parties": [
+            {
+                "id": 0,
+                "name": "John"
+            },
+            {
+                "id": 1,
+                "name": "Jane"
+            }
+        ]
+    },
+    "messages": [
+        {
+            "id": 0,
+            "pid": 0,
+            "text": "Apples are my favourite fruit, what are yours?"
+        },
+        {
+            "id": 1,
+            "pid": 1,
+            "text": "I like oranges better, apples be gross sometime"
+        },
+        {
+            "id": 2,
+            "pid": 0,
+            "text": "Oh really, I think apples are superior"
+        },
+        {
+            "id": 3,
+            "pid": 1,
+            "text": "Interesting"
+        }
+    ],
+    "summary": {
+        "paragraph": "I like oranges better, apples be gross sometimeOh really, I think apples are superiorInteresting",
+        "message_ids": [
+            1,
+            2,
+            3
+        ]
+    }
+}

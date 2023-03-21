@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 3, in <module>
+    from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\__init__.py", line 30, in <module>
+    from . import dependency_versions_check
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\dependency_versions_check.py", line 17, in <module>
+    from .utils.versions import require_version, require_version_core
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\__init__.py", line 34, in <module>
+    from .generic import (
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\generic.py", line 29, in <module>
+    from .import_utils import is_flax_available, is_tf_available, is_torch_available, is_torch_fx_proxy
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 34, in <module>
+    from . import logging
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\logging.py", line 33, in <module>
+    import huggingface_hub.utils as hf_hub_utils
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\huggingface_hub\utils\__init__.py", line 32, in <module>
+    from ._errors import (
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\huggingface_hub\utils\_errors.py", line 6, in <module>
+    from ._fixes import JSONDecodeError
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\huggingface_hub\utils\_fixes.py", line 15, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'

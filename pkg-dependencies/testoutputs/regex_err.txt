@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\versions.py", line 108, in require_version
+    got_ver = importlib_metadata.version(pkg)
+  File "C:\Python310\lib\importlib\metadata\__init__.py", line 984, in version
+    return distribution(distribution_name).version
+  File "C:\Python310\lib\importlib\metadata\__init__.py", line 957, in distribution
+    return Distribution.from_name(distribution_name)
+  File "C:\Python310\lib\importlib\metadata\__init__.py", line 548, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for regex
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 3, in <module>
+    from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\__init__.py", line 30, in <module>
+    from . import dependency_versions_check
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\dependency_versions_check.py", line 41, in <module>
+    require_version_core(deps[pkg])
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\versions.py", line 123, in require_version_core
+    return require_version(requirement, hint)
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\versions.py", line 110, in require_version
+    raise importlib_metadata.PackageNotFoundError(
+importlib.metadata.PackageNotFoundError: No package metadata was found for The 'regex!=2019.12.17' distribution was not found and is required by this application. 
+Try: pip install transformers -U or pip install -e '.[dev]' if you're working with git main

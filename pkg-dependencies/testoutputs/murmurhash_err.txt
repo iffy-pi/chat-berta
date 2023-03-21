@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 5, in <module>
+    import spacy
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\__init__.py", line 6, in <module>
+    from .errors import setup_default_warnings
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\errors.py", line 2, in <module>
+    from .compat import Literal
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\compat.py", line 38, in <module>
+    from thinc.api import Optimizer  # noqa: F401
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\thinc\api.py", line 2, in <module>
+    from .initializers import normal_init, uniform_init, glorot_uniform_init, zero_init
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\thinc\initializers.py", line 4, in <module>
+    from .backends import Ops
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\thinc\backends\__init__.py", line 8, in <module>
+    from .cupy_ops import CupyOps
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\thinc\backends\cupy_ops.py", line 4, in <module>
+    from .numpy_ops import NumpyOps
+  File "thinc\backends\numpy_ops.pyx", line 1, in init thinc.backends.numpy_ops
+ModuleNotFoundError: No module named 'murmurhash'

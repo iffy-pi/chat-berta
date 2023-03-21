@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 5, in <module>
+    import spacy
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\__init__.py", line 6, in <module>
+    from .errors import setup_default_warnings
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\errors.py", line 2, in <module>
+    from .compat import Literal
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\spacy\compat.py", line 3, in <module>
+    from thinc.util import copy_array
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\thinc\util.py", line 7, in <module>
+    from wasabi import table
+ModuleNotFoundError: No module named 'wasabi'

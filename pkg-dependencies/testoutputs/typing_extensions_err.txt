@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1093, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+  File "C:\Python310\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\models\roberta\modeling_roberta.py", line 21, in <module>
+    import torch
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\torch\__init__.py", line 779, in <module>
+    from .serialization import save, load
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\torch\serialization.py", line 18, in <module>
+    from typing_extensions import TypeAlias
+ModuleNotFoundError: No module named 'typing_extensions'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\omnic\local\GitRepos\chat-berta\pkg-dependencies\model_test.py", line 37, in test_model_usage
+    from apiutils.nec.NetworkComponent import NetworkComponent
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\NetworkComponent.py", line 1, in <module>
+    from apiutils.model.ChatBerta import ChatBerta
+  File "C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\ChatBerta.py", line 3, in <module>
+    from transformers import RobertaTokenizer, RobertaForSequenceClassification, TrainingArguments
+  File "<frozen importlib._bootstrap>", line 1075, in _handle_fromlist
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1084, in __getattr__
+    value = getattr(module, name)
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1083, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+  File "C:\Users\omnic\local\GitRepos\chat-berta\venv\lib\site-packages\transformers\utils\import_utils.py", line 1095, in _get_module
+    raise RuntimeError(
+RuntimeError: Failed to import transformers.models.roberta.modeling_roberta because of the following error (look up to see its traceback):
+No module named 'typing_extensions'

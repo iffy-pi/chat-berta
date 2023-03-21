@@ -5,3 +5,4 @@ PBFS_SERVER_NAME = os.environ.get('CHATBERTA_PBFS_DEV_SVR') if os.environ.get('C
 UPLOADED_CHATS_DIR = '/submitted_chats'
 UPLOADED_TRANSCRIPTS_DIR = '/transcripts'
 XML_CHATLOGS_DIR = '/xmlchatlogs'
+JSON_CHATLOGS_DIR = '/jsonchatlogs'
