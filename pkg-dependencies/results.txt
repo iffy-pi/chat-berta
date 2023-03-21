@@ -1,5 +1,8 @@
 Packages to keep: 
-[]
+[
+    "aiohttp",
+    "aiosignal"
+]
 
 Packages to discard: 
 [

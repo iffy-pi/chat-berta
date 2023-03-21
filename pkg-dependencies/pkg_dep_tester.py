@@ -1,20 +1,28 @@
 import os
 import sys
 import subprocess
-from model_test import test_model_usage
 import json
 
 SCRIPTDIR = os.path.abspath ( os.path.split(__file__)[0] )
 root = os.path.abspath (os.path.join(os.path.split(__file__)[0], '..' ) )
 if root not in sys.path: sys.path.append(root)
 
+
+VENV_PYTHON = os.path.join(root, 'venv', 'Scripts', 'python.exe')
+MODEL_FILE = os.path.join(SCRIPTDIR, 'model_test.py')
 REQS_BEFORE_MODEL_FILE = os.path.join( root, 'docs', 'misc', 'requirements_before_model.txt' )
 CUR_REQS_FILE = os.path.join(root, 'requirements.txt')
 
 def pprint(obj):
     print(json.dumps(obj, indent=4))
 
+
 def run_model_test(file_name):
+    # clear the caches
+    apiutils = os.path.join(root, 'apiutils')
+    # subprocess.Popen(['rd', '/q', '/s', r'C:\Users\omnic\local\GitRepos\chat-berta\apiutils\nec\__pycache__']).communicate()
+    # subprocess.Popen(['rd', '/q', '/s', r'C:\Users\omnic\local\GitRepos\chat-berta\apiutils\model\__pycache__']).communicate()
+
     sysout, syserr = sys.stdout, sys.stderr
 
     errfile = f'{file_name}_err.txt'
@@ -26,8 +34,10 @@ def run_model_test(file_name):
             sys.stdout = out
             sys.stderr = err
 
+            child = subprocess.Popen([VENV_PYTHON, MODEL_FILE], stdout=out, stderr=err)
+            child.communicate()
             # call the model
-            rc = test_model_usage()
+            rc = child.returncode
 
     # restore stdout 
     sys.stdout = sysout
@@ -88,13 +98,15 @@ def main():
         'spacy-legacy',
         'spacy-loggers',
         'torch',
-        'transformers'
+        'transformers',
+        'aiohttp',
     ]
 
     known_pkgs_to_discard = [
         'zstd',
         'pycosat',
-        'sklearn'
+        'sklearn',
+        'absl-py',
     ]
 
     # get packages that were added because of the model
@@ -108,7 +120,9 @@ def main():
     pkgs_to_keep = []
     pkgs_to_discard = []
 
-    for pkg in new_pkgs:
+    checkfile = os.path.join(outputdir, 'check')
+
+    for pkg in new_pkgs[:9]:
         print('=====================================================================')
         print(f'Testing: {pkg}')
         # will be doing some AB testing
@@ -157,6 +171,26 @@ def main():
                 install_package( pkg, ver=cur_reqs[pkg]['ver'] )
                 print('===========>')
 
+                # recheck model
+                print(f'Checking reinstall for {pkg}')
+                out, err, rc = run_model_test(checkfile)
+                if rc != 0:
+                    # save the list to file
+                    with open( os.path.join(SCRIPTDIR, 'results.txt'), 'w' ) as file:
+                        sysout  = sys.stdout
+                        sys.stdout = file
+
+                        print('Packages to keep: ')
+                        pprint(pkgs_to_keep)
+
+                        print('')
+                        print('Packages to discard: ')
+                        pprint(pkgs_to_discard)
+
+                        sys.stdout = sysout
+                    raise Exception(f'Model not working after package "{pkg}" reinstall! Results have been written to file!')
+            
+
         else:
             print(f'"{pkg}" is NOT needed!')
             # not needed , so discard it
@@ -164,21 +198,21 @@ def main():
 
         print('=====================================================================')
 
-        # save the list to file
-        with open( os.path.join(SCRIPTDIR, 'results.txt'), 'w' ) as file:
-            sysout  = sys.stdout
-            sys.stdout = file
+    # save the list to file
+    with open( os.path.join(SCRIPTDIR, 'results.txt'), 'w' ) as file:
+        sysout  = sys.stdout
+        sys.stdout = file
 
-            print('Packages to keep: ')
-            pprint(pkgs_to_keep)
+        print('Packages to keep: ')
+        pprint(pkgs_to_keep)
 
-            print('')
-            print('Packages to discard: ')
-            pprint(pkgs_to_discard)
+        print('')
+        print('Packages to discard: ')
+        pprint(pkgs_to_discard)
 
-            sys.stdout = sysout
+        sys.stdout = sysout
 
-        print('Testing Complete')
+    print('Testing Complete')
 
     return 0
 
