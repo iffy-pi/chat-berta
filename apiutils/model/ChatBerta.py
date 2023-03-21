@@ -4,7 +4,7 @@ from transformers import RobertaTokenizer, RobertaForSequenceClassification, Tra
 from apiutils.model.chat_bert_trainer import CustomTrainer
 import spacy
 from apiutils.model.constants import MAX_LENGTH, DEVICE, BATCH_SIZE
-PATH = os.path.join( os.path.abspath(os.path.split(__file__)[0]), 'temp', 'checkpoint-61000' )
+PATH = os.path.join( os.path.abspath(os.path.split(__file__)[0]), 'temp', 'checkpoint-50000' )
 
 class ChatBerta:
     def __init__(self):
