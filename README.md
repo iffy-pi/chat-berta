@@ -93,14 +93,14 @@ This file is not present on the production/app branch since we want Vercel to bu
 
 **Note that commit 8a0c81b4c9b0c9722f4447f237ab5e486678c687 only exists on `production/app` as it is the specific requirement for that production branch.**
 
-### FrontEnd vercelignore for requirements.txt
+### APP vercelignore
 The frontend is React and therefore does not need the Python packages specified in requirements.txt. This is achieved by adding requirements.txt to the .vercelignore as a specific commmit in the frontend promotion branch (production/app).
 
 The specific commit is: [af7290d](https://github.com/iffy-pi/chat-berta/commit/af7290d)
 
 **Note that commit af7290d only exists on `production/app` as it is the specific requirement for that production branch.**
 
-### Backend vercelignore for requirements.txt
+### API vercelignore
 The backend is just the Flask API and does not need to use the React files. Therefore React files and folders were added to vercelignore on commit [8397f3b](https://github.com/iffy-pi/chat-berta/commit/8397f3b).
 
 **Note that commit 8397f3b only exists on `production/api` as it is the specific requirement for that production branch.**
