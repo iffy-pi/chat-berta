@@ -72,8 +72,8 @@ You can use the below links to quickly initiate a pull request:
 
 | Deployment Type |Pull Request URL |
 |------------------------|----------------------------------------------------------------------------|
-| APP (React) deployment | https://github.com/iffy-pi/chat-Berta/compare/production/app...main |
-| API (Flask) deployment | https://github.com/iffy-pi/chat-Berta/compare/production/api...main |
+| APP (React) deployment | https://github.com/iffy-pi/chat-berta/compare/production/app...main?expand=1 |
+| API (Flask) deployment | https://github.com/iffy-pi/chat-berta/compare/production/api...main?expand=1 |
 
 Alternatively, you can also use promote.bat to quickly launch either of these pages from the command line.
 
