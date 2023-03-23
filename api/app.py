@@ -14,8 +14,16 @@ from apiutils.functions.ChatParser import create_chatlog_json
 from apiutils.configs.summarizer import SUMMARIZER_OPTIONS
 from apiutils.configs.serverstorage import PBFS_ACCESS_TOKEN, PBFS_SERVER_NAME
 from apiutils.functions.HTTPResponses import *
-from apiutils.nec.NetworkComponent import NetworkComponent
 from apiutils.configs.summarizer import USE_ACTUAL_MODEL
+
+if USE_ACTUAL_MODEL:
+    # determines if we actually try to import the model or not
+    print('Using ChatBerta model')
+    from apiutils.nec.NetworkComponent import NetworkComponent as NetworkComponent
+
+else:
+    print('Using random summarizer model')
+    from apiutils.nec.SimpleNetworkComponent import SimpleNetworkComponent as NetworkComponent
 
 # initialize app flask object
 # intializing to the name of the file
@@ -44,7 +52,7 @@ if PBFS_ACCESS_TOKEN is None:
     raise Exception('PushBullet File Server Access Token')
 
 pbfs = PushBulletFileServer(PBFS_ACCESS_TOKEN, server_name=PBFS_SERVER_NAME, create_server=True)
-nec = NetworkComponent(USE_ACTUAL_MODEL)
+nec = NetworkComponent()
 
 # UTILITIES --------------------------------------------------------------------------------------------------------
 @app.route('/myConsole', methods=['GET', 'POST'])

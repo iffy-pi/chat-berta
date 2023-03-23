@@ -47,8 +47,8 @@ The entire web server is split into the React frontend (APP) and the Flask Backe
 - http://chat-berta-api.vercel.app/ is the deployment for API (Flask backend)
 
 Following this, each deployment has their own assigned branch in the repository:
-- `app-vercel-production` is the production branch for the APP deployment
-- `api-vercel-production` is the production branch for the API deployment
+- `production/app` is the production branch for the APP deployment
+- `production/api` is the production branch for the API deployment
 
 The development workflow is to merge commits into `main` and then merge from `main` to any of the production branches.
 
@@ -66,14 +66,14 @@ The vercel projects are under Iffy's Vercel account:
 Sign in is with Git.
 
 ## Deployment To Production Website (Promotion)
-As said before, we only deploy from `main`. We do deployments by merging main to `app-vercel-production` and `api-vercel-production`. This will mean 2 pull requests: one for the app, and one for the api.
+As said before, we only deploy from `main`. We do deployments by merging main to `production/app` and `production/api`. This will mean 2 pull requests: one for the app, and one for the api.
 
 You can use the below links to quickly initiate a pull request:
 
 | Deployment Type |Pull Request URL |
 |------------------------|----------------------------------------------------------------------------|
-| APP (React) deployment | https://github.com/iffy-pi/chat-Berta/compare/app-vercel-production...main |
-| API (Flask) deployment | https://github.com/iffy-pi/chat-Berta/compare/api-vercel-production...main |
+| APP (React) deployment | https://github.com/iffy-pi/chat-Berta/compare/production/app...main |
+| API (Flask) deployment | https://github.com/iffy-pi/chat-Berta/compare/production/api...main |
 
 Alternatively, you can also use promote.bat to quickly launch either of these pages from the command line.
 
@@ -89,22 +89,21 @@ promote api
 ### vercel.json
 vercel.json is used in the API deployment to override the default React build process vercel uses and instead build the Flask backend.
 
-This file is not present on the app-vercel-production branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [afa86ea21db05f4f819323b642f6dfc0ea3a5c56](https://github.com/iffy-pi/chat-berta/commit/afa86ea21db05f4f819323b642f6dfc0ea3a5c56).
+This file is not present on the production/app branch since we want Vercel to build the actual react application. As a result, it was deleted directly from the branch by commit [8a0c81b4c9b0c9722f4447f237ab5e486678c687](https://github.com/iffy-pi/chat-berta/commit/8a0c81b4c9b0c9722f4447f237ab5e486678c687).
 
-**Note that commit afa86ea21db05f4f819323b642f6dfc0ea3a5c56 only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+**Note that commit 8a0c81b4c9b0c9722f4447f237ab5e486678c687 only exists on `production/app` as it is the specific requirement for that production branch.**
 
 ### FrontEnd vercelignore for requirements.txt
-The frontend is React and therefore does not need the Python packages specified in requirements.txt. This is achieved by adding requirements.txt to the .vercelignore as a specific commmit in the frontend promotion branch (app-vercel-production).
+The frontend is React and therefore does not need the Python packages specified in requirements.txt. This is achieved by adding requirements.txt to the .vercelignore as a specific commmit in the frontend promotion branch (production/app).
 
 The specific commit is: [af7290d](https://github.com/iffy-pi/chat-berta/commit/af7290d)
 
-**Note that commit af7290d only exists on `app-vercel-production` as it is the specific requirement for that production branch.**
+**Note that commit af7290d only exists on `production/app` as it is the specific requirement for that production branch.**
 
 ### Backend vercelignore for requirements.txt
-The backend is just the Flask API and does not need to use the React files. Were added to gitignore in 8397f3b
+The backend is just the Flask API and does not need to use the React files. Therefore React files and folders were added to vercelignore on commit [8397f3b](https://github.com/iffy-pi/chat-berta/commit/8397f3b).
 
-## Previous Deployments
-January 25 2022: Iffy deployed bare bones React frontend
+**Note that commit 8397f3b only exists on `production/api` as it is the specific requirement for that production branch.**
 
 # Development Workbench Requirements
 You will need the following to work on the repository and use the development server.
@@ -112,11 +111,21 @@ You will need the following to work on the repository and use the development se
 ## Programs and Applications
 1. Python (https://www.python.org/downloads/)
 2. Node.js (https://nodejs.org/en/download/)
+3. Python virtual environment with install packages:
+    ```bash
+    # install virtual enviornment with pip
+    pip install virtualenv
+
+    # create the virtual environment at project root
+    virtualenv venv
+    ```
 
 ## Environment Variables
 1. The environment variable `CHATBERTA_PBFS_ACCESS_TOKEN`, used for accessing the pushbullet file server (contact Iffy for environment variable value)
 2. The environment variable `CHATBERTA_SECRET_KEY`, used for setting the server session key, (contact Iffy for environment variable value)
 3. The environment variable set `CHATBERTA_PBFS_DEV_SVR` to `ChatBerta-PBFS-Dev-Server`
+
+
 
 # Running The Development Application
 ## Running the backend (Flask)
@@ -142,7 +151,7 @@ pip install -r requirements.txt
 
 Note: The frontend is expecting the API to be at http://localhost:5000. This is the default port flask starts on anyway, however if you need to manually set it, set the environment variable `FLASK_RUN_PORT` to `5000` before running the application.
 
-### Using the PyTorch Model
+### Disabling the PyTorch Model
 The PyTorch model takes a lot of processing power and package dependencies, so  to faciliate independent frontend development the flag `USE_ACTUAL_MODEL` has been added. If the value is true, then the actual ML model is imported and used. If false, the random summarizer in the network component is used instead.
 
 The flag is configured in apiutils/configs/summarizer.py, and can be hardcoded to a specific value. However, it is also designed to look for the environment variable `CHATBERTA_NO_MODEL`. If the environment variable exists and its value is `1`, then `USE_ACTUAL_MODEL` will be false. Otherwise, it will be true.

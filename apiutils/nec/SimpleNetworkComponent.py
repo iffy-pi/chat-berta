@@ -1,9 +1,8 @@
-from apiutils.model.ChatBerta import ChatBerta
 import random
 
 
 # random summarizer used instead
-class RandomSummarizer():
+class RandomSummarizer2():
     def __init__(self):
         pass
 
@@ -22,32 +21,10 @@ class RandomSummarizer():
 
 
 # Network Component that bridges gap between model and chat package format
-class NetworkComponent:
-    def __init__(self, use_model=True, propagate_errors=False):
-        self.use_model = use_model
+class SimpleNetworkComponent:
+    def __init__(self, propagate_errors=False):
         self.propagate_errors = propagate_errors
-        self.model = self.get_actual_model() if self.use_model else RandomSummarizer()
-
-    def get_actual_model(self):
-        # gets the actual chat berta model
-        if self.propagate_errors:
-            return ChatBerta()
-        
-        else:
-            try:
-                return ChatBerta()
-            except:
-                # if module loading or importation failed, keep web API up and just set model to None
-                return None
-
-    def use_model(self, use_model:bool):
-        # figure out if we need to reset model
-        if (not self.use_model) == use_model:
-            # if they are opposites we know we have to instantiate a new model
-            self.model = self.get_actual_model() if use_model else RandomSummarizer()
-
-        # set the model usage
-        self.use_model = use_model
+        self.model = RandomSummarizer2()
 
     # runs the summarization and returns the chat_package, and any other metrics
     def summarize(self, chat_package, summary_options):
