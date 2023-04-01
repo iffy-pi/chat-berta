@@ -39,17 +39,11 @@
             }
         ],
     
-        "summary_messages": [
-            {
-                "id": 0,
-                "pid": 0,
-                "text": "Apples are my favourite fruit, what are yours?"
-            },
-            {
-                "id": 1,
-                "pid": 1,
-                "text": "I like oranges better, apples be gross sometime"
-            }
-        ]
+        "summary": {
+            "paragraph" : "Apples are my favourite fruit, what are yours?Oh really, I think apples are superiorInteresting",
+            "message_ids" : [
+                0,2,3
+            ]
+        }
     } 
 }
