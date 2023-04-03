@@ -191,19 +191,17 @@ def route_api_submit_chat():
     summary_options = request.json['summary_options']
     chat_package = request.json['chat_package']
 
-    # use random summarizer
+    # call the network component to generate the summary chat package
     res, summary_chat_package = nec.summarize( chat_package, summary_options )
 
     if res != 0:
         return error_response(500, message="Summarization process failed on server")
 
-    # for now craft a simple relay message
+    # send the response back to the server
     js = {
         'summary_options': summary_options,
         'chat_package': summary_chat_package
     }
-
-    time.sleep(1) # to simulate server latency when in development
 
     resp = make_json_response(js)
     return resp
