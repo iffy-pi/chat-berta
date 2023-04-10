@@ -1,4 +1,5 @@
 server-void/
 docs/
 pkg-dependencies/
+misc/
 make_model_reqs.py
