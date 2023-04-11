@@ -27,7 +27,7 @@ import os
 
 def test_model_usage():
     try:
-        root = os.path.abspath (os.path.join(os.path.split(__file__)[0], '..' ) )
+        root = os.path.abspath (os.path.join(os.path.split(__file__)[0], '..', '..' ) )
         if root not in sys.path: sys.path.append(root)
         from apiutils.functions.PushBulletFileServer import prettify
         from apiutils.functions.ChatParser import create_chatlog_json
