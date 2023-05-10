@@ -1,9 +1,18 @@
 # Chat-Berta
-Chat-Berta Project File.
+The purpose of this project is to design a tool (Chat-Berta) which can perform extractive summarization on chat box dialog using machine learning models. Chat bots have become increasingly common in online platforms and customer services, so there arises a need to efficiently obtain the key points of any given dialogue to optimize analyses. The tool is intended to provide more privacy, visualization, and a client-centric focus to summarization than that provided by tools such as ChatGPT.
 
-This also serves as the repository for ELEC498 Group 12 (JISH).
+The goal of the tool is to perform extractive summarization of text files or raw text, where the summarization results indicate which messages contributed to the summary. The tool was designed as a Frontend Component (FEC) and Network Component (NC) which handles user input and summarization processing respectively, independently from one another.
 
-Chat-Berta is an application with a React frontend and Flask backend.
+The tool implementation closely follows this design approach and is implemented as a web application. The frontend of the web app represents the FEC and was implemented with React.js and CSS. It handles user input and converts them into an API request sent to the backend, which represents the NC. The API is built with Flask and services requests by invoking the implemented network component object that contains the summarization model. The network component uses the model to perform the summary, and packages the model output for the FEC. The FEC renders the response as a full summary paragraph and a chat pane of the input transcript which highlights messages used in the summary.
+
+The ML model is implemented with PyTorch and is an extension RoBERTa, the robustly optimized BERT language model. The model identifies the k most important sentences in the dialogue, which are combined to form the summary. Sentence importance is determined using ROUGE scores, a training metric that compares the model's selected sentences against sentences selected for a reference summary. This was used with MSE loss and the SAMSum dataset to train the model.
+
+The tool was able to meet speed requirements, with an end-to-end response time of 10 seconds. The FEC and NC were tested and verified to appropriately handle erroneous user input and requests, as well as block malicious attacks. As for the model, its performance was evaluated using ROUGE metrics, where it achieved a recall of 0.32, precision of 0.17 and f1 measure of 0.22. This is significantly below SOTA performance, which averages 0.4 to 0.5 in f1.
+
+While the tool satisfies the defined goals, there is room for improvement. The web app GUI can be optimized for mobile devices, and API performance can be improved by resolving resource contention in request servicing. The training pipeline and loss function of the summarization model can also be refined to improve its summarization quality, while more capable hardware can improve its processing speed.
+
+See the full report [here](docs/Final_Report.pdf)
+
 
 # Repository Organization
 This repository contains files used for both the frontend and the backend.
