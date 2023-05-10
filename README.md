@@ -11,7 +11,7 @@ The tool was able to meet speed requirements, with an end-to-end response time o
 
 While the tool satisfies the defined goals, there is room for improvement. The web app GUI can be optimized for mobile devices, and API performance can be improved by resolving resource contention in request servicing. The training pipeline and loss function of the summarization model can also be refined to improve its summarization quality, while more capable hardware can improve its processing speed.
 
-See the full report [here](docs/Final_Report.pdf)
+See the full report [here](docs/Final_Report.pdf).
 
 
 # Repository Organization
